@@ -28,6 +28,10 @@ const Button = styled.button<ButtonProps>`
         ? props.theme.colors.PRIMARY
         : props.theme.colors.PRIMARY_LIGHT};
   }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
+    font-size: 14px;
+  }
 `;
 
 export { Button };
