@@ -26,16 +26,12 @@ function Stepper({ steps, current }: StepperProps): JSX.Element {
 
   useEffect(() => {
     setStepList(createList());
-  }, []);
+  }, [steps]);
 
   return (
     <StepperContainer>
       {stepList.map((item: StepProps) => {
-        return (
-          <>
-            <Step status={item.status} />
-          </>
-        );
+        return <Step status={item.status} />;
       })}
     </StepperContainer>
   );
