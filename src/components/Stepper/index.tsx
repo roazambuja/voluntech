@@ -26,7 +26,7 @@ function Stepper({ steps, current }: StepperProps): JSX.Element {
 
   useEffect(() => {
     setStepList(createList());
-  }, [steps]);
+  }, [steps, current]);
 
   return (
     <StepperContainer>
