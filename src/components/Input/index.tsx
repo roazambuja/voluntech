@@ -1,3 +1,4 @@
+import { Strong } from "../../styles/global";
 import { InputField } from "./InputField";
 import { InputArea, Label } from "./styles";
 
@@ -8,7 +9,9 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 function Input({ label, ...props }: InputProps): JSX.Element {
   return (
     <InputArea>
-      <Label htmlFor={props.id}>{label}</Label>
+      <Label htmlFor={props.id}>
+        {label} {props.required && <Strong>*</Strong>}
+      </Label>
       <InputField {...props} />
     </InputArea>
   );
