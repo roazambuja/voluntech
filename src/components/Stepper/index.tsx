@@ -30,8 +30,8 @@ function Stepper({ steps, current }: StepperProps): JSX.Element {
 
   return (
     <StepperContainer>
-      {stepList.map((item: StepProps) => {
-        return <Step status={item.status} />;
+      {stepList.map((item: StepProps, index) => {
+        return <Step status={item.status} key={index} />;
       })}
     </StepperContainer>
   );
