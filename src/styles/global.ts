@@ -21,6 +21,10 @@ const Title = styled.h1`
   @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
     font-size: 28px;
   }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.MOBILE}) {
+    font-size: 26px;
+  }
 `;
 
 const Text = styled.p`
