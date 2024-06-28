@@ -30,6 +30,10 @@ const Button = styled.button<ButtonProps>`
   @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
     font-size: 14px;
   }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.MOBILE}) {
+    border-width: ${(props) => props.variant === "secondary" && "1px"};
+  }
 `;
 
 export { Button };
