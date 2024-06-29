@@ -8,10 +8,4 @@ const InputArea = styled.div`
   width: 100%;
 `;
 
-const Label = styled.label`
-  color: ${(props) => props.theme.colors.GREY};
-  font-size: 14px;
-  font-weight: 500;
-`;
-
-export { InputArea, Label };
+export { InputArea };

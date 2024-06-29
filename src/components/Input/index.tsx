@@ -1,15 +1,16 @@
 import { Strong } from "../../styles/global";
 import { InputField } from "./InputField";
-import { InputArea, Label } from "./styles";
+import { Label } from "./Label";
+import { InputArea } from "./styles";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: React.ReactNode;
 }
 
 function Input({ label, ...props }: InputProps): JSX.Element {
   return (
     <InputArea>
-      <Label htmlFor={props.id}>
+      <Label htmlFor={props.id} type={props.type}>
         {label} {props.required && <Strong>*</Strong>}
       </Label>
       <InputField {...props} />
