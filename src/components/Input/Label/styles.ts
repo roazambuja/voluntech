@@ -20,6 +20,10 @@ const Label = styled.label<LabelProps>`
       alignSelf: "center",
       cursor: "pointer",
     }};
+
+  @media (max-width: ${(props) => props.theme.breakpoints.MOBILE}) {
+    font-size: 14px;
+  }
 `;
 
 export { Label };
