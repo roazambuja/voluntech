@@ -1,20 +1,12 @@
 import { BaseSyntheticEvent, useEffect, useState } from "react";
 import { Button } from "../../components/Button";
-import { Input } from "../../components/Input";
 import { Stepper } from "../../components/Stepper";
 import { ToggleButton } from "../../components/ToggleButton";
 import { Text, Title, Strong } from "../../styles/global";
-import {
-  ButtonArea,
-  CheckIcon,
-  Container,
-  CustomPaper,
-  Form,
-  ProfilePicture,
-  TitleArea,
-  UploadIcon,
-  UserIcon,
-} from "./styles";
+import { CheckIcon, Container, CustomPaper, Form, TitleArea } from "./styles";
+import { Informations } from "./Informations";
+import { Adress } from "./Adress";
+import { ProfilePicture } from "./ProfilePicture";
 
 function SignUp(): JSX.Element {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -47,7 +39,7 @@ function SignUp(): JSX.Element {
   }
 
   useEffect(() => {
-    selectedType === "Voluntário" ? setTotalSteps(3) : setTotalSteps(5);
+    selectedType === "Voluntário" ? setTotalSteps(3) : setTotalSteps(4);
   }, [selectedType]);
 
   return (
@@ -67,100 +59,38 @@ function SignUp(): JSX.Element {
         <Stepper steps={totalSteps} current={currentStep} />
         <Form onSubmit={nextStep}>
           {currentStep === 1 && (
-            <>
-              <Input
-                // required
-                id="name"
-                label={selectedType === "Voluntário" ? "Nome" : "Nome da organização"}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <Input
-                // required
-                id="email"
-                type="email"
-                label="E-mail"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Input
-                // required
-                id="password"
-                type="password"
-                label="Senha"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Input
-                // required
-                id="confirmPassword"
-                type="password"
-                label="Confirme sua senha"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              <Button type="submit">Avançar</Button>
-            </>
+            <Informations
+              type={selectedType}
+              name={name}
+              setName={setName}
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+              confirmPassword={confirmPassword}
+              setConfirmPassword={setConfirmPassword}
+            />
           )}
 
           {currentStep === 2 && (
-            <>
-              <Input
-                // required
-                id="cep"
-                label={"CEP"}
-                value={cep}
-                onChange={(e) => setCep(e.target.value)}
-              />
-              <Input
-                // required
-                id="state"
-                label="Estado"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-              />
-              <Input
-                // required
-                id="city"
-                label="Cidade"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-              />
-              <ButtonArea>
-                <Button type="button" variant="secondary" onClick={previousStep}>
-                  Voltar
-                </Button>
-                <Button type="submit">Avançar</Button>
-              </ButtonArea>
-            </>
+            <Adress
+              cep={cep}
+              setCep={setCep}
+              state={state}
+              setState={setState}
+              city={city}
+              setCity={setCity}
+              previousStep={previousStep}
+            />
           )}
 
-          {currentStep === 3 && (
-            <>
-              <ProfilePicture>
-                <UserIcon />
-              </ProfilePicture>
-              <Input
-                type="file"
-                accept="image/*"
-                id="picture"
-                label={[<UploadIcon />, "Selecionar foto"]}
-              />
-              <ButtonArea>
-                <Button type="button" variant="secondary" onClick={previousStep}>
-                  Voltar
-                </Button>
-                <Button type="submit">Finalizar Cadastro</Button>
-              </ButtonArea>
-            </>
-          )}
-
-          {currentStep === 4 && (
-            <>
-              <Button type="button">Ir para a página inicial</Button>
-            </>
-          )}
+          {currentStep === 3 && <ProfilePicture previousStep={previousStep} />}
         </Form>
+        {currentStep > totalSteps && (
+          <>
+            <Button type="button">Ir para a página inicial</Button>
+          </>
+        )}
       </CustomPaper>
     </Container>
   );
