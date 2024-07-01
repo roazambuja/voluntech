@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
+import { getCep } from "../../../services/cep";
 import { ButtonArea } from "../styles";
 
 interface AdressProps {
@@ -21,6 +23,23 @@ function Adress({
   setCity,
   previousStep,
 }: AdressProps): JSX.Element {
+  const [disableFields, setDisableFields] = useState<boolean>(false);
+
+  async function handleCep() {
+    try {
+      let data = await getCep(cep);
+      if (data) {
+        if (!data.erro) {
+          setCity(data.localidade);
+          setState(data.uf);
+          setDisableFields(true);
+        }
+      }
+    } catch {
+      console.log("Erro na API ViaCEP");
+    }
+  }
+
   return (
     <>
       <Input
@@ -29,12 +48,14 @@ function Adress({
         label={"CEP"}
         value={cep}
         onChange={(e) => setCep(e.target.value)}
+        onBlur={handleCep}
       />
       <Input
         // required
         id="state"
         label="Estado"
         value={state}
+        disabled={disableFields}
         onChange={(e) => setState(e.target.value)}
       />
       <Input
@@ -42,6 +63,7 @@ function Adress({
         id="city"
         label="Cidade"
         value={city}
+        disabled={disableFields}
         onChange={(e) => setCity(e.target.value)}
       />
       <ButtonArea>
