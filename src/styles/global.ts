@@ -41,4 +41,13 @@ const Strong = styled.strong`
   color: ${(props) => props.theme.colors.PRIMARY};
 `;
 
-export { Paper, Title, Text, Strong };
+const Label = styled.label`
+  color: ${(props) => props.theme.colors.GREY};
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+export { Paper, Title, Text, Strong, Label };

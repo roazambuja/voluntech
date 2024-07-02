@@ -1,14 +1,8 @@
 import styled from "styled-components";
 import { LabelProps } from ".";
+import { Label as GlobalLabel } from "../../../styles/global";
 
-const Label = styled.label<LabelProps>`
-  color: ${(props) => props.theme.colors.GREY};
-  font-size: 14px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
+const Label = styled(GlobalLabel)<LabelProps>`
   ${(props) =>
     props.type === "file" && {
       width: "fit-content",
