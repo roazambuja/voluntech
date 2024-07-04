@@ -12,5 +12,10 @@ declare module "styled-components" {
       BLACK: string;
       WHITE: string;
     };
+    breakpoints: {
+      MOBILE: string;
+      TABLET: string;
+      DESKTOP: string;
+    };
   }
 }
