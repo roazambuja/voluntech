@@ -27,14 +27,14 @@ function Informations({
   return (
     <>
       <Input
-        // required
+        required
         id="name"
         label={type === "Voluntário" ? "Nome" : "Nome da organização"}
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
       <Input
-        // required
+        required
         id="email"
         type="email"
         label="E-mail"
@@ -42,7 +42,7 @@ function Informations({
         onChange={(e) => setEmail(e.target.value)}
       />
       <Input
-        // required
+        required
         id="password"
         type="password"
         label="Senha"
@@ -50,7 +50,7 @@ function Informations({
         onChange={(e) => setPassword(e.target.value)}
       />
       <Input
-        // required
+        required
         id="confirmPassword"
         type="password"
         label="Confirme sua senha"

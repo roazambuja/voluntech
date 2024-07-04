@@ -43,7 +43,7 @@ function Adress({
   return (
     <>
       <Input
-        // required
+        required
         id="cep"
         label={"CEP"}
         value={cep}
@@ -51,7 +51,7 @@ function Adress({
         onBlur={handleCep}
       />
       <Input
-        // required
+        required
         id="state"
         label="Estado"
         value={state}
@@ -59,7 +59,7 @@ function Adress({
         onChange={(e) => setState(e.target.value)}
       />
       <Input
-        // required
+        required
         id="city"
         label="Cidade"
         value={city}
