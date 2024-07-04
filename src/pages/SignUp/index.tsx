@@ -27,6 +27,8 @@ function SignUp(): JSX.Element {
   const [state, setState] = useState<string>("");
   const [city, setCity] = useState<string>("");
 
+  const [image, setImage] = useState<string | null>(null);
+
   const volunteerMessages = [
     ["Já possui uma conta? ", <Strong>Faça login.</Strong>],
     "Preencha as informações de localização.",
@@ -63,6 +65,7 @@ function SignUp(): JSX.Element {
     console.log(cep);
     console.log(state);
     console.log(city);
+    console.log(image);
   }
 
   useEffect(() => {
@@ -131,7 +134,12 @@ function SignUp(): JSX.Element {
 
             {((currentStep === 3 && selectedType === "Voluntário") ||
               (currentStep === 4 && selectedType === "Organização")) && (
-              <ProfilePicture handleSignUp={handleSignUp} previousStep={previousStep} />
+              <ProfilePicture
+                handleSignUp={handleSignUp}
+                previousStep={previousStep}
+                image={image}
+                setImage={setImage}
+              />
             )}
           </Form>
         ) : (
