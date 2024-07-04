@@ -10,6 +10,7 @@ const Paper = styled.div`
   gap: 32px;
   justify-content: center;
   padding: 32px;
+  margin: 32px 0;
 `;
 
 const Title = styled.h1`
