@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Paper } from "../../styles/global";
+import { Paper, Strong } from "../../styles/global";
 import { CheckCircle } from "react-feather";
 
 const Container = styled.div`
@@ -30,6 +30,10 @@ const TitleArea = styled.div`
   gap: 8px;
 `;
 
+const CustomStrong = styled(Strong)`
+  cursor: pointer;
+`;
+
 const Form = styled.form`
   align-items: center;
   display: flex;
@@ -51,4 +55,4 @@ const CheckIcon = styled(CheckCircle)`
   width: 50px;
 `;
 
-export { Container, CustomPaper, TitleArea, Form, ButtonArea, CheckIcon };
+export { Container, CustomPaper, TitleArea, CustomStrong, Form, ButtonArea, CheckIcon };

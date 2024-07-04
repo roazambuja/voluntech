@@ -2,14 +2,17 @@ import { BaseSyntheticEvent, useEffect, useState } from "react";
 import { Button } from "../../components/Button";
 import { Stepper } from "../../components/Stepper";
 import { ToggleButton } from "../../components/ToggleButton";
-import { Text, Title, Strong } from "../../styles/global";
-import { CheckIcon, Container, CustomPaper, Form, TitleArea } from "./styles";
+import { Text, Title } from "../../styles/global";
+import { CheckIcon, Container, CustomPaper, CustomStrong, Form, TitleArea } from "./styles";
 import { Informations } from "./Informations";
 import { Adress } from "./Adress";
 import { ProfilePicture } from "./ProfilePicture";
 import { Organization } from "./Organization";
+import { useNavigate } from "react-router-dom";
 
 function SignUp(): JSX.Element {
+  const navigate = useNavigate();
+
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [selectedType, setSelectedType] = useState<string>("Voluntário");
   const [totalSteps, setTotalSteps] = useState<number>(3);
@@ -30,14 +33,20 @@ function SignUp(): JSX.Element {
   const [image, setImage] = useState<string | null>(null);
 
   const volunteerMessages = [
-    ["Já possui uma conta? ", <Strong>Faça login.</Strong>],
+    [
+      "Já possui uma conta? ",
+      <CustomStrong onClick={() => navigate("/")}>Faça login.</CustomStrong>,
+    ],
     "Preencha as informações de localização.",
     "Selecione sua foto do perfil.",
     "Seu cadastro foi finalizado com sucesso!",
   ];
 
   const organizationSteps = [
-    ["Já possui uma conta? ", <Strong>Faça login.</Strong>],
+    [
+      "Já possui uma conta? ",
+      <CustomStrong onClick={() => navigate("/")}>Faça login.</CustomStrong>,
+    ],
     "Preencha as informações sobre sua organização.",
     "Preencha as informações de localização.",
     "Selecione sua foto do perfil.",
