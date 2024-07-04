@@ -7,6 +7,7 @@ import { CheckIcon, Container, CustomPaper, Form, TitleArea } from "./styles";
 import { Informations } from "./Informations";
 import { Adress } from "./Adress";
 import { ProfilePicture } from "./ProfilePicture";
+import { Organization } from "./Organization";
 
 function SignUp(): JSX.Element {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -18,12 +19,24 @@ function SignUp(): JSX.Element {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
+  const [cause, setCause] = useState<string>("");
+  const [customCause, setCustomCause] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+
   const [cep, setCep] = useState<string>("");
   const [state, setState] = useState<string>("");
   const [city, setCity] = useState<string>("");
 
-  const messages = [
-    ["Já possui uma conta? ", <Strong>Faça login</Strong>],
+  const volunteerMessages = [
+    ["Já possui uma conta? ", <Strong>Faça login.</Strong>],
+    "Preencha as informações de localização.",
+    "Selecione sua foto do perfil.",
+    "Seu cadastro foi finalizado com sucesso!",
+  ];
+
+  const organizationSteps = [
+    ["Já possui uma conta? ", <Strong>Faça login.</Strong>],
+    "Preencha as informações sobre sua organização.",
     "Preencha as informações de localização.",
     "Selecione sua foto do perfil.",
     "Seu cadastro foi finalizado com sucesso!",
@@ -38,6 +51,20 @@ function SignUp(): JSX.Element {
     setCurrentStep(currentStep - 1);
   }
 
+  function handleSignUp() {
+    setCurrentStep(currentStep + 1);
+    console.log(name);
+    console.log(email);
+    console.log(password);
+    console.log(confirmPassword);
+    console.log(cause);
+    console.log(customCause);
+    console.log(description);
+    console.log(cep);
+    console.log(state);
+    console.log(city);
+  }
+
   useEffect(() => {
     selectedType === "Voluntário" ? setTotalSteps(3) : setTotalSteps(4);
   }, [selectedType]);
@@ -47,7 +74,11 @@ function SignUp(): JSX.Element {
       <CustomPaper>
         <TitleArea>
           {currentStep === totalSteps + 1 ? <CheckIcon /> : <Title>Cadastrar</Title>}
-          <Text>{messages[currentStep - 1]}</Text>
+          <Text>
+            {selectedType === "Voluntário"
+              ? volunteerMessages[currentStep - 1]
+              : organizationSteps[currentStep - 1]}
+          </Text>
         </TitleArea>
         {currentStep === 1 && (
           <ToggleButton
@@ -57,39 +88,54 @@ function SignUp(): JSX.Element {
           />
         )}
         <Stepper steps={totalSteps} current={currentStep} />
-        <Form onSubmit={nextStep}>
-          {currentStep === 1 && (
-            <Informations
-              type={selectedType}
-              name={name}
-              setName={setName}
-              email={email}
-              setEmail={setEmail}
-              password={password}
-              setPassword={setPassword}
-              confirmPassword={confirmPassword}
-              setConfirmPassword={setConfirmPassword}
-            />
-          )}
+        {currentStep <= totalSteps ? (
+          <Form onSubmit={nextStep}>
+            {currentStep === 1 && (
+              <Informations
+                type={selectedType}
+                name={name}
+                setName={setName}
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+                confirmPassword={confirmPassword}
+                setConfirmPassword={setConfirmPassword}
+              />
+            )}
 
-          {currentStep === 2 && (
-            <Adress
-              cep={cep}
-              setCep={setCep}
-              state={state}
-              setState={setState}
-              city={city}
-              setCity={setCity}
-              previousStep={previousStep}
-            />
-          )}
+            {currentStep === 2 && selectedType === "Organização" && (
+              <Organization
+                cause={cause}
+                setCause={setCause}
+                customCause={customCause}
+                setCustomCause={setCustomCause}
+                description={description}
+                setDescription={setDescription}
+                previousStep={previousStep}
+              />
+            )}
 
-          {currentStep === 3 && <ProfilePicture previousStep={previousStep} />}
-        </Form>
-        {currentStep > totalSteps && (
-          <>
-            <Button type="button">Ir para a página inicial</Button>
-          </>
+            {((currentStep === 2 && selectedType === "Voluntário") ||
+              (currentStep === 3 && selectedType === "Organização")) && (
+              <Adress
+                cep={cep}
+                setCep={setCep}
+                state={state}
+                setState={setState}
+                city={city}
+                setCity={setCity}
+                previousStep={previousStep}
+              />
+            )}
+
+            {((currentStep === 3 && selectedType === "Voluntário") ||
+              (currentStep === 4 && selectedType === "Organização")) && (
+              <ProfilePicture handleSignUp={handleSignUp} previousStep={previousStep} />
+            )}
+          </Form>
+        ) : (
+          <Button type="button">Ir para a página inicial</Button>
         )}
       </CustomPaper>
     </Container>

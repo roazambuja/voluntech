@@ -4,10 +4,11 @@ import { ButtonArea } from "../styles";
 import { UploadIcon, UserIcon, ProfilePicture as StyledProfilePicture } from "./styles";
 
 interface ProfilePictureProps {
+  handleSignUp: () => void;
   previousStep: () => void;
 }
 
-function ProfilePicture({ previousStep }: ProfilePictureProps): JSX.Element {
+function ProfilePicture({ previousStep, handleSignUp }: ProfilePictureProps): JSX.Element {
   return (
     <>
       <StyledProfilePicture>
@@ -17,13 +18,15 @@ function ProfilePicture({ previousStep }: ProfilePictureProps): JSX.Element {
         type="file"
         accept="image/*"
         id="picture"
-        label={[<UploadIcon />, "Selecionar foto"]}
+        label={[<UploadIcon key="UploadIcon" />, "Selecionar foto"]}
       />
       <ButtonArea>
         <Button type="button" variant="secondary" onClick={previousStep}>
           Voltar
         </Button>
-        <Button type="submit">Finalizar Cadastro</Button>
+        <Button type="button" onClick={handleSignUp}>
+          Finalizar Cadastro
+        </Button>
       </ButtonArea>
     </>
   );
