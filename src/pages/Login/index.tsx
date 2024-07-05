@@ -4,7 +4,15 @@ import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { Divider } from "../../components/Divider";
 import { Form, Link, Screen } from "../../styles/global";
-import { CustomPaper, CustomText, FormContainer, ImageContainer, LoginImage, Logo } from "./styles";
+import {
+  BottomArea,
+  CustomPaper,
+  CustomText,
+  FormContainer,
+  ImageContainer,
+  LoginImage,
+  Logo,
+} from "./styles";
 import { ImageProps, imageList } from "./images";
 
 function Login(): JSX.Element {
@@ -51,11 +59,13 @@ function Login(): JSX.Element {
               Entrar
             </Button>
           </Form>
-          <CustomText>
-            Não possui uma conta? <Link to="/cadastro">Cadastre-se.</Link>
-          </CustomText>
-          <Divider text="ou" />
-          <Button variant="secondary">Entrar como visitante</Button>
+          <BottomArea>
+            <CustomText>
+              Não possui uma conta? <Link to="/cadastro">Cadastre-se.</Link>
+            </CustomText>
+            <Divider text="ou" />
+            <Button variant="secondary">Entrar como visitante</Button>
+          </BottomArea>
         </FormContainer>
       </CustomPaper>
     </Screen>
