@@ -9,8 +9,18 @@ const Paper = styled.div`
   flex-direction: column;
   gap: 32px;
   justify-content: center;
+  overflow: auto;
   padding: 32px;
   margin: 32px 0;
+  width: 500px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
+    width: calc(70% - 64px);
+  }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.MOBILE}) {
+    width: calc(90% - 64px);
+  }
 `;
 
 const Title = styled.h1`
@@ -51,4 +61,21 @@ const Label = styled.label`
   gap: 4px;
 `;
 
-export { Paper, Title, Text, Strong, Label };
+const Screen = styled.div`
+  align-items: center;
+  background-color: ${(props) => props.theme.colors.LIGHT};
+  display: flex;
+  font-family: "Roboto", sans-serif;
+  justify-content: center;
+  min-height: 100vh;
+`;
+
+const Form = styled.form`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+`;
+
+export { Paper, Title, Text, Strong, Label, Screen, Form };

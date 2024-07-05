@@ -2,8 +2,8 @@ import { BaseSyntheticEvent, useEffect, useState } from "react";
 import { Button } from "../../components/Button";
 import { Stepper } from "../../components/Stepper";
 import { ToggleButton } from "../../components/ToggleButton";
-import { Text, Title } from "../../styles/global";
-import { CheckIcon, Container, CustomPaper, CustomStrong, Form, TitleArea } from "./styles";
+import { Form, Paper, Screen, Text, Title } from "../../styles/global";
+import { CheckIcon, CustomStrong, TitleArea } from "./styles";
 import { Informations } from "./Informations";
 import { Adress } from "./Adress";
 import { ProfilePicture } from "./ProfilePicture";
@@ -82,8 +82,8 @@ function SignUp(): JSX.Element {
   }, [selectedType]);
 
   return (
-    <Container>
-      <CustomPaper>
+    <Screen>
+      <Paper>
         <TitleArea>
           {currentStep === totalSteps + 1 ? <CheckIcon /> : <Title>Cadastrar</Title>}
           <Text>
@@ -154,8 +154,8 @@ function SignUp(): JSX.Element {
         ) : (
           <Button type="button">Ir para a página inicial</Button>
         )}
-      </CustomPaper>
-    </Container>
+      </Paper>
+    </Screen>
   );
 }
 
