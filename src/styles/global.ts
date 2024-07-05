@@ -5,6 +5,7 @@ const Paper = styled.div`
   align-items: center;
   background-color: ${(props) => props.theme.colors.WHITE};
   border-radius: 16px;
+  box-sizing: border-box;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   display: flex;
   flex-direction: column;
@@ -16,11 +17,11 @@ const Paper = styled.div`
   width: 500px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
-    width: calc(70% - 64px);
+    width: 70%;
   }
 
   @media (max-width: ${(props) => props.theme.breakpoints.MOBILE}) {
-    width: calc(90% - 64px);
+    width: 85%;
   }
 `;
 
