@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Strong } from "../../styles/global";
 import { CheckCircle } from "react-feather";
 
 const TitleArea = styled.div`
@@ -7,10 +6,6 @@ const TitleArea = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`;
-
-const CustomStrong = styled(Strong)`
-  cursor: pointer;
 `;
 
 const ButtonArea = styled.div`
@@ -26,4 +21,4 @@ const CheckIcon = styled(CheckCircle)`
   width: 50px;
 `;
 
-export { TitleArea, CustomStrong, ButtonArea, CheckIcon };
+export { TitleArea, ButtonArea, CheckIcon };

@@ -1,3 +1,4 @@
+import { Link as RouterLink } from "react-router-dom";
 import styled from "styled-components";
 
 const Paper = styled.div`
@@ -78,4 +79,10 @@ const Form = styled.form`
   width: 100%;
 `;
 
-export { Paper, Title, Text, Strong, Label, Screen, Form };
+const Link = styled(RouterLink)`
+  color: ${(props) => props.theme.colors.PRIMARY};
+  text-decoration: none;
+  font-weight: 700;
+`;
+
+export { Paper, Title, Text, Strong, Label, Screen, Form, Link };
