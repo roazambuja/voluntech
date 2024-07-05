@@ -26,6 +26,12 @@ function Login(): JSX.Element {
     setImage(imageList[index]);
   }
 
+  function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log(email);
+    console.log(password);
+  }
+
   useEffect(() => {
     sortImage();
   });
@@ -38,7 +44,7 @@ function Login(): JSX.Element {
         </ImageContainer>
         <FormContainer>
           <Logo src={LogoSvg} alt="Logo da aplicação Voluntech" />
-          <Form>
+          <Form onSubmit={handleLogin}>
             <Input
               required
               id="email"
