@@ -2,17 +2,14 @@ import { BaseSyntheticEvent, useEffect, useState } from "react";
 import { Button } from "../../components/Button";
 import { Stepper } from "../../components/Stepper";
 import { ToggleButton } from "../../components/ToggleButton";
-import { Text, Title } from "../../styles/global";
-import { CheckIcon, Container, CustomPaper, CustomStrong, Form, TitleArea } from "./styles";
+import { Form, Link, Paper, Screen, Text, Title } from "../../styles/global";
+import { CheckIcon, TitleArea } from "./styles";
 import { Informations } from "./Informations";
 import { Adress } from "./Adress";
 import { ProfilePicture } from "./ProfilePicture";
 import { Organization } from "./Organization";
-import { useNavigate } from "react-router-dom";
 
 function SignUp(): JSX.Element {
-  const navigate = useNavigate();
-
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [selectedType, setSelectedType] = useState<string>("Voluntário");
   const [totalSteps, setTotalSteps] = useState<number>(3);
@@ -33,20 +30,14 @@ function SignUp(): JSX.Element {
   const [image, setImage] = useState<string | null>(null);
 
   const volunteerMessages = [
-    [
-      "Já possui uma conta? ",
-      <CustomStrong onClick={() => navigate("/")}>Faça login.</CustomStrong>,
-    ],
+    ["Já possui uma conta? ", <Link to="/">Faça login.</Link>],
     "Preencha as informações de localização.",
     "Selecione sua foto do perfil.",
     "Seu cadastro foi finalizado com sucesso!",
   ];
 
   const organizationSteps = [
-    [
-      "Já possui uma conta? ",
-      <CustomStrong onClick={() => navigate("/")}>Faça login.</CustomStrong>,
-    ],
+    ["Já possui uma conta? ", <Link to="/">Faça login.</Link>],
     "Preencha as informações sobre sua organização.",
     "Preencha as informações de localização.",
     "Selecione sua foto do perfil.",
@@ -82,8 +73,8 @@ function SignUp(): JSX.Element {
   }, [selectedType]);
 
   return (
-    <Container>
-      <CustomPaper>
+    <Screen>
+      <Paper>
         <TitleArea>
           {currentStep === totalSteps + 1 ? <CheckIcon /> : <Title>Cadastrar</Title>}
           <Text>
@@ -154,8 +145,8 @@ function SignUp(): JSX.Element {
         ) : (
           <Button type="button">Ir para a página inicial</Button>
         )}
-      </CustomPaper>
-    </Container>
+      </Paper>
+    </Screen>
   );
 }
 
