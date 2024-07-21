@@ -30,14 +30,14 @@ function SignUp(): JSX.Element {
   const [image, setImage] = useState<string | null>(null);
 
   const volunteerMessages = [
-    ["Já possui uma conta? ", <Link to="/">Faça login.</Link>],
+    ["Já possui uma conta? ", <Link to="/login">Faça login.</Link>],
     "Preencha as informações de localização.",
     "Selecione sua foto do perfil.",
     "Seu cadastro foi finalizado com sucesso!",
   ];
 
   const organizationSteps = [
-    ["Já possui uma conta? ", <Link to="/">Faça login.</Link>],
+    ["Já possui uma conta? ", <Link to="/login">Faça login.</Link>],
     "Preencha as informações sobre sua organização.",
     "Preencha as informações de localização.",
     "Selecione sua foto do perfil.",
