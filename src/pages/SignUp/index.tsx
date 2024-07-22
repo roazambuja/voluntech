@@ -5,7 +5,7 @@ import { ToggleButton } from "../../components/ToggleButton";
 import { Form, Link, Paper, Screen, Text, Title } from "../../styles/global";
 import { CheckIcon, TitleArea } from "./styles";
 import { Informations } from "./Informations";
-import { Adress } from "./Adress";
+import { Address } from "./Address";
 import { ProfilePicture } from "./ProfilePicture";
 import { Organization } from "./Organization";
 
@@ -121,7 +121,7 @@ function SignUp(): JSX.Element {
 
             {((currentStep === 2 && selectedType === "Voluntário") ||
               (currentStep === 3 && selectedType === "Organização")) && (
-              <Adress
+              <Address
                 cep={cep}
                 setCep={setCep}
                 state={state}

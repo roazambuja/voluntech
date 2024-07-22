@@ -14,7 +14,7 @@ interface AdressProps {
   previousStep: () => void;
 }
 
-function Adress({
+function Address({
   cep,
   setCep,
   state,
@@ -76,4 +76,4 @@ function Adress({
   );
 }
 
-export { Adress };
+export { Address };
