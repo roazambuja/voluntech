@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
 import { ButtonArea } from "../styles";
@@ -9,24 +10,22 @@ import {
 } from "./styles";
 
 interface ProfilePictureProps {
-  handleSignUp: () => void;
   previousStep: () => void;
-  image: string | null;
-  setImage: React.Dispatch<React.SetStateAction<string | null>>;
+  setImage: React.Dispatch<React.SetStateAction<File | null>>;
 }
 
-function ProfilePicture({
-  previousStep,
-  handleSignUp,
-  image,
-  setImage,
-}: ProfilePictureProps): JSX.Element {
+function ProfilePicture({ previousStep, setImage }: ProfilePictureProps): JSX.Element {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
   function handleUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.files) {
+      setImage(event.target.files[0]);
+    }
     const file = event.target.files && event.target.files[0];
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result as string);
+        setImageUrl(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -35,7 +34,7 @@ function ProfilePicture({
   return (
     <>
       <StyledProfilePicture>
-        {image ? <SelectedImage src={image} alt="Foto selecionada" /> : <UserIcon />}
+        {imageUrl ? <SelectedImage src={imageUrl} alt="Foto selecionada" /> : <UserIcon />}
       </StyledProfilePicture>
       <Input
         type="file"
@@ -48,9 +47,7 @@ function ProfilePicture({
         <Button type="button" variant="secondary" onClick={previousStep}>
           Voltar
         </Button>
-        <Button type="button" onClick={handleSignUp}>
-          Finalizar Cadastro
-        </Button>
+        <Button type="submit">Finalizar Cadastro</Button>
       </ButtonArea>
     </>
   );

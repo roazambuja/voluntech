@@ -8,6 +8,7 @@ import { Informations } from "./Informations";
 import { Address } from "./Address";
 import { ProfilePicture } from "./ProfilePicture";
 import { Organization } from "./Organization";
+import { postUser } from "../../services/users";
 
 function SignUp(): JSX.Element {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -27,7 +28,7 @@ function SignUp(): JSX.Element {
   const [state, setState] = useState<string>("");
   const [city, setCity] = useState<string>("");
 
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
 
   const volunteerMessages = [
     ["Já possui uma conta? ", <Link to="/login">Faça login.</Link>],
@@ -47,25 +48,38 @@ function SignUp(): JSX.Element {
   function nextStep(event: BaseSyntheticEvent) {
     event.preventDefault();
     setCurrentStep(currentStep + 1);
+
+    if (currentStep === totalSteps) {
+      handleSignUp();
+    }
   }
 
   function previousStep() {
     setCurrentStep(currentStep - 1);
   }
 
-  function handleSignUp() {
-    setCurrentStep(currentStep + 1);
-    console.log(name);
-    console.log(email);
-    console.log(password);
-    console.log(confirmPassword);
-    console.log(cause);
-    console.log(customCause);
-    console.log(description);
-    console.log(cep);
-    console.log(state);
-    console.log(city);
-    console.log(image);
+  async function handleSignUp() {
+    const user = {
+      name,
+      email,
+      password,
+      role: selectedType,
+      cep,
+      state,
+      city,
+      cause,
+      description,
+    } as { [key: string]: any };
+    const formData = new FormData();
+    Object.keys(user).forEach((key) => {
+      formData.append(key, user[key]);
+    });
+
+    if (image) {
+      formData.append("profilePicture", image);
+    }
+
+    await postUser(formData);
   }
 
   useEffect(() => {
@@ -134,12 +148,7 @@ function SignUp(): JSX.Element {
 
             {((currentStep === 3 && selectedType === "Voluntário") ||
               (currentStep === 4 && selectedType === "Organização")) && (
-              <ProfilePicture
-                handleSignUp={handleSignUp}
-                previousStep={previousStep}
-                image={image}
-                setImage={setImage}
-              />
+              <ProfilePicture previousStep={previousStep} setImage={setImage} />
             )}
           </Form>
         ) : (
