@@ -9,11 +9,14 @@ import { Address } from "./Address";
 import { ProfilePicture } from "./ProfilePicture";
 import { Organization } from "./Organization";
 import { postUser } from "../../services/users";
+import { Loader } from "../../components/Loader";
 
 function SignUp(): JSX.Element {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [selectedType, setSelectedType] = useState<string>("Voluntário");
   const [totalSteps, setTotalSteps] = useState<number>(3);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>();
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -79,7 +82,15 @@ function SignUp(): JSX.Element {
       formData.append("profilePicture", image);
     }
 
-    await postUser(formData);
+    try {
+      setLoading(true);
+      let response = await postUser(formData);
+      // setMessage(response.data.message);
+    } catch (error: any) {
+      // setMessage("Ocorreu um erro ao realizar seu cadastro. Tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -89,70 +100,76 @@ function SignUp(): JSX.Element {
   return (
     <Screen>
       <Paper>
-        <TitleArea>
-          {currentStep === totalSteps + 1 ? <CheckIcon /> : <Title>Cadastrar</Title>}
-          <Text>
-            {selectedType === "Voluntário"
-              ? volunteerMessages[currentStep - 1]
-              : organizationSteps[currentStep - 1]}
-          </Text>
-        </TitleArea>
-        {currentStep === 1 && (
-          <ToggleButton
-            firstTitle="Voluntário"
-            secondTitle="Organização"
-            setSelected={setSelectedType}
-          />
-        )}
-        <Stepper steps={totalSteps} current={currentStep} />
-        {currentStep <= totalSteps ? (
-          <Form onSubmit={nextStep}>
-            {currentStep === 1 && (
-              <Informations
-                type={selectedType}
-                name={name}
-                setName={setName}
-                email={email}
-                setEmail={setEmail}
-                password={password}
-                setPassword={setPassword}
-                confirmPassword={confirmPassword}
-                setConfirmPassword={setConfirmPassword}
-              />
-            )}
-
-            {currentStep === 2 && selectedType === "Organização" && (
-              <Organization
-                cause={cause}
-                setCause={setCause}
-                customCause={customCause}
-                setCustomCause={setCustomCause}
-                description={description}
-                setDescription={setDescription}
-                previousStep={previousStep}
-              />
-            )}
-
-            {((currentStep === 2 && selectedType === "Voluntário") ||
-              (currentStep === 3 && selectedType === "Organização")) && (
-              <Address
-                cep={cep}
-                setCep={setCep}
-                state={state}
-                setState={setState}
-                city={city}
-                setCity={setCity}
-                previousStep={previousStep}
-              />
-            )}
-
-            {((currentStep === 3 && selectedType === "Voluntário") ||
-              (currentStep === 4 && selectedType === "Organização")) && (
-              <ProfilePicture previousStep={previousStep} setImage={setImage} />
-            )}
-          </Form>
+        {loading ? (
+          <Loader />
         ) : (
-          <Button type="button">Ir para a página inicial</Button>
+          <>
+            <TitleArea>
+              {currentStep === totalSteps + 1 ? <CheckIcon /> : <Title>Cadastrar</Title>}
+              <Text>
+                {selectedType === "Voluntário"
+                  ? volunteerMessages[currentStep - 1]
+                  : organizationSteps[currentStep - 1]}
+              </Text>
+            </TitleArea>
+            {currentStep === 1 && (
+              <ToggleButton
+                firstTitle="Voluntário"
+                secondTitle="Organização"
+                setSelected={setSelectedType}
+              />
+            )}
+            <Stepper steps={totalSteps} current={currentStep} />
+            {currentStep <= totalSteps ? (
+              <Form onSubmit={nextStep}>
+                {currentStep === 1 && (
+                  <Informations
+                    type={selectedType}
+                    name={name}
+                    setName={setName}
+                    email={email}
+                    setEmail={setEmail}
+                    password={password}
+                    setPassword={setPassword}
+                    confirmPassword={confirmPassword}
+                    setConfirmPassword={setConfirmPassword}
+                  />
+                )}
+
+                {currentStep === 2 && selectedType === "Organização" && (
+                  <Organization
+                    cause={cause}
+                    setCause={setCause}
+                    customCause={customCause}
+                    setCustomCause={setCustomCause}
+                    description={description}
+                    setDescription={setDescription}
+                    previousStep={previousStep}
+                  />
+                )}
+
+                {((currentStep === 2 && selectedType === "Voluntário") ||
+                  (currentStep === 3 && selectedType === "Organização")) && (
+                  <Address
+                    cep={cep}
+                    setCep={setCep}
+                    state={state}
+                    setState={setState}
+                    city={city}
+                    setCity={setCity}
+                    previousStep={previousStep}
+                  />
+                )}
+
+                {((currentStep === 3 && selectedType === "Voluntário") ||
+                  (currentStep === 4 && selectedType === "Organização")) && (
+                  <ProfilePicture previousStep={previousStep} setImage={setImage} />
+                )}
+              </Form>
+            ) : (
+              <Button type="button">Ir para a página inicial</Button>
+            )}
+          </>
         )}
       </Paper>
     </Screen>

@@ -15,7 +15,7 @@ interface OrganizationInterface extends UserInterface {
 
 export const postUser = async (body: FormData) => {
   try {
-    return api.post<{ data: UserInterface | OrganizationInterface }>("/users", body);
+    return api.post("/users", body);
   } catch {
     throw new Error("Serviço não disponível");
   }
