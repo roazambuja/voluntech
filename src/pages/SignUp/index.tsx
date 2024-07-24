@@ -71,7 +71,7 @@ function SignUp(): JSX.Element {
       cep,
       state,
       city,
-      cause,
+      cause: cause === "Outro" ? customCause : cause,
       description,
     } as { [key: string]: any };
     const formData = new FormData();
