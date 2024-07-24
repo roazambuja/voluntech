@@ -3,7 +3,7 @@ import { Button } from "../../components/Button";
 import { Stepper } from "../../components/Stepper";
 import { ToggleButton } from "../../components/ToggleButton";
 import { Form, Link, Paper, Screen, Text, Title } from "../../styles/global";
-import { CheckIcon, TitleArea } from "./styles";
+import { CheckIcon, ErrorIcon, TitleArea } from "./styles";
 import { Informations } from "./Informations";
 import { Address } from "./Address";
 import { ProfilePicture } from "./ProfilePicture";
@@ -16,6 +16,7 @@ function SignUp(): JSX.Element {
   const [selectedType, setSelectedType] = useState<string>("Voluntário");
   const [totalSteps, setTotalSteps] = useState<number>(3);
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
 
   const [name, setName] = useState<string>("");
@@ -85,9 +86,10 @@ function SignUp(): JSX.Element {
     try {
       setLoading(true);
       let response = await postUser(formData);
-      // setMessage(response.data.message);
+      setMessage(response.data.message);
     } catch (error: any) {
-      // setMessage("Ocorreu um erro ao realizar seu cadastro. Tente novamente mais tarde.");
+      setMessage("Ocorreu um erro ao realizar seu cadastro. Tente novamente.");
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -105,12 +107,21 @@ function SignUp(): JSX.Element {
         ) : (
           <>
             <TitleArea>
-              {currentStep === totalSteps + 1 ? <CheckIcon /> : <Title>Cadastrar</Title>}
-              <Text>
-                {selectedType === "Voluntário"
-                  ? volunteerMessages[currentStep - 1]
-                  : organizationSteps[currentStep - 1]}
-              </Text>
+              {message ? (
+                <>
+                  {error ? <ErrorIcon /> : <CheckIcon />}
+                  <Text>{message}</Text>
+                </>
+              ) : (
+                <>
+                  <Title>Cadastrar</Title>
+                  <Text>
+                    {selectedType === "Voluntário"
+                      ? volunteerMessages[currentStep - 1]
+                      : organizationSteps[currentStep - 1]}
+                  </Text>
+                </>
+              )}
             </TitleArea>
             {currentStep === 1 && (
               <ToggleButton
