@@ -47,6 +47,8 @@ function Address({
         id="cep"
         label={"CEP"}
         value={cep}
+        pattern="^\d{8}$"
+        title="O campo deve ter 8 caracteres (apenas números)."
         onChange={(e) => setCep(e.target.value)}
         onBlur={handleCep}
       />
