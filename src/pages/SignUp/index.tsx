@@ -3,16 +3,21 @@ import { Button } from "../../components/Button";
 import { Stepper } from "../../components/Stepper";
 import { ToggleButton } from "../../components/ToggleButton";
 import { Form, Link, Paper, Screen, Text, Title } from "../../styles/global";
-import { CheckIcon, TitleArea } from "./styles";
+import { CheckIcon, ErrorIcon, TitleArea } from "./styles";
 import { Informations } from "./Informations";
-import { Adress } from "./Adress";
+import { Address } from "./Address";
 import { ProfilePicture } from "./ProfilePicture";
 import { Organization } from "./Organization";
+import { postUser } from "../../services/users";
+import { Loader } from "../../components/Loader";
 
 function SignUp(): JSX.Element {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [selectedType, setSelectedType] = useState<string>("Voluntário");
   const [totalSteps, setTotalSteps] = useState<number>(3);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>();
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -27,7 +32,7 @@ function SignUp(): JSX.Element {
   const [state, setState] = useState<string>("");
   const [city, setCity] = useState<string>("");
 
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
 
   const volunteerMessages = [
     ["Já possui uma conta? ", <Link to="/login">Faça login.</Link>],
@@ -47,25 +52,47 @@ function SignUp(): JSX.Element {
   function nextStep(event: BaseSyntheticEvent) {
     event.preventDefault();
     setCurrentStep(currentStep + 1);
+
+    if (currentStep === totalSteps) {
+      handleSignUp();
+    }
   }
 
   function previousStep() {
     setCurrentStep(currentStep - 1);
   }
 
-  function handleSignUp() {
-    setCurrentStep(currentStep + 1);
-    console.log(name);
-    console.log(email);
-    console.log(password);
-    console.log(confirmPassword);
-    console.log(cause);
-    console.log(customCause);
-    console.log(description);
-    console.log(cep);
-    console.log(state);
-    console.log(city);
-    console.log(image);
+  async function handleSignUp() {
+    const user = {
+      name,
+      email,
+      password,
+      role: selectedType,
+      cep,
+      state,
+      city,
+      cause,
+      description,
+    } as { [key: string]: any };
+    const formData = new FormData();
+    Object.keys(user).forEach((key) => {
+      formData.append(key, user[key]);
+    });
+
+    if (image) {
+      formData.append("profilePicture", image);
+    }
+
+    try {
+      setLoading(true);
+      let response = await postUser(formData);
+      setMessage(response.data.message);
+    } catch (error: any) {
+      setMessage("Ocorreu um erro ao realizar seu cadastro. Tente novamente.");
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -75,75 +102,85 @@ function SignUp(): JSX.Element {
   return (
     <Screen>
       <Paper>
-        <TitleArea>
-          {currentStep === totalSteps + 1 ? <CheckIcon /> : <Title>Cadastrar</Title>}
-          <Text>
-            {selectedType === "Voluntário"
-              ? volunteerMessages[currentStep - 1]
-              : organizationSteps[currentStep - 1]}
-          </Text>
-        </TitleArea>
-        {currentStep === 1 && (
-          <ToggleButton
-            firstTitle="Voluntário"
-            secondTitle="Organização"
-            setSelected={setSelectedType}
-          />
-        )}
-        <Stepper steps={totalSteps} current={currentStep} />
-        {currentStep <= totalSteps ? (
-          <Form onSubmit={nextStep}>
-            {currentStep === 1 && (
-              <Informations
-                type={selectedType}
-                name={name}
-                setName={setName}
-                email={email}
-                setEmail={setEmail}
-                password={password}
-                setPassword={setPassword}
-                confirmPassword={confirmPassword}
-                setConfirmPassword={setConfirmPassword}
-              />
-            )}
-
-            {currentStep === 2 && selectedType === "Organização" && (
-              <Organization
-                cause={cause}
-                setCause={setCause}
-                customCause={customCause}
-                setCustomCause={setCustomCause}
-                description={description}
-                setDescription={setDescription}
-                previousStep={previousStep}
-              />
-            )}
-
-            {((currentStep === 2 && selectedType === "Voluntário") ||
-              (currentStep === 3 && selectedType === "Organização")) && (
-              <Adress
-                cep={cep}
-                setCep={setCep}
-                state={state}
-                setState={setState}
-                city={city}
-                setCity={setCity}
-                previousStep={previousStep}
-              />
-            )}
-
-            {((currentStep === 3 && selectedType === "Voluntário") ||
-              (currentStep === 4 && selectedType === "Organização")) && (
-              <ProfilePicture
-                handleSignUp={handleSignUp}
-                previousStep={previousStep}
-                image={image}
-                setImage={setImage}
-              />
-            )}
-          </Form>
+        {loading ? (
+          <Loader />
         ) : (
-          <Button type="button">Ir para a página inicial</Button>
+          <>
+            <TitleArea>
+              {message ? (
+                <>
+                  {error ? <ErrorIcon /> : <CheckIcon />}
+                  <Text>{message}</Text>
+                </>
+              ) : (
+                <>
+                  <Title>Cadastrar</Title>
+                  <Text>
+                    {selectedType === "Voluntário"
+                      ? volunteerMessages[currentStep - 1]
+                      : organizationSteps[currentStep - 1]}
+                  </Text>
+                </>
+              )}
+            </TitleArea>
+            {currentStep === 1 && (
+              <ToggleButton
+                firstTitle="Voluntário"
+                secondTitle="Organização"
+                setSelected={setSelectedType}
+              />
+            )}
+            <Stepper steps={totalSteps} current={currentStep} />
+            {currentStep <= totalSteps ? (
+              <Form onSubmit={nextStep}>
+                {currentStep === 1 && (
+                  <Informations
+                    type={selectedType}
+                    name={name}
+                    setName={setName}
+                    email={email}
+                    setEmail={setEmail}
+                    password={password}
+                    setPassword={setPassword}
+                    confirmPassword={confirmPassword}
+                    setConfirmPassword={setConfirmPassword}
+                  />
+                )}
+
+                {currentStep === 2 && selectedType === "Organização" && (
+                  <Organization
+                    cause={cause}
+                    setCause={setCause}
+                    customCause={customCause}
+                    setCustomCause={setCustomCause}
+                    description={description}
+                    setDescription={setDescription}
+                    previousStep={previousStep}
+                  />
+                )}
+
+                {((currentStep === 2 && selectedType === "Voluntário") ||
+                  (currentStep === 3 && selectedType === "Organização")) && (
+                  <Address
+                    cep={cep}
+                    setCep={setCep}
+                    state={state}
+                    setState={setState}
+                    city={city}
+                    setCity={setCity}
+                    previousStep={previousStep}
+                  />
+                )}
+
+                {((currentStep === 3 && selectedType === "Voluntário") ||
+                  (currentStep === 4 && selectedType === "Organização")) && (
+                  <ProfilePicture previousStep={previousStep} setImage={setImage} />
+                )}
+              </Form>
+            ) : (
+              <Button type="button">Ir para a página inicial</Button>
+            )}
+          </>
         )}
       </Paper>
     </Screen>
