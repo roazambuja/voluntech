@@ -71,9 +71,13 @@ function SignUp(): JSX.Element {
       cep,
       state,
       city,
-      cause,
-      description,
+      cause: cause === "Outro" ? customCause : cause,
     } as { [key: string]: any };
+
+    if (description !== "") {
+      user.description = description;
+    }
+
     const formData = new FormData();
     Object.keys(user).forEach((key) => {
       formData.append(key, user[key]);
