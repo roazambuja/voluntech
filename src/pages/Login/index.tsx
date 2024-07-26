@@ -8,12 +8,14 @@ import {
   BottomArea,
   CustomPaper,
   CustomText,
+  ErrorMessage,
   FormContainer,
   ImageContainer,
   LoginImage,
   Logo,
 } from "./styles";
 import { ImageProps, imageList } from "./images";
+import { AuthInterface, login } from "../../services/auth";
 
 function Login(): JSX.Element {
   const [image, setImage] = useState<ImageProps>(imageList[0]);
@@ -21,20 +23,39 @@ function Login(): JSX.Element {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const [errorMessage, setErrorMessage] = useState<string | null>();
+  const [loading, setLoading] = useState<boolean>(false);
+
   function sortImage() {
     let index = Math.floor(Math.random() * imageList.length);
     setImage(imageList[index]);
   }
 
-  function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+  async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(email);
-    console.log(password);
+
+    const body: AuthInterface = {
+      email,
+      password,
+    };
+
+    try {
+      setLoading(true);
+      let response = await login(body);
+      console.log(response.data.message);
+    } catch (error: any) {
+      console.log(error);
+      error.response?.data
+        ? setErrorMessage(error.response.data.message)
+        : setErrorMessage("Ocorreu um erro ao realizar o login.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
     sortImage();
-  });
+  }, []);
 
   return (
     <Screen>
@@ -46,22 +67,20 @@ function Login(): JSX.Element {
           <Logo src={LogoSvg} alt="Logo da aplicação Voluntech" />
           <Form onSubmit={handleLogin}>
             <Input
-              required
               id="email"
-              type="email"
               label="E-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <Input
-              required
               id="password"
               type="password"
               label="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button type="submit" variant="primary">
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+            <Button type="submit" variant="primary" disabled={loading}>
               Entrar
             </Button>
           </Form>
