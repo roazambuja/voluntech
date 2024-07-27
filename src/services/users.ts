@@ -20,3 +20,11 @@ export const postUser = async (body: FormData) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getUser = async (id: string) => {
+  try {
+    return api.get(`/users/${id}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
