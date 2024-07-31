@@ -1,9 +1,9 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import api from "../services/api";
-import { getUser } from "../services/users";
+import { getUser, OrganizationInterface, UserInterface } from "../services/users";
 
 interface AuthContextData {
-  user: any;
+  user: null | UserInterface | OrganizationInterface;
   login: (token: string) => void;
   logout: () => void;
   loading: boolean;
@@ -16,7 +16,7 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<null | UserInterface | OrganizationInterface>(null);
   const [loading, setLoading] = useState(true);
 
   function getPayload(token: string) {

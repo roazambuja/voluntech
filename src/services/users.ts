@@ -1,16 +1,20 @@
 import api from "./api";
 
-interface UserInterface {
+export interface UserInterface {
   _id?: string;
   name: string;
   email: string;
   password: string;
   role: ["Voluntário" | "Organização"];
+  profilePicture?: {
+    filePath: string;
+    publicId: string;
+  };
 }
 
-interface OrganizationInterface extends UserInterface {
+export interface OrganizationInterface extends UserInterface {
   cause: string;
-  description: string;
+  description?: string;
 }
 
 export const postUser = async (body: FormData) => {

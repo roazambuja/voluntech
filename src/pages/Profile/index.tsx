@@ -7,7 +7,7 @@ function Profile(): JSX.Element {
 
   return (
     <Paper>
-      <Title>Olá, {user.name}</Title>
+      <Title>Olá, {user?.name}</Title>
       <Link to="/login" onClick={logout}>
         Sair
       </Link>
