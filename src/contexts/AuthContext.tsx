@@ -1,11 +1,12 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import api from "../services/api";
 import { getUser } from "../services/users";
 
 interface AuthContextData {
   user: any;
   login: (token: string) => void;
-  //   logout: () => void;
+  logout: () => void;
+  loading: boolean;
 }
 
 interface AuthProviderProps {
@@ -16,23 +17,49 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<any>();
+  const [loading, setLoading] = useState(true);
 
-  async function login(token: string) {
-    api.defaults.headers["Authorization"] = `Bearer ${token}`;
-
+  function getPayload(token: string) {
     const payloadBase64 = token.split(".")[1];
     const payloadJson = atob(payloadBase64);
-    let payload = JSON.parse(payloadJson);
+    return JSON.parse(payloadJson);
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      login(token);
+    }
+    setLoading(false);
+  }, []);
+
+  async function login(token: string) {
+    setLoading(true);
+    api.defaults.headers["Authorization"] = `Bearer ${token}`;
+    let payload = getPayload(token);
 
     try {
       let { data } = await getUser(payload.user);
+      if (!localStorage.getItem("token")) {
+        localStorage.setItem("token", token);
+      }
       setUser(data.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
-  return <AuthContext.Provider value={{ user, login }}>{children}</AuthContext.Provider>;
+  function logout() {
+    setUser(null);
+    localStorage.removeItem("token");
+    api.defaults.headers.Authorization = "";
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, loading }}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;
