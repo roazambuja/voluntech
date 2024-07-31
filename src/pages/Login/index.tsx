@@ -16,8 +16,14 @@ import {
 } from "./styles";
 import { ImageProps, imageList } from "./images";
 import { AuthInterface, login } from "../../services/auth";
+import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Login(): JSX.Element {
+  const navigate = useNavigate();
+
+  const { login: loginContext } = useAuth();
+
   const [image, setImage] = useState<ImageProps>(imageList[0]);
 
   const [email, setEmail] = useState<string>("");
@@ -42,9 +48,10 @@ function Login(): JSX.Element {
     try {
       setLoading(true);
       let response = await login(body);
-      console.log(response.data.message);
+      const { token } = response.data;
+      loginContext(token);
+      navigate("/perfil");
     } catch (error: any) {
-      console.log(error);
       error.response?.data
         ? setErrorMessage(error.response.data.message)
         : setErrorMessage("Ocorreu um erro ao realizar o login.");
