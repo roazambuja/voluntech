@@ -7,4 +7,5 @@ export const colors = {
   GREY: "#9E9E9E",
   BLACK: "#2C2C2C",
   WHITE: "#FFFFFF",
+  ERROR: "#FF0000",
 };

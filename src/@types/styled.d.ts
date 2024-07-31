@@ -11,6 +11,7 @@ declare module "styled-components" {
       GREY: string;
       BLACK: string;
       WHITE: string;
+      ERROR: string;
     };
     breakpoints: {
       MOBILE: string;

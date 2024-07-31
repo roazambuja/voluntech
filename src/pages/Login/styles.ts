@@ -64,7 +64,7 @@ const BottomArea = styled.div`
 `;
 
 const ErrorMessage = styled.p`
-  color: red;
+  color: ${(props) => props.theme.colors.ERROR};
   align-self: flex-start;
   margin: 0;
   font-size: 14px;
