@@ -3,7 +3,7 @@ import LogoSvg from "../../assets/logo.svg";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { Divider } from "../../components/Divider";
-import { Form, Link, Screen } from "../../styles/global";
+import { Form, Link } from "../../styles/global";
 import {
   BottomArea,
   CustomPaper,
@@ -65,42 +65,40 @@ function Login(): JSX.Element {
   }, []);
 
   return (
-    <Screen>
-      <CustomPaper>
-        <ImageContainer>
-          <LoginImage src={image.link} alt={image.description} />
-        </ImageContainer>
-        <FormContainer>
-          <Logo src={LogoSvg} alt="Logo da aplicação Voluntech" />
-          <Form onSubmit={handleLogin}>
-            <Input
-              id="email"
-              label="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              id="password"
-              type="password"
-              label="Senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-            <Button type="submit" variant="primary" disabled={loading}>
-              Entrar
-            </Button>
-          </Form>
-          <BottomArea>
-            <CustomText>
-              Não possui uma conta? <Link to="/cadastro">Cadastre-se.</Link>
-            </CustomText>
-            <Divider text="ou" />
-            <Button variant="secondary">Entrar como visitante</Button>
-          </BottomArea>
-        </FormContainer>
-      </CustomPaper>
-    </Screen>
+    <CustomPaper>
+      <ImageContainer>
+        <LoginImage src={image.link} alt={image.description} />
+      </ImageContainer>
+      <FormContainer>
+        <Logo src={LogoSvg} alt="Logo da aplicação Voluntech" />
+        <Form onSubmit={handleLogin}>
+          <Input
+            id="email"
+            label="E-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            id="password"
+            type="password"
+            label="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+          <Button type="submit" variant="primary" disabled={loading}>
+            Entrar
+          </Button>
+        </Form>
+        <BottomArea>
+          <CustomText>
+            Não possui uma conta? <Link to="/cadastro">Cadastre-se.</Link>
+          </CustomText>
+          <Divider text="ou" />
+          <Button variant="secondary">Entrar como visitante</Button>
+        </BottomArea>
+      </FormContainer>
+    </CustomPaper>
   );
 }
 
