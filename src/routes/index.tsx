@@ -1,21 +1,26 @@
-import { createBrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes as ReactRoutes } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import Introduction from "../pages/Introduction";
 import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
-import Introduction from "../pages/Introduction";
+import Profile from "../pages/Profile";
+// import { AppRoutes } from "./appRoutes";
+// import { AuthRoutes } from "./authRoutes";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Introduction />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/cadastro",
-    element: <SignUp />,
-  },
-]);
+function Routes() {
+  const { user } = useAuth();
 
-export { router };
+  // return <BrowserRouter> {user ? <AppRoutes /> : <AuthRoutes />}</BrowserRouter>;
+  return (
+    <BrowserRouter>
+      <ReactRoutes>
+        <Route path="/" element={<Introduction />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/cadastro" element={<SignUp />} />
+        <Route path="/perfil" element={<Profile />} />
+      </ReactRoutes>
+    </BrowserRouter>
+  );
+}
+
+export { Routes };
