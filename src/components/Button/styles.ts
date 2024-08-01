@@ -22,7 +22,7 @@ const Button = styled.button<ButtonProps>`
           border: "none",
         }}
 
-  &:hover {
+  &:hover, &:disabled {
     background-color: ${(props) =>
       props.variant === "secondary" ? props.theme.colors.LIGHT : props.theme.colors.PRIMARY_LIGHT};
   }

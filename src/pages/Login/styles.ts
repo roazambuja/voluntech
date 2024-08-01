@@ -63,4 +63,21 @@ const BottomArea = styled.div`
   }
 `;
 
-export { CustomPaper, ImageContainer, LoginImage, FormContainer, Logo, CustomText, BottomArea };
+const ErrorMessage = styled.p`
+  color: ${(props) => props.theme.colors.ERROR};
+  align-self: flex-start;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+export {
+  CustomPaper,
+  ImageContainer,
+  LoginImage,
+  FormContainer,
+  Logo,
+  CustomText,
+  BottomArea,
+  ErrorMessage,
+};
