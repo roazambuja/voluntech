@@ -24,6 +24,7 @@ function SignUp(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
+  const [passwordError, setPasswordError] = useState<string>("");
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -57,10 +58,15 @@ function SignUp(): JSX.Element {
 
   function nextStep(event: BaseSyntheticEvent) {
     event.preventDefault();
-    setCurrentStep(currentStep + 1);
+    if (password === confirmPassword) {
+      setPasswordError("");
+      setCurrentStep(currentStep + 1);
 
-    if (currentStep === totalSteps) {
-      handleSignUp();
+      if (currentStep === totalSteps) {
+        handleSignUp();
+      }
+    } else {
+      setPasswordError("As senhas digitadas devem ser iguais.");
     }
   }
 
@@ -172,6 +178,7 @@ function SignUp(): JSX.Element {
                   setPassword={setPassword}
                   confirmPassword={confirmPassword}
                   setConfirmPassword={setConfirmPassword}
+                  passwordError={passwordError}
                 />
               )}
 

@@ -1,5 +1,6 @@
 import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
+import { ErrorMessage } from "../../../styles/global";
 
 interface InformationProps {
   type: string;
@@ -11,6 +12,7 @@ interface InformationProps {
   setPassword: React.Dispatch<React.SetStateAction<string>>;
   confirmPassword: string;
   setConfirmPassword: React.Dispatch<React.SetStateAction<string>>;
+  passwordError: string;
 }
 
 function Informations({
@@ -23,6 +25,7 @@ function Informations({
   setPassword,
   confirmPassword,
   setConfirmPassword,
+  passwordError,
 }: InformationProps): JSX.Element {
   return (
     <>
@@ -57,10 +60,10 @@ function Informations({
         type="password"
         label="Confirme sua senha"
         value={confirmPassword}
-        pattern={password}
-        title="As senhas digitadas devem ser iguais."
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
+      {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
+
       <Button type="submit">Avançar</Button>
     </>
   );
