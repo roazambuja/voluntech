@@ -86,4 +86,12 @@ const Link = styled(RouterLink)`
   font-weight: 700;
 `;
 
-export { Paper, Title, Text, Strong, Label, Screen, Form, Link };
+const ErrorMessage = styled.p`
+  color: ${(props) => props.theme.colors.ERROR};
+  align-self: flex-start;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+`;
+
+export { Paper, Title, Text, Strong, Label, Screen, Form, Link, ErrorMessage };
