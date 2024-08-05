@@ -50,7 +50,7 @@ function Informations({
         type="password"
         label="Senha"
         value={password}
-        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*])[A-Za-z\d#?!@$%^&*]{8,}$"
         title="Sua senha deve ter no mínimo 8 caracteres, uma letra maíuscula, uma letra minúscula, um número e um caractere especial."
         onChange={(e) => setPassword(e.target.value)}
       />
