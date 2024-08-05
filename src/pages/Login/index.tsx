@@ -3,12 +3,11 @@ import LogoSvg from "../../assets/logo.svg";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { Divider } from "../../components/Divider";
-import { Form, Link } from "../../styles/global";
+import { ErrorMessage, Form, Link } from "../../styles/global";
 import {
   BottomArea,
   CustomPaper,
   CustomText,
-  ErrorMessage,
   FormContainer,
   ImageContainer,
   LoginImage,
