@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
+import { ProfilePicture as ProfilePictureComponent } from "../../../components/ProfilePicture";
 import { ButtonArea } from "../styles";
-import {
-  UploadIcon,
-  UserIcon,
-  ProfilePicture as StyledProfilePicture,
-  SelectedImage,
-} from "./styles";
+import { UploadIcon } from "./styles";
 
 interface ProfilePictureProps {
   previousStep: () => void;
@@ -33,9 +29,10 @@ function ProfilePicture({ previousStep, setImage }: ProfilePictureProps): JSX.El
 
   return (
     <>
-      <StyledProfilePicture>
-        {imageUrl ? <SelectedImage src={imageUrl} alt="Foto selecionada" /> : <UserIcon />}
-      </StyledProfilePicture>
+      <ProfilePictureComponent
+        src={imageUrl ? imageUrl : undefined}
+        alt="Foto do perfil selecionada"
+      />
       <Input
         type="file"
         accept="image/*"
