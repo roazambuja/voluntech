@@ -1,14 +1,14 @@
 import { Container, Line, Text } from "./styles";
 
 interface DividerProps {
-  text: string;
+  text?: string;
 }
 
 function Divider({ text }: DividerProps): JSX.Element {
   return (
     <Container>
       <Line></Line>
-      <Text>{text}</Text>
+      {text && <Text>{text}</Text>}
       <Line></Line>
     </Container>
   );
