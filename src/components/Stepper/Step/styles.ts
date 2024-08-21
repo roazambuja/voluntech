@@ -8,7 +8,7 @@ const Step = styled.div<StepProps>`
       ? props.theme.colors.PRIMARY_LIGHT
       : props.status === "completed"
       ? props.theme.colors.PRIMARY
-      : props.theme.colors.GREY};
+      : props.theme.colors.LIGHT_GREY};
 `;
 
 export { Step };

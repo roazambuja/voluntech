@@ -7,7 +7,7 @@ const Container = styled.div`
 `;
 
 const Line = styled.div`
-  background-color: ${(props) => props.theme.colors.GREY};
+  background-color: ${(props) => props.theme.colors.LIGHT_GREY};
   height: 1px;
   width: 100%;
 `;
