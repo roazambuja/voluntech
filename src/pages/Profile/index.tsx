@@ -1,12 +1,11 @@
 import { useAuth } from "../../contexts/AuthContext";
-import { Paper, Text, Title } from "../../styles/global";
-import { ProfilePicture } from "../../components/ProfilePicture";
-
-import { DescriptionArea, HeaderText, LocationArea, PinIcon, ProfileHeader } from "./styles";
-import { Divider } from "../../components/Divider";
+import { FeedHeader, Screen, Text } from "./styles";
 import { useEffect, useState } from "react";
 import { AddressInterface, getUserAddress } from "../../services/address";
 import { Loader } from "../../components/Loader";
+import { Informations } from "./Informations";
+import { Divider } from "../../components/Divider";
+import { Button } from "../../components/Button";
 
 function Profile(): JSX.Element {
   const { user } = useAuth();
@@ -33,39 +32,22 @@ function Profile(): JSX.Element {
   }, []);
 
   return (
-    <Paper>
+    <Screen>
       {loading ? (
         <Loader />
       ) : (
         <>
-          <ProfileHeader>
-            {user?.profilePicture ? (
-              <ProfilePicture
-                src={`${process.env.REACT_APP_CLOUDINARY_URL}${user.profilePicture.publicId}`}
-              />
-            ) : (
-              <ProfilePicture />
-            )}
-            <HeaderText>
-              <Title>{user?.name}</Title>
-              <Text>
-                {user?.role} {user && "cause" in user && `| ${user.cause}`}
-              </Text>
-            </HeaderText>
-          </ProfileHeader>
-          <DescriptionArea>
-            <Divider />
-            {user && "description" in user && <Text>{user.description}</Text>}
-            <LocationArea>
-              <PinIcon />
-              <Text>
-                {address?.city}, {address?.state}
-              </Text>
-            </LocationArea>
-          </DescriptionArea>
+          <Informations user={user} address={address} />
+          <section>
+            <FeedHeader>
+              <Text>Seus projetos</Text>
+              <Divider />
+              <Button variant="rounded">Criar projeto</Button>
+            </FeedHeader>
+          </section>
         </>
       )}
-    </Paper>
+    </Screen>
   );
 }
 

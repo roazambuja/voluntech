@@ -19,8 +19,8 @@ function AppRoutes(): JSX.Element {
           <Route path="/" element={<Introduction />} />
           <Route path="/login" element={<AuthRoute Item={Login} />} />
           <Route path="/cadastro" element={<AuthRoute Item={SignUp} />} />
-          <Route path="/perfil" element={<PrivateRoute Item={Profile} />} />
         </Route>
+        <Route path="/perfil" element={<PrivateRoute Item={Profile} />} />
       </Routes>
     </BrowserRouter>
   );
