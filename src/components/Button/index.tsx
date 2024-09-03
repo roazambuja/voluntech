@@ -1,7 +1,7 @@
 import { Button as StyledButton } from "./styles";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | undefined;
+  variant?: "primary" | "secondary" | "rounded" | undefined;
   children?: React.ReactNode;
 }
 
