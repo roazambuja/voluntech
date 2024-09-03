@@ -7,7 +7,7 @@ const TextareaArea = styled(InputArea)``;
 const Label = styled(GlobalLabel)``;
 
 const Textarea = styled.textarea`
-  border: 1px solid ${(props) => props.theme.colors.GREY};
+  border: 1px solid ${(props) => props.theme.colors.LIGHT_GREY};
   border-radius: 4px;
   font-family: "Roboto", sans-serif;
   font-size: 14px;
