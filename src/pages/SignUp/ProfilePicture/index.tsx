@@ -3,7 +3,6 @@ import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
 import { ProfilePicture as ProfilePictureComponent } from "../../../components/ProfilePicture";
 import { ButtonArea } from "../styles";
-import { UploadIcon } from "./styles";
 
 interface ProfilePictureProps {
   previousStep: () => void;
@@ -37,7 +36,7 @@ function ProfilePicture({ previousStep, setImage }: ProfilePictureProps): JSX.El
         type="file"
         accept="image/*"
         id="picture"
-        label={[<UploadIcon key="UploadIcon" />, "Selecionar foto"]}
+        label="Selecionar foto"
         onChange={handleUpload}
       />
       <ButtonArea>
