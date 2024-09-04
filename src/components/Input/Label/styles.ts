@@ -15,6 +15,13 @@ const Label = styled(GlobalLabel)<LabelProps>`
       cursor: "pointer",
     }};
 
+  ${(props) =>
+    props.width === "full" && {
+      width: "100%",
+      justifyContent: "center",
+      boxSizing: "border-box",
+    }}
+
   @media (max-width: ${(props) => props.theme.breakpoints.MOBILE}) {
     font-size: 14px;
   }
