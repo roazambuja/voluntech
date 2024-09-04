@@ -28,7 +28,11 @@ function ProfilePicture({ previousStep, setImage }: ProfilePictureProps): JSX.El
 
   return (
     <>
-      <Picture src={imageUrl ? imageUrl : undefined} alt="Foto do perfil selecionada" />
+      <Picture
+        variant="profile"
+        src={imageUrl ? imageUrl : undefined}
+        alt="Foto do perfil selecionada"
+      />
       <Input
         type="file"
         accept="image/*"

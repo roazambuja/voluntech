@@ -14,11 +14,14 @@ function Informations({ address, user }: InformationsProps): JSX.Element {
   return (
     <Paper>
       <ProfileHeader>
-        {user?.profilePicture ? (
-          <Picture src={`${process.env.REACT_APP_CLOUDINARY_URL}${user.profilePicture.publicId}`} />
-        ) : (
-          <Picture />
-        )}
+        <Picture
+          src={
+            user?.profilePicture
+              ? `${process.env.REACT_APP_CLOUDINARY_URL}${user.profilePicture.publicId}`
+              : undefined
+          }
+          variant="profile"
+        />
         <HeaderText>
           <Title>{user?.name}</Title>
           <Text>
