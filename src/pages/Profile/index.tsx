@@ -1,15 +1,18 @@
 import { useAuth } from "../../contexts/AuthContext";
-import { Paper, Text, Title } from "../../styles/global";
-import { ProfilePicture } from "../../components/ProfilePicture";
-
-import { DescriptionArea, HeaderText, LocationArea, PinIcon, ProfileHeader } from "./styles";
-import { Divider } from "../../components/Divider";
+import { FeedHeader, ProjectArea, Screen, Text } from "./styles";
 import { useEffect, useState } from "react";
 import { AddressInterface, getUserAddress } from "../../services/address";
 import { Loader } from "../../components/Loader";
+import { Informations } from "./Informations";
+import { Divider } from "../../components/Divider";
+import { Button } from "../../components/Button";
+import { useNavigate } from "react-router-dom";
+import { Screen as GlobalScreen } from "../../styles/global";
 
 function Profile(): JSX.Element {
   const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [address, setAddress] = useState<AddressInterface>();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -33,39 +36,28 @@ function Profile(): JSX.Element {
   }, []);
 
   return (
-    <Paper>
+    <>
       {loading ? (
-        <Loader />
+        <GlobalScreen>
+          <Loader />
+        </GlobalScreen>
       ) : (
-        <>
-          <ProfileHeader>
-            {user?.profilePicture ? (
-              <ProfilePicture
-                src={`${process.env.REACT_APP_CLOUDINARY_URL}${user.profilePicture.publicId}`}
-              />
-            ) : (
-              <ProfilePicture />
-            )}
-            <HeaderText>
-              <Title>{user?.name}</Title>
-              <Text>
-                {user?.role} {user && "cause" in user && `| ${user.cause}`}
-              </Text>
-            </HeaderText>
-          </ProfileHeader>
-          <DescriptionArea>
-            <Divider />
-            {user && "description" in user && <Text>{user.description}</Text>}
-            <LocationArea>
-              <PinIcon />
-              <Text>
-                {address?.city}, {address?.state}
-              </Text>
-            </LocationArea>
-          </DescriptionArea>
-        </>
+        <Screen>
+          <Informations user={user} address={address} />
+          {user?.role === "Organização" && (
+            <ProjectArea>
+              <FeedHeader>
+                <Text>Seus projetos</Text>
+                <Divider />
+                <Button variant="rounded" onClick={() => navigate("/cadastrarProjeto")}>
+                  Criar projeto
+                </Button>
+              </FeedHeader>
+            </ProjectArea>
+          )}
+        </Screen>
       )}
-    </Paper>
+    </>
   );
 }
 

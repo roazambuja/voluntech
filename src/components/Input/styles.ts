@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Upload } from "react-feather";
 
 const InputArea = styled.div`
   display: flex;
@@ -8,4 +9,10 @@ const InputArea = styled.div`
   width: 100%;
 `;
 
-export { InputArea };
+const UploadIcon = styled(Upload)`
+  width: 16px;
+  height: 16px;
+  stroke-width: 3px;
+`;
+
+export { InputArea, UploadIcon };

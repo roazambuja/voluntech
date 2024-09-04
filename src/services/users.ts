@@ -5,7 +5,7 @@ export interface UserInterface {
   name: string;
   email: string;
   password: string;
-  role: ["Voluntário" | "Organização"];
+  role: "Voluntário" | "Organização";
   profilePicture?: {
     filePath: string;
     publicId: string;
