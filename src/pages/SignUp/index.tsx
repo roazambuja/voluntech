@@ -3,7 +3,7 @@ import { Button } from "../../components/Button";
 import { Stepper } from "../../components/Stepper";
 import { ToggleButton } from "../../components/ToggleButton";
 import { Form, Link, Paper, Text, Title } from "../../styles/global";
-import { CheckIcon, ErrorIcon, TitleArea } from "./styles";
+import { TitleArea } from "./styles";
 import { Informations } from "./Informations";
 import { Address } from "./Address";
 import { ProfilePicture } from "./ProfilePicture";
@@ -13,6 +13,7 @@ import { Loader } from "../../components/Loader";
 import { useNavigate } from "react-router-dom";
 import { AuthInterface, login } from "../../services/auth";
 import { useAuth } from "../../contexts/AuthContext";
+import { CheckIcon, ErrorIcon } from "../../components/Message/styles";
 
 function SignUp(): JSX.Element {
   const navigate = useNavigate();
