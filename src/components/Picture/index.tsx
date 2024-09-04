@@ -1,6 +1,6 @@
 import { SelectedImage, ProfilePicture as StyledProfilePicture, UserIcon } from "./styles";
 
-function ProfilePicture({ ...props }: React.ImgHTMLAttributes<HTMLImageElement>): JSX.Element {
+function Picture({ ...props }: React.ImgHTMLAttributes<HTMLImageElement>): JSX.Element {
   return (
     <StyledProfilePicture>
       {props.src ? <SelectedImage {...props} /> : <UserIcon />}
@@ -8,4 +8,4 @@ function ProfilePicture({ ...props }: React.ImgHTMLAttributes<HTMLImageElement>)
   );
 }
 
-export { ProfilePicture };
+export { Picture };

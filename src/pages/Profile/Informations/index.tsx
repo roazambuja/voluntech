@@ -2,7 +2,7 @@ import { Paper, Text, Title } from "../../../styles/global";
 import { DescriptionArea, HeaderText, LocationArea, PinIcon, ProfileHeader } from "./styles";
 import { Divider } from "../../../components/Divider";
 import { OrganizationInterface, UserInterface } from "../../../services/users";
-import { ProfilePicture } from "../../../components/ProfilePicture";
+import { Picture } from "../../../components/Picture";
 import { AddressInterface } from "../../../services/address";
 
 interface InformationsProps {
@@ -15,11 +15,9 @@ function Informations({ address, user }: InformationsProps): JSX.Element {
     <Paper>
       <ProfileHeader>
         {user?.profilePicture ? (
-          <ProfilePicture
-            src={`${process.env.REACT_APP_CLOUDINARY_URL}${user.profilePicture.publicId}`}
-          />
+          <Picture src={`${process.env.REACT_APP_CLOUDINARY_URL}${user.profilePicture.publicId}`} />
         ) : (
-          <ProfilePicture />
+          <Picture />
         )}
         <HeaderText>
           <Title>{user?.name}</Title>
