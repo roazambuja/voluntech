@@ -6,9 +6,21 @@ const Screen = styled(GlobalScreen)`
   flex-direction: column;
 `;
 
+const ProjectArea = styled.section`
+  width: 480px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
+    width: 68%;
+  }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.MOBILE}) {
+    width: 85%;
+  }
+`;
+
 const FeedHeader = styled.div`
   display: flex;
-  width: 480px;
+  width: 100%;
   justify-content: space-between;
   gap: 8px;
   align-items: center;
@@ -19,4 +31,4 @@ const Text = styled(GlobalText)`
   white-space: nowrap;
 `;
 
-export { Screen, FeedHeader, Text };
+export { Screen, ProjectArea, FeedHeader, Text };

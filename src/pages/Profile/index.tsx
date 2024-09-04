@@ -1,5 +1,5 @@
 import { useAuth } from "../../contexts/AuthContext";
-import { FeedHeader, Screen, Text } from "./styles";
+import { FeedHeader, ProjectArea, Screen, Text } from "./styles";
 import { useEffect, useState } from "react";
 import { AddressInterface, getUserAddress } from "../../services/address";
 import { Loader } from "../../components/Loader";
@@ -44,15 +44,17 @@ function Profile(): JSX.Element {
       ) : (
         <Screen>
           <Informations user={user} address={address} />
-          <section>
-            <FeedHeader>
-              <Text>Seus projetos</Text>
-              <Divider />
-              <Button variant="rounded" onClick={() => navigate("/cadastrarProjeto")}>
-                Criar projeto
-              </Button>
-            </FeedHeader>
-          </section>
+          {user?.role === "Organização" && (
+            <ProjectArea>
+              <FeedHeader>
+                <Text>Seus projetos</Text>
+                <Divider />
+                <Button variant="rounded" onClick={() => navigate("/cadastrarProjeto")}>
+                  Criar projeto
+                </Button>
+              </FeedHeader>
+            </ProjectArea>
+          )}
         </Screen>
       )}
     </>
