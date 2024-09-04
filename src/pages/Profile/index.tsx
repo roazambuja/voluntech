@@ -6,9 +6,13 @@ import { Loader } from "../../components/Loader";
 import { Informations } from "./Informations";
 import { Divider } from "../../components/Divider";
 import { Button } from "../../components/Button";
+import { useNavigate } from "react-router-dom";
+import { Screen as GlobalScreen } from "../../styles/global";
 
 function Profile(): JSX.Element {
   const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [address, setAddress] = useState<AddressInterface>();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -32,22 +36,26 @@ function Profile(): JSX.Element {
   }, []);
 
   return (
-    <Screen>
+    <>
       {loading ? (
-        <Loader />
+        <GlobalScreen>
+          <Loader />
+        </GlobalScreen>
       ) : (
-        <>
+        <Screen>
           <Informations user={user} address={address} />
           <section>
             <FeedHeader>
               <Text>Seus projetos</Text>
               <Divider />
-              <Button variant="rounded">Criar projeto</Button>
+              <Button variant="rounded" onClick={() => navigate("/cadastrarProjeto")}>
+                Criar projeto
+              </Button>
             </FeedHeader>
           </section>
-        </>
+        </Screen>
       )}
-    </Screen>
+    </>
   );
 }
 
