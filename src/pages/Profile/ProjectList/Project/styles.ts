@@ -17,6 +17,10 @@ const CustomPaper = styled(Paper)`
     background-color: ${(props) => props.theme.colors.LIGHT};
     border: 2px solid ${(props) => props.theme.colors.PRIMARY_LIGHT};
   }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
+    height: 60px;
+  }
 `;
 
 const ProjectTitle = styled.h2`
@@ -27,6 +31,10 @@ const ProjectTitle = styled.h2`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
+    font-size: 16px;
+  }
 `;
 
 const ChevronIcon = styled(ChevronRight)`
