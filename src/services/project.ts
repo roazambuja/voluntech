@@ -17,3 +17,11 @@ export const createProject = async (payload: FormData) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getUserProjects = async (userId: string) => {
+  try {
+    return api.get(`/projects/user/${userId}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};

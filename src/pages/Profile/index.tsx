@@ -8,6 +8,7 @@ import { Divider } from "../../components/Divider";
 import { Button } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { Screen as GlobalScreen } from "../../styles/global";
+import { ProjectList } from "./ProjectList";
 
 function Profile(): JSX.Element {
   const { user } = useAuth();
@@ -53,6 +54,7 @@ function Profile(): JSX.Element {
                   Criar projeto
                 </Button>
               </FeedHeader>
+              <ProjectList id={user._id!} />
             </ProjectArea>
           )}
         </Screen>

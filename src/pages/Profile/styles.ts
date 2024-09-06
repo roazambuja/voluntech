@@ -7,6 +7,9 @@ const Screen = styled(GlobalScreen)`
 `;
 
 const ProjectArea = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   width: 480px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
