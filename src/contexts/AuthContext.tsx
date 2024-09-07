@@ -30,7 +30,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (token) {
       login(token);
     }
-    setLoading(false);
   }, []);
 
   async function login(token: string) {
