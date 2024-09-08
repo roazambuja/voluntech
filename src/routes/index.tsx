@@ -7,6 +7,7 @@ import { AuthRoute } from "./AuthRoute";
 import { PrivateRoute } from "./PrivateRoute";
 import MainLayout from "../pages/MainLayout";
 import CreateProject from "../pages/CreateProject";
+import ProjectDetails from "../pages/ProjectDetails";
 
 export interface CustomRouteProps {
   Item: React.ComponentType;
@@ -23,6 +24,7 @@ function AppRoutes(): JSX.Element {
           <Route path="/cadastrarProjeto" element={<PrivateRoute Item={CreateProject} />} />
         </Route>
         <Route path="/perfil" element={<PrivateRoute Item={Profile} />} />
+        <Route path="/projeto/:id" element={<PrivateRoute Item={ProjectDetails} />} />
       </Routes>
     </BrowserRouter>
   );
