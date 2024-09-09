@@ -6,6 +6,7 @@ import { Loader } from "../../components/Loader";
 import { Message } from "../../components/Message";
 import { Divider } from "../../components/Divider";
 import { CustomPaper, DefaultHeader, HeaderImage, InformationsArea, TitleArea } from "./styles";
+import { Screen } from "../MainLayout/styles";
 
 function ProjectDetails(): JSX.Element {
   const { id } = useParams();
@@ -34,7 +35,9 @@ function ProjectDetails(): JSX.Element {
   return (
     <>
       {loading ? (
-        <Loader />
+        <Screen>
+          <Loader />
+        </Screen>
       ) : message ? (
         <Paper>
           <Message message={message} error={true} />
