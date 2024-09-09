@@ -63,15 +63,6 @@ const Label = styled.label`
   gap: 4px;
 `;
 
-const Screen = styled.div`
-  align-items: center;
-  background-color: ${(props) => props.theme.colors.LIGHT};
-  display: flex;
-  font-family: "Roboto", sans-serif;
-  justify-content: center;
-  min-height: 100vh;
-`;
-
 const Form = styled.form`
   align-items: center;
   display: flex;
@@ -94,4 +85,4 @@ const ErrorMessage = styled.p`
   font-weight: 500;
 `;
 
-export { Paper, Title, Text, Strong, Label, Screen, Form, Link, ErrorMessage };
+export { Paper, Title, Text, Strong, Label, Form, Link, ErrorMessage };

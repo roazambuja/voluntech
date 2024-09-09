@@ -1,5 +1,5 @@
 import { useAuth } from "../../contexts/AuthContext";
-import { FeedHeader, ProjectArea, Screen, Text } from "./styles";
+import { FeedHeader, ProjectArea, Text } from "./styles";
 import { useEffect, useState } from "react";
 import { AddressInterface, getUserAddress } from "../../services/address";
 import { Loader } from "../../components/Loader";
@@ -7,7 +7,7 @@ import { Informations } from "./Informations";
 import { Divider } from "../../components/Divider";
 import { Button } from "../../components/Button";
 import { useNavigate } from "react-router-dom";
-import { Screen as GlobalScreen } from "../../styles/global";
+import { Screen } from "../../pages/MainLayout/styles";
 import { ProjectList } from "./ProjectList";
 
 function Profile(): JSX.Element {
@@ -39,11 +39,11 @@ function Profile(): JSX.Element {
   return (
     <>
       {loading ? (
-        <GlobalScreen>
-          <Loader />
-        </GlobalScreen>
-      ) : (
         <Screen>
+          <Loader />
+        </Screen>
+      ) : (
+        <>
           <Informations user={user} address={address} />
           {user?.role === "Organização" && (
             <ProjectArea>
@@ -57,7 +57,7 @@ function Profile(): JSX.Element {
               <ProjectList id={user._id!} />
             </ProjectArea>
           )}
-        </Screen>
+        </>
       )}
     </>
   );

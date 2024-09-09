@@ -1,10 +1,5 @@
 import styled from "styled-components";
-import { Screen as GlobalScreen, Text as GlobalText } from "../../styles/global";
-
-const Screen = styled(GlobalScreen)`
-  justify-content: flex-start;
-  flex-direction: column;
-`;
+import { Text as GlobalText } from "../../styles/global";
 
 const ProjectArea = styled.section`
   display: flex;
@@ -34,4 +29,4 @@ const Text = styled(GlobalText)`
   white-space: nowrap;
 `;
 
-export { Screen, ProjectArea, FeedHeader, Text };
+export { ProjectArea, FeedHeader, Text };

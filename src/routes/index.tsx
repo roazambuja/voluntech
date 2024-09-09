@@ -17,14 +17,16 @@ function AppRoutes(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<MainLayout />}>
+        <Route element={<MainLayout type="auth" />}>
           <Route path="/" element={<Introduction />} />
           <Route path="/login" element={<AuthRoute Item={Login} />} />
           <Route path="/cadastro" element={<AuthRoute Item={SignUp} />} />
-          <Route path="/cadastrarProjeto" element={<PrivateRoute Item={CreateProject} />} />
         </Route>
-        <Route path="/perfil" element={<PrivateRoute Item={Profile} />} />
-        <Route path="/projeto/:id" element={<PrivateRoute Item={ProjectDetails} />} />
+        <Route element={<MainLayout type="private" />}>
+          <Route path="/cadastrarProjeto" element={<PrivateRoute Item={CreateProject} />} />
+          <Route path="/perfil" element={<PrivateRoute Item={Profile} />} />
+          <Route path="/projeto/:id" element={<PrivateRoute Item={ProjectDetails} />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
