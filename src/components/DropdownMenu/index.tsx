@@ -1,4 +1,4 @@
-import { LogOut, User } from "react-feather";
+import { LogOut, Settings, User } from "react-feather";
 import { DropdownItem } from "./DropdownItem";
 import { ItemList, DropdownMenu as StyledDropdownMenu } from "./styles";
 import { useAuth } from "../../contexts/AuthContext";
@@ -16,6 +16,11 @@ function DropdownMenu({ open }: DropdownMenuProps) {
     <StyledDropdownMenu open={open}>
       <ItemList>
         <DropdownItem Image={User} text={"Meu Perfil"} action={() => navigate("/perfil")} />
+        <DropdownItem
+          Image={Settings}
+          text={"Configurações"}
+          action={() => navigate("/configuracoes")}
+        />
         <DropdownItem Image={LogOut} text={"Sair"} action={logout} />
       </ItemList>
     </StyledDropdownMenu>
