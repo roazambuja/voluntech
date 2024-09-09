@@ -29,6 +29,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const token = localStorage.getItem("token");
     if (token) {
       login(token);
+    } else {
+      setLoading(false);
     }
   }, []);
 
