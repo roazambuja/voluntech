@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
-import { Paper, Screen, Text, Title } from "../../styles/global";
+import { Paper, Text, Title } from "../../styles/global";
 import { useEffect, useState } from "react";
 import { getProjectById, ProjectInterface } from "../../services/project";
 import { Loader } from "../../components/Loader";
 import { Message } from "../../components/Message";
 import { Divider } from "../../components/Divider";
 import { CustomPaper, DefaultHeader, HeaderImage, InformationsArea, TitleArea } from "./styles";
-import { Picture } from "../../components/Picture";
+import { Screen } from "../MainLayout/styles";
 
 function ProjectDetails(): JSX.Element {
   const { id } = useParams();
@@ -33,9 +33,11 @@ function ProjectDetails(): JSX.Element {
   }, []);
 
   return (
-    <Screen>
+    <>
       {loading ? (
-        <Loader />
+        <Screen>
+          <Loader />
+        </Screen>
       ) : message ? (
         <Paper>
           <Message message={message} error={true} />
@@ -59,7 +61,7 @@ function ProjectDetails(): JSX.Element {
           </InformationsArea>
         </CustomPaper>
       )}
-    </Screen>
+    </>
   );
 }
 
