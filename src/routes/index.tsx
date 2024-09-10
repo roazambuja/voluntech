@@ -6,9 +6,9 @@ import Profile from "../pages/Profile";
 import { AuthRoute } from "./AuthRoute";
 import { PrivateRoute } from "./PrivateRoute";
 import MainLayout from "../pages/MainLayout";
-import CreateProject from "../pages/CreateProject";
+import CreateProject from "../pages/Organizations/CreateProject";
 import ProjectDetails from "../pages/ProjectDetails";
-import Configurations from "../pages/Configurations";
+import Configurations from "../pages/Organizations/Configurations";
 
 export interface CustomRouteProps {
   Item: React.ComponentType;

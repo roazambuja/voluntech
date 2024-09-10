@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Paper, Title } from "../../styles/global";
+import { Paper, Title } from "../../../styles/global";
 
 const CustomPaper = styled(Paper)`
   padding: 0;

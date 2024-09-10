@@ -1,6 +1,6 @@
 import { Plus } from "react-feather";
-import { Button } from "../../components/Button";
-import { Text } from "../../styles/global";
+import { Button } from "../../../components/Button";
+import { Text } from "../../../styles/global";
 import { ConfigSection, CustomPaper as Paper, CustomTitle as Title, TextArea } from "./styles";
 
 function Configurations(): JSX.Element {

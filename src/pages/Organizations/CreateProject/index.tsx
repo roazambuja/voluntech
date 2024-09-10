@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Input } from "../../components/Input";
-import { Form, Paper, Title } from "../../styles/global";
-import { TextArea } from "../../components/TextArea";
-import { Button } from "../../components/Button";
-import { Picture } from "../../components/Picture";
-import { createProject } from "../../services/project";
-import { Loader } from "../../components/Loader";
-import { Message } from "../../components/Message";
-import { useAuth } from "../../contexts/AuthContext";
+import { Input } from "../../../components/Input";
+import { Form, Paper, Title } from "../../../styles/global";
+import { TextArea } from "../../../components/TextArea";
+import { Button } from "../../../components/Button";
+import { Picture } from "../../../components/Picture";
+import { createProject } from "../../../services/project";
+import { Loader } from "../../../components/Loader";
+import { Message } from "../../../components/Message";
+import { useAuth } from "../../../contexts/AuthContext";
 
 function CreateProject(): JSX.Element {
   const { user } = useAuth();
