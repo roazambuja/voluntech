@@ -5,6 +5,7 @@ import { Form, Paper, Title } from "../../../styles/global";
 import { RadioInput } from "../../../components/RadioInput";
 import { createPixKey, PixInterface, PixKeyType } from "../../../services/pix";
 import { Loader } from "../../../components/Loader";
+import { Message } from "../../../components/Message";
 
 function Pix(): JSX.Element {
   const [keyType, setKeyType] = useState<PixKeyType>();
@@ -13,6 +14,7 @@ function Pix(): JSX.Element {
   const [bank, setBank] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
 
   const keyTypeLabels: { [key in PixKeyType]: string } = {
@@ -46,10 +48,12 @@ function Pix(): JSX.Element {
     try {
       setLoading(true);
       let response = await createPixKey(payload as PixInterface);
-      //   setMessage(response.data.message);
+      setMessage(response.data.message);
     } catch (error: any) {
-      //   setMessage("Ocorreu um erro ao cadastrar seu projeto. Tente novamente.");
-      //   setError(true);
+      error.response?.data.message
+        ? setMessage(error.response.data.message)
+        : setMessage("Ocorreu um erro ao cadastrar sua chave PIX. Tente novamente");
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -59,7 +63,7 @@ function Pix(): JSX.Element {
     <Paper>
       {loading ? (
         <Loader />
-      ) : (
+      ) : !message ? (
         <Form onSubmit={handleSubmit}>
           <Title>Chave PIX</Title>
           <RadioInput
@@ -93,6 +97,8 @@ function Pix(): JSX.Element {
           />
           <Button type="submit">Cadastrar</Button>
         </Form>
+      ) : (
+        <Message error={error} message={message} />
       )}
     </Paper>
   );
