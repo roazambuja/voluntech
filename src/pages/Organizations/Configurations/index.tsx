@@ -2,8 +2,11 @@ import { Plus } from "react-feather";
 import { Button } from "../../../components/Button";
 import { Text } from "../../../styles/global";
 import { ConfigSection, CustomPaper as Paper, CustomTitle as Title, TextArea } from "./styles";
+import { useNavigate } from "react-router-dom";
 
 function Configurations(): JSX.Element {
+  const navigate = useNavigate();
+
   return (
     <Paper>
       <ConfigSection>
@@ -21,7 +24,7 @@ function Configurations(): JSX.Element {
           <Title>Chave PIX</Title>
           <Text>Não cadastrado</Text>
         </TextArea>
-        <Button variant="rounded">
+        <Button variant="rounded" onClick={() => navigate("/cadastrarPix")}>
           <Plus strokeWidth={3} />
           Cadastrar
         </Button>
