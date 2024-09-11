@@ -9,18 +9,21 @@ interface DropdownMenuProps {
 }
 
 function DropdownMenu({ open }: DropdownMenuProps) {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
 
   return (
-    <StyledDropdownMenu open={open}>
+    <StyledDropdownMenu as="nav" open={open}>
       <ItemList>
         <DropdownItem Image={User} text={"Meu Perfil"} action={() => navigate("/perfil")} />
-        <DropdownItem
-          Image={Settings}
-          text={"Configurações"}
-          action={() => navigate("/configuracoes")}
-        />
+        {user?.role === "Organização" && (
+          <DropdownItem
+            Image={Settings}
+            text={"Configurações"}
+            action={() => navigate("/configuracoes")}
+          />
+        )}
+
         <DropdownItem Image={LogOut} text={"Sair"} action={logout} />
       </ItemList>
     </StyledDropdownMenu>
