@@ -13,7 +13,7 @@ function DropdownMenu({ open }: DropdownMenuProps) {
   const navigate = useNavigate();
 
   return (
-    <StyledDropdownMenu open={open}>
+    <StyledDropdownMenu as="nav" open={open}>
       <ItemList>
         <DropdownItem Image={User} text={"Meu Perfil"} action={() => navigate("/perfil")} />
         {user?.role === "Organização" && (
