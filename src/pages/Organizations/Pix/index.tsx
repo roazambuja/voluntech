@@ -7,6 +7,14 @@ import { createPixKey, PixInterface, PixKeyType } from "../../../services/pix";
 import { Loader } from "../../../components/Loader";
 import { Message } from "../../../components/Message";
 
+export const keyTypeLabels: { [key in PixKeyType]: string } = {
+  [PixKeyType.Email]: "E-mail",
+  [PixKeyType.CPF]: "CPF",
+  [PixKeyType.CNPJ]: "CNPJ",
+  [PixKeyType.Phone]: "Telefone",
+  [PixKeyType.Random]: "Chave aleatória",
+};
+
 function Pix(): JSX.Element {
   const [keyType, setKeyType] = useState<PixKeyType>();
   const [key, setKey] = useState<string>("");
@@ -17,13 +25,6 @@ function Pix(): JSX.Element {
   const [error, setError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
 
-  const keyTypeLabels: { [key in PixKeyType]: string } = {
-    [PixKeyType.Email]: "E-mail",
-    [PixKeyType.CPF]: "CPF",
-    [PixKeyType.CNPJ]: "CNPJ",
-    [PixKeyType.Phone]: "Telefone",
-    [PixKeyType.Random]: "Chave aleatória",
-  };
 
   const handleKeyTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.id as PixKeyType;
