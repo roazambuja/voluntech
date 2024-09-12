@@ -8,10 +8,13 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { getPixByUser, PixInterface } from "../../../services/pix";
 import { keyTypeLabels } from "../Pix";
 import { getSocialMediaByUser, SocialMediaInterface } from "../../../services/socialMedia";
+import { listSocialMedia } from "../../../utils/listSocialMedia";
+import { Loader } from "../../../components/Loader";
 
 function Configurations(): JSX.Element {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const [pixMessage, setPixMessage] = useState<string>();
   const [pix, setPix] = useState<PixInterface>();
@@ -32,23 +35,9 @@ function Configurations(): JSX.Element {
       }
     } catch {
       setPixMessage("Não foi possível buscar a chave PIX.");
+    } finally {
+      setLoading(false);
     }
-  }
-
-  function listSocialMedia(socialMedia: SocialMediaInterface): string {
-    const socialMediaNames: { [key: string]: string } = {
-      whatsapp: "WhatsApp",
-      instagram: "Instagram",
-      facebook: "Facebook",
-      tiktok: "TikTok",
-    };
-
-    const listedSocialMedia = Object.entries(socialMedia)
-      .filter(([key, value]) => value !== undefined && key in socialMediaNames)
-      .map(([key]) => socialMediaNames[key])
-      .join(", ");
-
-    return listedSocialMedia;
   }
 
   async function getSocialMedia() {
@@ -62,7 +51,9 @@ function Configurations(): JSX.Element {
         setSocialMediaMessage("Não cadastrado.");
       }
     } catch {
-      setSocialMediaMessage("Não foi possível buscar a chave PIX.");
+      setSocialMediaMessage("Não foi possível buscar as redes sociais.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -73,44 +64,50 @@ function Configurations(): JSX.Element {
 
   return (
     <Paper>
-      <ConfigSection>
-        <TextArea>
-          <Title>Redes Sociais</Title>
-          <Text>{socialMediaMessage}</Text>
-        </TextArea>
-        <Button variant="rounded" onClick={() => navigate("/cadastrarRedesSociais")}>
-          {socialMedia ? (
-            <>
-              <Edit3 strokeWidth={3} />
-              Editar
-            </>
-          ) : (
-            <>
-              <Plus strokeWidth={3} />
-              Cadastrar
-            </>
-          )}
-        </Button>
-      </ConfigSection>
-      <ConfigSection>
-        <TextArea>
-          <Title>Chave PIX</Title>
-          <Text>{pixMessage}</Text>
-        </TextArea>
-        <Button variant="rounded" onClick={() => navigate("/cadastrarPix")}>
-          {pix ? (
-            <>
-              <Edit3 strokeWidth={3} />
-              Editar
-            </>
-          ) : (
-            <>
-              <Plus strokeWidth={3} />
-              Cadastrar
-            </>
-          )}
-        </Button>
-      </ConfigSection>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <ConfigSection>
+            <TextArea>
+              <Title>Redes Sociais</Title>
+              <Text>{socialMediaMessage}</Text>
+            </TextArea>
+            <Button variant="rounded" onClick={() => navigate("/cadastrarRedesSociais")}>
+              {socialMedia ? (
+                <>
+                  <Edit3 strokeWidth={3} />
+                  Editar
+                </>
+              ) : (
+                <>
+                  <Plus strokeWidth={3} />
+                  Cadastrar
+                </>
+              )}
+            </Button>
+          </ConfigSection>
+          <ConfigSection>
+            <TextArea>
+              <Title>Chave PIX</Title>
+              <Text>{pixMessage}</Text>
+            </TextArea>
+            <Button variant="rounded" onClick={() => navigate("/cadastrarPix")}>
+              {pix ? (
+                <>
+                  <Edit3 strokeWidth={3} />
+                  Editar
+                </>
+              ) : (
+                <>
+                  <Plus strokeWidth={3} />
+                  Cadastrar
+                </>
+              )}
+            </Button>
+          </ConfigSection>
+        </>
+      )}
     </Paper>
   );
 }
