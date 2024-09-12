@@ -7,10 +7,10 @@ import { Message } from "../../../components/Message";
 import { createSocialMedia } from "../../../services/socialMedia";
 
 function SocialMedia(): JSX.Element {
-  const [whatsapp, setWhatsapp] = useState<string>("");
-  const [instagram, setInstagram] = useState<string>("");
-  const [facebook, setFacebook] = useState<string>("");
-  const [tiktok, setTiktok] = useState<string>("");
+  const [whatsapp, setWhatsapp] = useState<string>();
+  const [instagram, setInstagram] = useState<string>();
+  const [facebook, setFacebook] = useState<string>();
+  const [tiktok, setTiktok] = useState<string>();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
