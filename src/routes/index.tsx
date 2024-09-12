@@ -10,6 +10,7 @@ import CreateProject from "../pages/Organizations/CreateProject";
 import ProjectDetails from "../pages/ProjectDetails";
 import Configurations from "../pages/Organizations/Configurations";
 import Pix from "../pages/Organizations/Pix";
+import SocialMedia from "../pages/Organizations/SocialMedia";
 
 export interface CustomRouteProps {
   Item: React.ComponentType;
@@ -30,6 +31,7 @@ function AppRoutes(): JSX.Element {
           <Route path="/projeto/:id" element={<PrivateRoute Item={ProjectDetails} />} />
           <Route path="/configuracoes" element={<PrivateRoute Item={Configurations} />} />
           <Route path="/cadastrarPix" element={<PrivateRoute Item={Pix} />} />
+          <Route path="/cadastrarRedesSociais" element={<PrivateRoute Item={SocialMedia} />} />
         </Route>
       </Routes>
     </BrowserRouter>

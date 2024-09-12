@@ -14,7 +14,7 @@ function Configurations(): JSX.Element {
           <Title>Redes Sociais</Title>
           <Text>Não cadastrado</Text>
         </TextArea>
-        <Button variant="rounded">
+        <Button variant="rounded" onClick={() => navigate("/cadastrarRedesSociais")}>
           <Plus strokeWidth={3} />
           Cadastrar
         </Button>
