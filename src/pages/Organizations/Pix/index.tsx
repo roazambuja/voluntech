@@ -6,6 +6,7 @@ import { RadioInput } from "../../../components/RadioInput";
 import { createPixKey, PixInterface, PixKeyType } from "../../../services/pix";
 import { Loader } from "../../../components/Loader";
 import { Message } from "../../../components/Message";
+import { handleKeyTypeChange } from "../../../utils/handleKeyTypeChange";
 
 export const keyTypeLabels: { [key in PixKeyType]: string } = {
   [PixKeyType.Email]: "E-mail",
@@ -24,20 +25,6 @@ function Pix(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
-
-
-  const handleKeyTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.id as PixKeyType;
-    const mappedValue = (Object.keys(keyTypeLabels) as PixKeyType[]).find(
-      (type) => keyTypeLabels[type] === value
-    );
-
-    if (mappedValue) {
-      setKeyType(mappedValue);
-    } else {
-      console.error("Tipo de chave inválido");
-    }
-  };
 
   const keyTypes = Object.values(keyTypeLabels);
 
@@ -73,7 +60,7 @@ function Pix(): JSX.Element {
             title="Tipo de chave"
             name="keyType"
             value={keyType}
-            onChange={handleKeyTypeChange}
+            onChange={(e) => setKeyType(handleKeyTypeChange(e))}
           />
           <Input
             required
