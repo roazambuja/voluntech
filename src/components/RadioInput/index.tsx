@@ -17,7 +17,18 @@ function RadioInput({ title, options, name, ...props }: RadioProps): JSX.Element
         {options.map((option, index) => {
           return (
             <InputArea key={index}>
-              <Radio type="radio" id={option} name={name} value={option} {...props} />
+              {props.value ? (
+                <Radio
+                  type="radio"
+                  id={option}
+                  name={name}
+                  value={option}
+                  checked={option === props.value}
+                  {...props}
+                />
+              ) : (
+                <Radio type="radio" id={option} name={name} value={option} {...props} />
+              )}
               <Label htmlFor={option}>{option}</Label>
             </InputArea>
           );

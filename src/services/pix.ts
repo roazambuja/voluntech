@@ -33,3 +33,19 @@ export const getPixByUser = async (userId: string) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getPixById = async (id: string) => {
+  try {
+    return api.get(`/pix/${id}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
+
+export const updatePix = async (id: string, payload: PixInterface) => {
+  try {
+    return api.put(`/pix/${id}`, payload);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};

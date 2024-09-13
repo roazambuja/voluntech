@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
 import { Form, Paper, Title } from "../../../styles/global";
 import { RadioInput } from "../../../components/RadioInput";
-import { createPixKey, PixInterface, PixKeyType } from "../../../services/pix";
+import {
+  createPixKey,
+  getPixById,
+  PixInterface,
+  PixKeyType,
+  updatePix,
+} from "../../../services/pix";
 import { Loader } from "../../../components/Loader";
 import { Message } from "../../../components/Message";
+import { handleKeyTypeChange } from "../../../utils/handleKeyTypeChange";
+import { useParams } from "react-router-dom";
 
 export const keyTypeLabels: { [key in PixKeyType]: string } = {
   [PixKeyType.Email]: "E-mail",
@@ -25,34 +33,55 @@ function Pix(): JSX.Element {
   const [error, setError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
 
-
-  const handleKeyTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.id as PixKeyType;
-    const mappedValue = (Object.keys(keyTypeLabels) as PixKeyType[]).find(
-      (type) => keyTypeLabels[type] === value
-    );
-
-    if (mappedValue) {
-      setKeyType(mappedValue);
-    } else {
-      console.error("Tipo de chave inválido");
-    }
-  };
+  const { id } = useParams();
 
   const keyTypes = Object.values(keyTypeLabels);
+
+  async function getPix() {
+    try {
+      setLoading(true);
+      let { data } = await getPixById(id!);
+      if (data.pix) {
+        const pix: PixInterface = data.pix;
+
+        setKeyType(pix.type as PixKeyType);
+        setName(pix.name);
+        setKey(pix.key);
+        setBank(pix.bank);
+      }
+    } catch {
+      setError(true);
+      setMessage("Não foi possível buscar a sua chave PIX. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    if (id) {
+      getPix();
+    }
+  }, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const payload = { type: keyType, key, name, bank };
 
+    let response;
     try {
       setLoading(true);
-      let response = await createPixKey(payload as PixInterface);
+      if (id) {
+        response = await updatePix(id, payload as PixInterface);
+      } else {
+        response = await createPixKey(payload as PixInterface);
+      }
       setMessage(response.data.message);
     } catch (error: any) {
       error.response?.data.message
         ? setMessage(error.response.data.message)
+        : id
+        ? setMessage("Ocorreu um erro ao editar sua chave PIX. Tente novamente.")
         : setMessage("Ocorreu um erro ao cadastrar sua chave PIX. Tente novamente");
       setError(true);
     } finally {
@@ -72,8 +101,8 @@ function Pix(): JSX.Element {
             options={keyTypes}
             title="Tipo de chave"
             name="keyType"
-            value={keyType}
-            onChange={handleKeyTypeChange}
+            value={keyTypeLabels[keyType!]}
+            onChange={(e) => setKeyType(handleKeyTypeChange(e))}
           />
           <Input
             required
@@ -96,7 +125,7 @@ function Pix(): JSX.Element {
             value={bank}
             onChange={(e) => setBank(e.target.value)}
           />
-          <Button type="submit">Cadastrar</Button>
+          <Button type="submit">{id ? "Editar" : "Cadastrar"}</Button>
         </Form>
       ) : (
         <Message error={error} message={message} />
