@@ -31,6 +31,7 @@ function AppRoutes(): JSX.Element {
           <Route path="/projeto/:id" element={<PrivateRoute Item={ProjectDetails} />} />
           <Route path="/configuracoes" element={<PrivateRoute Item={Configurations} />} />
           <Route path="/cadastrarPix" element={<PrivateRoute Item={Pix} />} />
+          <Route path="/cadastrarPix/:id" element={<PrivateRoute Item={Pix} />} />
           <Route path="/cadastrarRedesSociais" element={<PrivateRoute Item={SocialMedia} />} />
         </Route>
       </Routes>

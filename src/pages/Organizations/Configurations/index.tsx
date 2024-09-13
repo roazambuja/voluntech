@@ -92,7 +92,10 @@ function Configurations(): JSX.Element {
               <Title>Chave PIX</Title>
               <Text>{pixMessage}</Text>
             </TextArea>
-            <Button variant="rounded" onClick={() => navigate("/cadastrarPix")}>
+            <Button
+              variant="rounded"
+              onClick={() => navigate("/cadastrarPix" + (pix ? `/${pix?._id}` : ""))}
+            >
               {pix ? (
                 <>
                   <Edit3 strokeWidth={3} />
