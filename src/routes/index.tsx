@@ -33,6 +33,7 @@ function AppRoutes(): JSX.Element {
           <Route path="/cadastrarPix" element={<PrivateRoute Item={Pix} />} />
           <Route path="/cadastrarPix/:id" element={<PrivateRoute Item={Pix} />} />
           <Route path="/cadastrarRedesSociais" element={<PrivateRoute Item={SocialMedia} />} />
+          <Route path="/cadastrarRedesSociais/:id" element={<PrivateRoute Item={SocialMedia} />} />
         </Route>
       </Routes>
     </BrowserRouter>

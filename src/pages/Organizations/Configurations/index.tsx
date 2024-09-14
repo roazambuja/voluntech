@@ -73,7 +73,12 @@ function Configurations(): JSX.Element {
               <Title>Redes Sociais</Title>
               <Text>{socialMediaMessage}</Text>
             </TextArea>
-            <Button variant="rounded" onClick={() => navigate("/cadastrarRedesSociais")}>
+            <Button
+              variant="rounded"
+              onClick={() =>
+                navigate("/cadastrarRedesSociais" + (socialMedia ? `/${socialMedia?._id}` : ""))
+              }
+            >
               {socialMedia ? (
                 <>
                   <Edit3 strokeWidth={3} />
