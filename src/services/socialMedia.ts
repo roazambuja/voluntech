@@ -25,3 +25,19 @@ export const getSocialMediaByUser = async (userId: string) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getSocialMediaById = async (id: string) => {
+  try {
+    return api.get(`/social-media/${id}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
+
+export const updateSocialMedia = async (id: string, payload: SocialMediaInterface) => {
+  try {
+    return api.put(`/social-media/${id}`, payload);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
