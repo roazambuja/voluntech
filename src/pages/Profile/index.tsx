@@ -7,7 +7,7 @@ import { Divider } from "../../components/Divider";
 import { Button } from "../../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { Screen } from "../../pages/MainLayout/styles";
-import { ProjectList } from "./ProjectList";
+import { ProjectList } from "./Organization/ProjectList";
 import { getUser, OrganizationInterface, UserInterface } from "../../services/users";
 import { useAuth } from "../../contexts/AuthContext";
 

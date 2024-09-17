@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ProjectInterface } from "../../../../services/project";
+import { ProjectInterface } from "../../../../../services/project";
 import { ChevronIcon, CustomPaper, ProjectTitle } from "./styles";
 
 interface ProjectListProps {
