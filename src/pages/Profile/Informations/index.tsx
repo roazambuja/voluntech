@@ -4,6 +4,7 @@ import { Divider } from "../../../components/Divider";
 import { OrganizationInterface, UserInterface } from "../../../services/users";
 import { Picture } from "../../../components/Picture";
 import { AddressInterface } from "../../../services/address";
+import { SocialMedia } from "../Organization/SocialMedia";
 
 interface InformationsProps {
   user: UserInterface | OrganizationInterface | null;
@@ -38,6 +39,7 @@ function Informations({ address, user }: InformationsProps): JSX.Element {
             {address?.city}, {address?.state}
           </Text>
         </LocationArea>
+        <SocialMedia user={user} />
       </DescriptionArea>
     </Paper>
   );
