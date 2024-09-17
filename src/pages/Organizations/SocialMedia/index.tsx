@@ -84,24 +84,28 @@ function SocialMedia(): JSX.Element {
         <Form onSubmit={handleSubmit}>
           <Title>Redes Sociais</Title>
           <Input
+            placeholder="51999999999"
             label="WhatsApp"
             id="whatsapp"
             value={whatsapp}
             onChange={(e) => setWhatsapp(e.target.value)}
           />
           <Input
+            placeholder="voluntech"
             label="Instagram"
             id="instagram"
             value={instagram}
             onChange={(e) => setInstagram(e.target.value)}
           />
           <Input
+            placeholder="https://www.facebook.com/voluntech"
             label="Facebook"
             id="facebook"
             value={facebook}
             onChange={(e) => setFacebook(e.target.value)}
           />
           <Input
+            placeholder="voluntech"
             label="TikTok"
             id="tiktok"
             value={tiktok}
