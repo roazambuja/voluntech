@@ -15,7 +15,11 @@ function DropdownMenu({ open }: DropdownMenuProps) {
   return (
     <StyledDropdownMenu as="nav" open={open}>
       <ItemList>
-        <DropdownItem Image={User} text={"Meu Perfil"} action={() => navigate("/perfil")} />
+        <DropdownItem
+          Image={User}
+          text={"Meu Perfil"}
+          action={() => navigate(`/perfil/${user?._id}`)}
+        />
         {user?.role === "Organização" && (
           <DropdownItem
             Image={Settings}

@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  async function login(token: string) {
+  async function login(token: string): Promise<string | undefined> {
     setLoading(true);
     api.defaults.headers["Authorization"] = `Bearer ${token}`;
     let payload = getPayload(token);
@@ -45,6 +45,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.setItem("token", token);
       }
       setUser(data.data);
+      return data.data._id;
     } catch (error) {
       console.log(error);
     } finally {

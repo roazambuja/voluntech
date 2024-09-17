@@ -48,8 +48,8 @@ function Login(): JSX.Element {
       setLoading(true);
       let response = await login(body);
       const { token } = response.data;
-      loginContext(token);
-      navigate("/perfil");
+      let logged = await loginContext(token);
+      navigate(`/perfil/${logged}`);
     } catch (error: any) {
       error.response?.data
         ? setErrorMessage(error.response.data.message)

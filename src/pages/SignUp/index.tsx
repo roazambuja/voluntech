@@ -122,8 +122,8 @@ function SignUp(): JSX.Element {
       setLoading(true);
       let response = await login(body);
       const { token } = response.data;
-      loginContext(token);
-      navigate("/perfil");
+      let logged = await loginContext(token);
+      navigate(`/perfil/${logged}`);
     } catch (error: any) {
       navigate("/login");
     } finally {
