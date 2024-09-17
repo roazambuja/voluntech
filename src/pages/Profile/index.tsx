@@ -9,10 +9,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Screen } from "../../pages/MainLayout/styles";
 import { ProjectList } from "./ProjectList";
 import { getUser, OrganizationInterface, UserInterface } from "../../services/users";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Profile(): JSX.Element {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { user: loggedUser } = useAuth();
 
   const [address, setAddress] = useState<AddressInterface>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -65,11 +67,13 @@ function Profile(): JSX.Element {
           {user?.role === "Organização" && (
             <ProjectArea>
               <FeedHeader>
-                <Text>Seus projetos</Text>
+                <Text>{loggedUser?._id === user._id ? "Seus projetos" : "Projetos"}</Text>
                 <Divider />
-                <Button variant="rounded" onClick={() => navigate("/cadastrarProjeto")}>
-                  Criar projeto
-                </Button>
+                {loggedUser?._id === user._id && (
+                  <Button variant="rounded" onClick={() => navigate("/cadastrarProjeto")}>
+                    Criar projeto
+                  </Button>
+                )}
               </FeedHeader>
               <ProjectList id={user._id!} />
             </ProjectArea>
