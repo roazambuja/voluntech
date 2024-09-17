@@ -75,6 +75,7 @@ function Configurations(): JSX.Element {
             </TextArea>
             <Button
               variant="rounded"
+              mode={socialMedia ? "edit" : "create"}
               onClick={() =>
                 navigate("/cadastrarRedesSociais" + (socialMedia ? `/${socialMedia?._id}` : ""))
               }
@@ -99,6 +100,7 @@ function Configurations(): JSX.Element {
             </TextArea>
             <Button
               variant="rounded"
+              mode={pix ? "edit" : "create"}
               onClick={() => navigate("/cadastrarPix" + (pix ? `/${pix?._id}` : ""))}
             >
               {pix ? (
