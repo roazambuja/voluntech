@@ -29,7 +29,7 @@ function ProjectList({ id }: ProjectListProps): JSX.Element {
 
   useEffect(() => {
     getProjects();
-  }, []);
+  }, [id]);
 
   return (
     <StyledProjectList>

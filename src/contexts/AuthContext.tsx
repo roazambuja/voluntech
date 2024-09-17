@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 import api from "../services/api";
-import { getUser, OrganizationInterface, UserInterface } from "../services/users";
+import { getLoggedUser, OrganizationInterface, UserInterface } from "../services/users";
 
 interface AuthContextData {
   user: null | UserInterface | OrganizationInterface;
@@ -19,12 +19,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<null | UserInterface | OrganizationInterface>(null);
   const [loading, setLoading] = useState(true);
 
-  function getPayload(token: string) {
-    const payloadBase64 = token.split(".")[1];
-    const payloadJson = atob(payloadBase64);
-    return JSON.parse(payloadJson);
-  }
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -34,17 +28,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  async function login(token: string) {
+  async function login(token: string): Promise<string | undefined> {
     setLoading(true);
     api.defaults.headers["Authorization"] = `Bearer ${token}`;
-    let payload = getPayload(token);
 
     try {
-      let { data } = await getUser(payload.user);
+      let { data } = await getLoggedUser();
       if (!localStorage.getItem("token")) {
         localStorage.setItem("token", token);
       }
-      setUser(data.data);
+      setUser(data.user);
+      return data.user._id;
     } catch (error) {
       console.log(error);
     } finally {

@@ -32,3 +32,11 @@ export const getUser = async (id: string) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getLoggedUser = async () => {
+  try {
+    return api.get("/users");
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};

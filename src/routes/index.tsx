@@ -27,7 +27,7 @@ function AppRoutes(): JSX.Element {
         </Route>
         <Route element={<MainLayout type="private" />}>
           <Route path="/cadastrarProjeto" element={<PrivateRoute Item={CreateProject} />} />
-          <Route path="/perfil" element={<PrivateRoute Item={Profile} />} />
+          <Route path="/perfil/:id" element={<PrivateRoute Item={Profile} />} />
           <Route path="/projeto/:id" element={<PrivateRoute Item={ProjectDetails} />} />
           <Route path="/configuracoes" element={<PrivateRoute Item={Configurations} />} />
           <Route path="/cadastrarPix" element={<PrivateRoute Item={Pix} />} />

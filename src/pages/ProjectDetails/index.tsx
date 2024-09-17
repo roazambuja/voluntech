@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Paper, Text, Title } from "../../styles/global";
+import { Link, Paper, Text, Title } from "../../styles/global";
 import { useEffect, useState } from "react";
 import { getProjectById, ProjectInterface } from "../../services/project";
 import { Loader } from "../../components/Loader";
@@ -54,7 +54,12 @@ function ProjectDetails(): JSX.Element {
           <InformationsArea>
             <TitleArea>
               <Title>{project?.title}</Title>
-              <Text>Projeto de {project?.organization.name}</Text>
+              <Text>
+                Projeto de{" "}
+                <Link to={`/perfil/${project?.organization._id}`}>
+                  {project?.organization.name}
+                </Link>
+              </Text>
             </TitleArea>
             <Divider />
             <Text>{project?.description}</Text>
