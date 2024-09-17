@@ -31,6 +31,10 @@ const Button = styled.button<ButtonProps>`
           padding: "4px 10px 4px 10px",
           width: "fit-content",
           whiteSpace: "nowrap",
+          backgroundColor:
+            props.mode === "edit"
+              ? `${props.theme.colors.SECONDARY}`
+              : `${props.theme.colors.PRIMARY}`,
         }
       : {
           color: `${props.theme.colors.WHITE}`,
