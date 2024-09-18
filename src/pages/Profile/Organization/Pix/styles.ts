@@ -14,6 +14,10 @@ const CustomText = styled(Text)`
   display: flex;
   font-size: 18px;
   gap: 8px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.MOBILE}) {
+    font-size: 16px;
+  }
 `;
 
 const CopyIcon = styled(Copy)`
