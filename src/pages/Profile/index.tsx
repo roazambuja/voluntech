@@ -7,9 +7,10 @@ import { Divider } from "../../components/Divider";
 import { Button } from "../../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { Screen } from "../../pages/MainLayout/styles";
-import { ProjectList } from "./ProjectList";
+import { ProjectList } from "./Organization/ProjectList";
 import { getUser, OrganizationInterface, UserInterface } from "../../services/users";
 import { useAuth } from "../../contexts/AuthContext";
+import { getSocialMediaByUser, SocialMediaInterface } from "../../services/socialMedia";
 
 function Profile(): JSX.Element {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ function Profile(): JSX.Element {
   const [address, setAddress] = useState<AddressInterface>();
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<UserInterface | OrganizationInterface | null>(null);
+  const [socialMedia, setSocialMedia] = useState<SocialMediaInterface>();
 
   async function getUserInformations() {
     try {
@@ -50,9 +52,25 @@ function Profile(): JSX.Element {
     }
   }
 
+  async function getSocialMedia() {
+    try {
+      setLoading(true);
+      if (id) {
+        let response = await getSocialMediaByUser(id);
+        const { socialMedia } = response.data;
+        setSocialMedia(socialMedia);
+      }
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     getUserInformations();
     getAddress();
+    getSocialMedia();
   }, [id]);
 
   return (
@@ -63,7 +81,7 @@ function Profile(): JSX.Element {
         </Screen>
       ) : (
         <>
-          <Informations user={user} address={address} />
+          <Informations user={user} address={address} socialMedia={socialMedia} />
           {user?.role === "Organização" && (
             <ProjectArea>
               <FeedHeader>

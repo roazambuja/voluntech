@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getUserProjects, ProjectInterface } from "../../../services/project";
-import { Loader } from "../../../components/Loader";
+import { getUserProjects, ProjectInterface } from "../../../../services/project";
+import { Loader } from "../../../../components/Loader";
 import { ProjectList as StyledProjectList } from "./styles";
 import { Project } from "./Project";
-import { Text } from "../../../styles/global";
+import { Text } from "../../../../styles/global";
 
 interface ProjectListProps {
   id: string;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Paper } from "../../../../styles/global";
+import { Paper } from "../../../../../styles/global";
 import { ChevronRight } from "react-feather";
 
 const CustomPaper = styled(Paper)`
