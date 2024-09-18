@@ -6,14 +6,17 @@ import { Picture } from "../../../components/Picture";
 import { AddressInterface } from "../../../services/address";
 import { SocialMedia } from "../Organization/SocialMedia";
 import { SocialMediaInterface } from "../../../services/socialMedia";
+import { PixInterface } from "../../../services/pix";
+import { Pix } from "../Organization/Pix";
 
 interface InformationsProps {
   user: UserInterface | OrganizationInterface | null;
   address: AddressInterface | undefined;
   socialMedia: SocialMediaInterface | undefined;
+  pix: PixInterface | undefined;
 }
 
-function Informations({ address, user, socialMedia }: InformationsProps): JSX.Element {
+function Informations({ address, user, socialMedia, pix }: InformationsProps): JSX.Element {
   return (
     <Paper>
       <ProfileHeader>
@@ -42,6 +45,7 @@ function Informations({ address, user, socialMedia }: InformationsProps): JSX.El
           </Text>
         </LocationArea>
         <SocialMedia socialMedia={socialMedia} />
+        <Pix pix={pix} />
       </DescriptionArea>
     </Paper>
   );

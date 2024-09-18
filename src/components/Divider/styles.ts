@@ -17,6 +17,7 @@ const Text = styled.p`
   font-size: 12px;
   font-family: "Roboto", sans-serif;
   margin: 0 8px 0 8px;
+  white-space: nowrap;
 `;
 
 export { Container, Line, Text };
