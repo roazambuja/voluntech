@@ -11,6 +11,7 @@ import { ProjectList } from "./Organization/ProjectList";
 import { getUser, OrganizationInterface, UserInterface } from "../../services/users";
 import { useAuth } from "../../contexts/AuthContext";
 import { getSocialMediaByUser, SocialMediaInterface } from "../../services/socialMedia";
+import { getPixByUser, PixInterface } from "../../services/pix";
 
 function Profile(): JSX.Element {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ function Profile(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [user, setUser] = useState<UserInterface | OrganizationInterface | null>(null);
   const [socialMedia, setSocialMedia] = useState<SocialMediaInterface>();
+  const [pix, setPix] = useState<PixInterface>();
 
   async function getUserInformations() {
     try {
@@ -67,10 +69,26 @@ function Profile(): JSX.Element {
     }
   }
 
+  async function getPix() {
+    try {
+      setLoading(true);
+      if (id) {
+        let response = await getPixByUser(id);
+        const { pix } = response.data;
+        setPix(pix);
+      }
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     getUserInformations();
     getAddress();
     getSocialMedia();
+    getPix();
   }, [id]);
 
   return (
@@ -81,7 +99,7 @@ function Profile(): JSX.Element {
         </Screen>
       ) : (
         <>
-          <Informations user={user} address={address} socialMedia={socialMedia} />
+          <Informations user={user} address={address} socialMedia={socialMedia} pix={pix} />
           {user?.role === "Organização" && (
             <ProjectArea>
               <FeedHeader>
