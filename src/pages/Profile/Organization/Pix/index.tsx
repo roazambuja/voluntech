@@ -1,8 +1,8 @@
-import { Copy } from "react-feather";
 import { Divider } from "../../../../components/Divider";
 import { PixInterface } from "../../../../services/pix";
 import { Text } from "../../../../styles/global";
 import { CopyIcon, CustomText, PixArea } from "./styles";
+import { keyTypeLabels } from "../../../Organizations/Pix";
 
 interface PixProps {
   pix: PixInterface | undefined;
@@ -27,7 +27,7 @@ function Pix({ pix }: PixProps): JSX.Element {
           <Divider text="chave PIX" />
           <PixArea>
             <CustomText onClick={copyKey} title="Copiar chave PIX">
-              {pix.type}: {pix.key}
+              {keyTypeLabels[pix.type]}: {pix.key}
               <CopyIcon />
             </CustomText>
             <Text>
