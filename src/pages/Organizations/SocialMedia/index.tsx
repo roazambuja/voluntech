@@ -11,6 +11,7 @@ import {
   updateSocialMedia,
 } from "../../../services/socialMedia";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
 
 function SocialMedia(): JSX.Element {
   const [whatsapp, setWhatsapp] = useState<string>();
@@ -23,6 +24,7 @@ function SocialMedia(): JSX.Element {
   const [message, setMessage] = useState<string>();
 
   const { id } = useParams();
+  const { user } = useAuth();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -80,6 +82,8 @@ function SocialMedia(): JSX.Element {
     <Paper>
       {loading ? (
         <Loader />
+      ) : user?.role === "Voluntário" ? (
+        <Message error={true} message="Você não possui permissão para acessar essa página." />
       ) : !message ? (
         <Form onSubmit={handleSubmit}>
           <Title>Redes Sociais</Title>

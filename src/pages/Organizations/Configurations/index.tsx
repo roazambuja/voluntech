@@ -1,6 +1,6 @@
 import { Plus, Edit3 } from "react-feather";
 import { Button } from "../../../components/Button";
-import { Text } from "../../../styles/global";
+import { Text, Paper as GlobalPaper } from "../../../styles/global";
 import { ConfigSection, CustomPaper as Paper, CustomTitle as Title, TextArea } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import { keyTypeLabels } from "../Pix";
 import { getSocialMediaByUser, SocialMediaInterface } from "../../../services/socialMedia";
 import { listSocialMedia } from "../../../utils/listSocialMedia";
 import { Loader } from "../../../components/Loader";
+import { Message } from "../../../components/Message";
 
 function Configurations(): JSX.Element {
   const navigate = useNavigate();
@@ -62,7 +63,11 @@ function Configurations(): JSX.Element {
     getSocialMedia();
   }, []);
 
-  return (
+  return user?.role === "Voluntário" ? (
+    <GlobalPaper>
+      <Message error={true} message="Você não possui permissão para acessar essa página." />
+    </GlobalPaper>
+  ) : (
     <Paper>
       {loading ? (
         <Loader />
