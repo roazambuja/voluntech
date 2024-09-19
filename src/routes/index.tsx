@@ -11,6 +11,7 @@ import ProjectDetails from "../pages/ProjectDetails";
 import Configurations from "../pages/Organizations/Configurations";
 import Pix from "../pages/Organizations/Pix";
 import SocialMedia from "../pages/Organizations/SocialMedia";
+import CreateVolunteering from "../pages/Organizations/CreateVolunteering";
 
 export interface CustomRouteProps {
   Item: React.ComponentType;
@@ -27,6 +28,10 @@ function AppRoutes(): JSX.Element {
         </Route>
         <Route element={<MainLayout type="private" />}>
           <Route path="/cadastrarProjeto" element={<PrivateRoute Item={CreateProject} />} />
+          <Route
+            path="/cadastrarVoluntariado"
+            element={<PrivateRoute Item={CreateVolunteering} />}
+          />
           <Route path="/perfil/:id" element={<PrivateRoute Item={Profile} />} />
           <Route path="/projeto/:id" element={<PrivateRoute Item={ProjectDetails} />} />
           <Route path="/configuracoes" element={<PrivateRoute Item={Configurations} />} />
