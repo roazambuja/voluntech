@@ -7,7 +7,7 @@ export interface SocialMediaInterface {
   instagram?: string;
   facebook?: string;
   tiktok?: string;
-  organization?: OrganizationInterface;
+  user?: OrganizationInterface;
 }
 
 export const createSocialMedia = async (payload: SocialMediaInterface) => {

@@ -12,12 +12,15 @@ import {
 } from "../../../services/socialMedia";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
+import { OrganizationInterface } from "../../../services/users";
 
 function SocialMedia(): JSX.Element {
   const [whatsapp, setWhatsapp] = useState<string>();
   const [instagram, setInstagram] = useState<string>();
   const [facebook, setFacebook] = useState<string>();
   const [tiktok, setTiktok] = useState<string>();
+
+  const [owner, setOwner] = useState<OrganizationInterface>();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -63,6 +66,7 @@ function SocialMedia(): JSX.Element {
         setFacebook(socialMedia.facebook);
         setWhatsapp(socialMedia.whatsapp);
         setTiktok(socialMedia.tiktok);
+        setOwner(socialMedia.user);
       }
     } catch {
       setError(true);
@@ -82,7 +86,7 @@ function SocialMedia(): JSX.Element {
     <Paper>
       {loading ? (
         <Loader />
-      ) : user?.role === "Voluntário" ? (
+      ) : user?.role === "Voluntário" || user?._id != owner ? (
         <Message error={true} message="Você não possui permissão para acessar essa página." />
       ) : !message ? (
         <Form onSubmit={handleSubmit}>

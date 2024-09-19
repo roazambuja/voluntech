@@ -15,7 +15,7 @@ export interface PixInterface {
   name: string;
   key: string;
   bank: string;
-  organization?: OrganizationInterface;
+  user?: OrganizationInterface;
 }
 
 export const createPixKey = async (payload: PixInterface) => {
