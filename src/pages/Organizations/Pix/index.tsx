@@ -15,6 +15,7 @@ import { Message } from "../../../components/Message";
 import { handleKeyTypeChange } from "../../../utils/handleKeyTypeChange";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
+import { OrganizationInterface } from "../../../services/users";
 
 export const keyTypeLabels: { [key in PixKeyType]: string } = {
   [PixKeyType.Email]: "E-mail",
@@ -30,6 +31,8 @@ function Pix(): JSX.Element {
   const [key, setKey] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [bank, setBank] = useState<string>("");
+
+  const [owner, setOwner] = useState<OrganizationInterface>();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -50,6 +53,8 @@ function Pix(): JSX.Element {
         setName(pix.name);
         setKey(pix.key);
         setBank(pix.bank);
+        console.log(pix);
+        setOwner(pix.user);
       }
     } catch {
       setError(true);
@@ -95,7 +100,7 @@ function Pix(): JSX.Element {
     <Paper>
       {loading ? (
         <Loader />
-      ) : user?.role === "Voluntário" ? (
+      ) : user?.role === "Voluntário" || user?._id != owner ? (
         <Message error={true} message="Você não possui permissão para acessar essa página." />
       ) : !message ? (
         <Form onSubmit={handleSubmit}>
