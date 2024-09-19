@@ -49,11 +49,11 @@ const Button = styled.button<ButtonProps>`
   @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
     font-size: 14px;
   }
-
-  svg {
-    width: 13px;
-    height: 13px;
-  }
 `;
 
-export { Button };
+const Icon = styled.svg`
+  width: 13px;
+  height: 13px;
+`;
+
+export { Button, Icon };

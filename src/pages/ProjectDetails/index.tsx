@@ -10,6 +10,7 @@ import { Screen } from "../MainLayout/styles";
 import { FeedHeader, ProjectArea } from "../Profile/styles";
 import { Button } from "../../components/Button";
 import { useAuth } from "../../contexts/AuthContext";
+import { Plus } from "react-feather";
 
 function ProjectDetails(): JSX.Element {
   const { id } = useParams();
@@ -76,7 +77,11 @@ function ProjectDetails(): JSX.Element {
               {loggedUser?._id === project?.organization._id && (
                 <>
                   <Divider />
-                  <Button variant="rounded" onClick={() => navigate("/cadastrarVoluntariado")}>
+                  <Button
+                    variant="rounded"
+                    icon={Plus}
+                    onClick={() => navigate("/cadastrarVoluntariado")}
+                  >
                     Registrar trabalho voluntário
                   </Button>
                 </>
