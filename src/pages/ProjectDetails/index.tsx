@@ -80,7 +80,7 @@ function ProjectDetails(): JSX.Element {
                   <Button
                     variant="rounded"
                     icon={Plus}
-                    onClick={() => navigate("/cadastrarVoluntariado")}
+                    onClick={() => navigate(`/cadastrarVoluntariado/${project?._id}`)}
                   >
                     Registrar trabalho voluntário
                   </Button>

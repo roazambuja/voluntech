@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../../../components/Input";
 import { Form, Paper, Title } from "../../../styles/global";
 import { TextArea } from "../../../components/TextArea";
@@ -6,9 +6,11 @@ import { Button } from "../../../components/Button";
 import { Loader } from "../../../components/Loader";
 import { Message } from "../../../components/Message";
 import { useAuth } from "../../../contexts/AuthContext";
+import { useParams } from "react-router-dom";
 
 function CreateVolunteering(): JSX.Element {
   const { user } = useAuth();
+  const { id: project } = useParams();
 
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState(false);
@@ -17,6 +19,10 @@ function CreateVolunteering(): JSX.Element {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
   }
+
+  useEffect(() => {
+    console.log(project);
+  });
 
   return (
     <Paper>
