@@ -8,9 +8,11 @@ import { createProject } from "../../../services/project";
 import { Loader } from "../../../components/Loader";
 import { Message } from "../../../components/Message";
 import { useAuth } from "../../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function CreateProject(): JSX.Element {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -20,6 +22,7 @@ function CreateProject(): JSX.Element {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [createdId, setCreatedId] = useState();
 
   function handleUpload(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files) {
@@ -51,8 +54,9 @@ function CreateProject(): JSX.Element {
 
     try {
       setLoading(true);
-      let response = await createProject(formData);
-      setMessage(response.data.message);
+      let { data } = await createProject(formData);
+      setCreatedId(data.data._id);
+      setMessage(data.message);
     } catch (error: any) {
       setMessage("Ocorreu um erro ao cadastrar seu projeto. Tente novamente.");
       setError(true);
@@ -97,7 +101,12 @@ function CreateProject(): JSX.Element {
             </Form>
           </>
         ) : (
-          <Message error={error} message={message} buttonText="Visualizar projeto" />
+          <Message
+            error={error}
+            message={message}
+            buttonText="Visualizar projeto"
+            click={() => navigate(`/projeto/${createdId}`)}
+          />
         )
       ) : (
         <Message error={true} message="Você não possui permissão para acessar essa página." />
