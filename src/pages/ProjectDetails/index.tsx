@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link, Paper, Text, Title } from "../../styles/global";
 import { useEffect, useState } from "react";
 import { getProjectById, ProjectInterface } from "../../services/project";
@@ -7,9 +7,15 @@ import { Message } from "../../components/Message";
 import { Divider } from "../../components/Divider";
 import { CustomPaper, DefaultHeader, HeaderImage, InformationsArea, TitleArea } from "./styles";
 import { Screen } from "../MainLayout/styles";
+import { FeedHeader, ProjectArea } from "../Profile/styles";
+import { Button } from "../../components/Button";
+import { useAuth } from "../../contexts/AuthContext";
+import { Plus } from "react-feather";
 
 function ProjectDetails(): JSX.Element {
   const { id } = useParams();
+  const { user: loggedUser } = useAuth();
+  const navigate = useNavigate();
 
   const [project, setProject] = useState<ProjectInterface>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -43,28 +49,46 @@ function ProjectDetails(): JSX.Element {
           <Message message={message} error={true} />
         </Paper>
       ) : (
-        <CustomPaper>
-          {project?.headerPicture ? (
-            <HeaderImage
-              src={`${process.env.REACT_APP_CLOUDINARY_URL}${project.headerPicture.publicId}`}
-            />
-          ) : (
-            <DefaultHeader />
-          )}
-          <InformationsArea>
-            <TitleArea>
-              <Title>{project?.title}</Title>
-              <Text>
-                Projeto de{" "}
-                <Link to={`/perfil/${project?.organization._id}`}>
-                  {project?.organization.name}
-                </Link>
-              </Text>
-            </TitleArea>
-            <Divider />
-            <Text>{project?.description}</Text>
-          </InformationsArea>
-        </CustomPaper>
+        <>
+          <CustomPaper>
+            {project?.headerPicture ? (
+              <HeaderImage
+                src={`${process.env.REACT_APP_CLOUDINARY_URL}${project.headerPicture.publicId}`}
+              />
+            ) : (
+              <DefaultHeader />
+            )}
+            <InformationsArea>
+              <TitleArea>
+                <Title>{project?.title}</Title>
+                <Text>
+                  Projeto de{" "}
+                  <Link to={`/perfil/${project?.organization._id}`}>
+                    {project?.organization.name}
+                  </Link>
+                </Text>
+              </TitleArea>
+              <Divider />
+              <Text>{project?.description}</Text>
+            </InformationsArea>
+          </CustomPaper>
+          <ProjectArea>
+            <FeedHeader>
+              {loggedUser?._id === project?.organization._id && (
+                <>
+                  <Divider />
+                  <Button
+                    variant="rounded"
+                    icon={Plus}
+                    onClick={() => navigate(`/cadastrarVoluntariado/${project?._id}`)}
+                  >
+                    Registrar trabalho voluntário
+                  </Button>
+                </>
+              )}
+            </FeedHeader>
+          </ProjectArea>
+        </>
       )}
     </>
   );

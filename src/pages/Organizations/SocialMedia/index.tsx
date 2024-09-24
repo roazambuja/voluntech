@@ -95,6 +95,8 @@ function SocialMedia(): JSX.Element {
             placeholder="51999999999"
             label="WhatsApp"
             id="whatsapp"
+            pattern="^\d{11}$"
+            title="O campo deve ter 11 caracteres (apenas números)."
             value={whatsapp}
             onChange={(e) => setWhatsapp(e.target.value)}
           />

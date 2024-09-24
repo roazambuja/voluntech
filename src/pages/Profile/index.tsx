@@ -12,6 +12,7 @@ import { getUser, OrganizationInterface, UserInterface } from "../../services/us
 import { useAuth } from "../../contexts/AuthContext";
 import { getSocialMediaByUser, SocialMediaInterface } from "../../services/socialMedia";
 import { getPixByUser, PixInterface } from "../../services/pix";
+import { Plus } from "react-feather";
 
 function Profile(): JSX.Element {
   const navigate = useNavigate();
@@ -106,7 +107,11 @@ function Profile(): JSX.Element {
                 <Text>{loggedUser?._id === user._id ? "Seus projetos" : "Projetos"}</Text>
                 <Divider />
                 {loggedUser?._id === user._id && (
-                  <Button variant="rounded" onClick={() => navigate("/cadastrarProjeto")}>
+                  <Button
+                    variant="rounded"
+                    icon={Plus}
+                    onClick={() => navigate("/cadastrarProjeto")}
+                  >
                     Criar projeto
                   </Button>
                 )}

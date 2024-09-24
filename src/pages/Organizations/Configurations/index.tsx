@@ -81,21 +81,12 @@ function Configurations(): JSX.Element {
             <Button
               variant="rounded"
               mode={socialMedia ? "edit" : "create"}
+              icon={socialMedia ? Edit3 : Plus}
               onClick={() =>
                 navigate("/cadastrarRedesSociais" + (socialMedia ? `/${socialMedia?._id}` : ""))
               }
             >
-              {socialMedia ? (
-                <>
-                  <Edit3 strokeWidth={3} />
-                  Editar
-                </>
-              ) : (
-                <>
-                  <Plus strokeWidth={3} />
-                  Cadastrar
-                </>
-              )}
+              {socialMedia ? "Editar" : "Cadastrar"}
             </Button>
           </ConfigSection>
           <ConfigSection>
@@ -106,19 +97,10 @@ function Configurations(): JSX.Element {
             <Button
               variant="rounded"
               mode={pix ? "edit" : "create"}
+              icon={pix ? Edit3 : Plus}
               onClick={() => navigate("/cadastrarPix" + (pix ? `/${pix?._id}` : ""))}
             >
-              {pix ? (
-                <>
-                  <Edit3 strokeWidth={3} />
-                  Editar
-                </>
-              ) : (
-                <>
-                  <Plus strokeWidth={3} />
-                  Cadastrar
-                </>
-              )}
+              {pix ? "Editar" : "Cadastrar"}
             </Button>
           </ConfigSection>
         </>
