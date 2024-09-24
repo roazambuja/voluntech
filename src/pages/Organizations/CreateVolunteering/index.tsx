@@ -11,7 +11,8 @@ import { getProjectById, ProjectInterface } from "../../../services/project";
 import { RadioInput } from "../../../components/RadioInput";
 import { Stepper } from "../../../components/Stepper";
 import { ButtonArea, TitleArea } from "../../SignUp/styles";
-import { createVolunteering, VolunteeringInterface } from "../../../services/volunteering";
+import { createVolunteering } from "../../../services/volunteering";
+import { getSocialMediaByUser } from "../../../services/socialMedia";
 
 function CreateVolunteering(): JSX.Element {
   const { user } = useAuth();
@@ -89,9 +90,23 @@ function CreateVolunteering(): JSX.Element {
       let response = await getProjectById(projectId!);
       const { project } = response.data;
       setProject(project);
+      getSocialMedia(project.organization._id);
     } catch (error: any) {
       setError(true);
       setMessage("Não foi possível exibir os dados do projeto. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function getSocialMedia(id: string) {
+    try {
+      setLoading(true);
+      let { data } = await getSocialMediaByUser(id);
+      if (data.socialMedia) {
+        setWhatsapp(data.socialMedia.whatsapp);
+      }
+    } catch {
     } finally {
       setLoading(false);
     }
