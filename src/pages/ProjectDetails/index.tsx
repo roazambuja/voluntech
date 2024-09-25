@@ -5,12 +5,21 @@ import { getProjectById, ProjectInterface } from "../../services/project";
 import { Loader } from "../../components/Loader";
 import { Message } from "../../components/Message";
 import { Divider } from "../../components/Divider";
-import { CustomPaper, DefaultHeader, HeaderImage, InformationsArea, TitleArea } from "./styles";
+import {
+  CustomPaper,
+  DefaultHeader,
+  HeaderImage,
+  InformationsArea,
+  TitleArea,
+  VolunteeringList,
+} from "./styles";
 import { Screen } from "../MainLayout/styles";
 import { FeedHeader, ProjectArea } from "../Profile/styles";
 import { Button } from "../../components/Button";
 import { useAuth } from "../../contexts/AuthContext";
 import { Plus } from "react-feather";
+import { VolunteeringCard } from "../../components/VolunteeringCard";
+import { getProjectVolunteering, VolunteeringInterface } from "../../services/volunteering";
 
 function ProjectDetails(): JSX.Element {
   const { id } = useParams();
@@ -18,6 +27,7 @@ function ProjectDetails(): JSX.Element {
   const navigate = useNavigate();
 
   const [project, setProject] = useState<ProjectInterface>();
+  const [volunteering, setVolunteering] = useState<VolunteeringInterface[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
 
@@ -27,6 +37,20 @@ function ProjectDetails(): JSX.Element {
       let response = await getProjectById(id!);
       const { project } = response.data;
       setProject(project);
+      getVolunteering(project._id);
+    } catch (error: any) {
+      setMessage("Não foi possível exibir os dados do projeto. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function getVolunteering(projectdId: string) {
+    try {
+      setLoading(true);
+      let response = await getProjectVolunteering(projectdId);
+      const { volunteering } = response.data;
+      setVolunteering(volunteering);
     } catch (error: any) {
       setMessage("Não foi possível exibir os dados do projeto. Tente novamente.");
     } finally {
@@ -70,6 +94,12 @@ function ProjectDetails(): JSX.Element {
               </TitleArea>
               <Divider />
               <Text>{project?.description}</Text>
+              <Divider />
+              <VolunteeringList>
+                {volunteering?.map((item, key) => {
+                  return <VolunteeringCard key={key} title={item.category} />;
+                })}
+              </VolunteeringList>
             </InformationsArea>
           </CustomPaper>
           <ProjectArea>
