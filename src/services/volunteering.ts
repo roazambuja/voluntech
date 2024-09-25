@@ -16,3 +16,11 @@ export const createVolunteering = async (payload: VolunteeringInterface) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getProjectVolunteering = async (id: string) => {
+  try {
+    return api.get(`/volunteering/project/${id}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};

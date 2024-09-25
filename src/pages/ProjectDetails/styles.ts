@@ -35,4 +35,27 @@ const TitleArea = styled.div`
   gap: 4px;
 `;
 
-export { CustomPaper, HeaderImage, DefaultHeader, InformationsArea, TitleArea };
+const VolunteeringList = styled.div`
+  display: flex;
+  height: fit-content;
+  gap: 8px;
+  overflow: auto;
+  padding-bottom: 10px;
+  scroll-behavior: inherit;
+
+  &::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 24px;
+    background: ${(props) => props.theme.colors.PRIMARY_LIGHT};
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 24px;
+    background-color: ${(props) => props.theme.colors.LIGHT};
+  }
+`;
+
+export { CustomPaper, HeaderImage, DefaultHeader, InformationsArea, TitleArea, VolunteeringList };
