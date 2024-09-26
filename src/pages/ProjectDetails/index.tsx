@@ -94,12 +94,16 @@ function ProjectDetails(): JSX.Element {
               </TitleArea>
               <Divider />
               <Text>{project?.description}</Text>
-              <Divider />
-              <VolunteeringList>
-                {volunteering?.map((item, key) => {
-                  return <VolunteeringCard key={key} title={item.category} />;
-                })}
-              </VolunteeringList>
+              {volunteering && volunteering.length > 0 && (
+                <>
+                  <Divider text="necessidades" />
+                  <VolunteeringList>
+                    {volunteering?.map((item, key) => {
+                      return <VolunteeringCard key={key} volunteeringData={item} />;
+                    })}
+                  </VolunteeringList>
+                </>
+              )}
             </InformationsArea>
           </CustomPaper>
           <ProjectArea>
