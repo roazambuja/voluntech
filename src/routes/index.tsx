@@ -12,7 +12,7 @@ import Configurations from "../pages/Organizations/Configurations";
 import Pix from "../pages/Organizations/Pix";
 import SocialMedia from "../pages/Organizations/SocialMedia";
 import CreateVolunteering from "../pages/Organizations/CreateVolunteering";
-
+import Home from "../pages/Home";
 export interface CustomRouteProps {
   Item: React.ComponentType;
 }
@@ -39,6 +39,7 @@ function AppRoutes(): JSX.Element {
           <Route path="/cadastrarPix/:id" element={<PrivateRoute Item={Pix} />} />
           <Route path="/cadastrarRedesSociais" element={<PrivateRoute Item={SocialMedia} />} />
           <Route path="/cadastrarRedesSociais/:id" element={<PrivateRoute Item={SocialMedia} />} />
+          <Route path="/home" element={<PrivateRoute Item={Home} />} />
         </Route>
       </Routes>
     </BrowserRouter>
