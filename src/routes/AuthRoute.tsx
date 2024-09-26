@@ -6,7 +6,7 @@ import { Loader } from "../components/Loader";
 function AuthRoute({ Item }: CustomRouteProps): JSX.Element {
   const { user, loading } = useAuth();
 
-  return loading ? <Loader /> : !user ? <Item /> : <Navigate to={`/perfil/${user?._id}`} />;
+  return loading ? <Loader /> : !user ? <Item /> : <Navigate to={"/home"} />;
 }
 
 export { AuthRoute };
