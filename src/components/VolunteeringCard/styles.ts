@@ -6,6 +6,7 @@ const Card = styled.button<{ color: string }>`
   height: fit-content;
   white-space: nowrap;
   gap: 6px;
+  cursor: pointer;
   color: ${(props) => props.theme.colors.WHITE};
   align-items: center;
   font-size: 16px;
