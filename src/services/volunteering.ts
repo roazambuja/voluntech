@@ -24,3 +24,11 @@ export const getProjectVolunteering = async (id: string) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getVolunteering = async (id: string) => {
+  try {
+    return api.get(`/volunteering/${id}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
