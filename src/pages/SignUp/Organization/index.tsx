@@ -14,6 +14,22 @@ interface OrganizationProps {
   previousStep: () => void;
 }
 
+export const causes = [
+  "Apoio a Pessoas com Deficiência",
+  "Combate à pobreza",
+  "Comunidade LGBTQIA+",
+  "Defesa dos animais",
+  "Direitos das Crianças e Adolescentes",
+  "Direitos dos idosos",
+  "Educação",
+  "Igualdade de Gênero",
+  "Promoção da Cultura",
+  "Proteção Ambiental",
+  "Saúde",
+  "Segurança Alimentar",
+  "Outro",
+];
+
 function Organization({
   cause,
   setCause,
@@ -23,21 +39,6 @@ function Organization({
   setDescription,
   previousStep,
 }: OrganizationProps): JSX.Element {
-  const causes = [
-    "Apoio a Pessoas com Deficiência",
-    "Combate à pobreza",
-    "Comunidade LGBTQIA+",
-    "Defesa dos animais",
-    "Direitos das Crianças e Adolescentes",
-    "Direitos dos idosos",
-    "Educação",
-    "Igualdade de Gênero",
-    "Promoção da Cultura",
-    "Proteção Ambiental",
-    "Saúde",
-    "Segurança Alimentar",
-    "Outro",
-  ];
   return (
     <>
       <RadioInput
