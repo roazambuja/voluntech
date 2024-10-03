@@ -1,67 +1,94 @@
 import { useState } from "react";
-import { Filters, SearchInput, Search as SearchArea, FilterButton } from "./styles";
-import { Search } from "react-feather";
+import { SearchInput, Search as SearchArea, ChangePage, ChangePageButton } from "./styles";
+import { ChevronLeft, ChevronRight, Search } from "react-feather";
+import { searchAll, SearchInterface } from "../../services/search";
+import { Loader } from "../../components/Loader";
+import { Text } from "../../styles/global";
+import { Datalist } from "./datalist";
+import SearchResults from "./SearchResults";
 
 function Home(): JSX.Element {
-  const [search, setSearch] = useState<string>();
-  const [filter, setFilter] = useState<
-    "all" | "projects" | "organizations" | "volunteering" | "city"
-  >("all");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
 
-  function handleSearch(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    console.log(search);
+  const [search, setSearch] = useState<string>("");
+  const [searchResponse, setSearchResponse] = useState<SearchInterface>();
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(10);
+
+  async function handleSearch(page: number = 1) {
+    try {
+      setLoading(true);
+      let response = await searchAll(`${search}&page=${page}&limit=${itemsPerPage}`);
+      const { data, pagination } = response.data;
+      setSearchResponse(data);
+      setTotalPages(pagination.totalPages);
+    } catch (error: any) {
+      setErrorMessage("Ocorreu um erro ao realizar a busca.");
+    } finally {
+      setLoading(false);
+    }
   }
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+      handleSearch(newPage);
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setCurrentPage(1);
+    handleSearch();
+  };
 
   return (
     <>
-      <SearchArea onSubmit={handleSearch}>
+      <SearchArea onSubmit={handleSubmit}>
         <Search />
         <SearchInput
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          list={filter === "volunteering" ? "categories" : ""}
+          list="categories"
           placeholder="Buscar"
         />
       </SearchArea>
-      <datalist id="categories">
-        <option value="Apoio psicológico">Apoio psicológico</option>
-        <option value="Aulas">Aulas</option>
-        <option value="Comunicação">Comunicação</option>
-        <option value="Cozinha">Cozinha</option>
-        <option value="Cuidados médicos">Cuidados médicos</option>
-        <option value="Distribuição de materiais">Distribuição de materiais</option>
-        <option value="Doação financeira">Doação financeira</option>
-        <option value="Entretenimento">Entretenimento</option>
-        <option value="Lar Temporário">Lar Temporário</option>
-        <option value="Limpeza">Limpeza</option>
-        <option value="Logística">Logística</option>
-        <option value="Trabalho Manual">Trabalho Manual</option>
-        <option value="Transporte">Transporte</option>
-        <option value="Triagem de doações">Triagem de doações</option>
-        <option value="Veterinário">Veterinário</option>
-      </datalist>
-      <Filters>
-        <FilterButton selected={filter === "projects"} onClick={() => setFilter("projects")}>
-          Projetos
-        </FilterButton>
-        <FilterButton
-          selected={filter === "organizations"}
-          onClick={() => setFilter("organizations")}
-        >
-          Organizações
-        </FilterButton>
-        <FilterButton selected={filter === "city"} onClick={() => setFilter("city")}>
-          Cidade
-        </FilterButton>
-        <FilterButton
-          selected={filter === "volunteering"}
-          onClick={() => setFilter("volunteering")}
-        >
-          Voluntariado
-        </FilterButton>
-      </Filters>
+      <Datalist />
+
+      {loading ? (
+        <Loader />
+      ) : errorMessage ? (
+        <Text>{errorMessage}</Text>
+      ) : (
+        searchResponse && (
+          <>
+            <SearchResults data={searchResponse} />
+            <ChangePage>
+              <ChangePageButton
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <ChevronLeft />
+                Anterior
+              </ChangePageButton>
+              <span>
+                {currentPage} / {totalPages}
+              </span>
+              <ChangePageButton
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Próxima
+                <ChevronRight />
+              </ChangePageButton>
+            </ChangePage>
+          </>
+        )
+      )}
     </>
   );
 }

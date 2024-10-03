@@ -36,42 +36,32 @@ const SearchInput = styled.input`
   width: 100%;
 `;
 
-const Filters = styled.div`
+const ChangePage = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 500px;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
-    width: 70%;
-  }
-
-  @media (max-width: ${(props) => props.theme.breakpoints.MOBILE}) {
-    width: 85%;
-  }
+  align-items: center;
+  margin-bottom: 32px;
 `;
 
-const FilterButton = styled.button<{ selected: boolean }>`
-  background: none;
+const ChangePageButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
-  color: ${(props) => props.theme.colors.GREY};
-  font-weight: 500;
-  font-size: 16px;
-  font-family: "Roboto", sans-serif;
-  padding: 4px 8px;
+  background: none;
+  color: ${(props) => props.theme.colors.BLACK};
   cursor: pointer;
 
-  &:hover {
-    color: ${(props) => !props.selected && props.theme.colors.BLACK};
-    background-color: ${(props) => props.selected && props.theme.colors.PRIMARY_DARK};
+  svg {
+    color: ${(props) => props.theme.colors.SECONDARY};
   }
 
-  ${(props) =>
-    props.selected &&
-    `
-    background-color: ${props.theme.colors.PRIMARY_LIGHT};
-    color: white;
-    border-radius: 16px;
-  `}
-`;
+  &:disabled {
+    color: ${(props) => props.theme.colors.LIGHT_GREY};
+    cursor: auto;
 
-export { Search, SearchInput, Filters, FilterButton };
+    svg {
+      color: ${(props) => props.theme.colors.LIGHT_GREY};
+    }
+  }
+`;
+export { Search, SearchInput, ChangePage, ChangePageButton };
