@@ -55,7 +55,7 @@ const volunteering: VolunteeringProps[] = [
     color: theme.colors.PRIMARY,
   },
   {
-    category: "Doação Financeira",
+    category: "Doação financeira",
     icon: FaDonate,
     color: "#0DD746",
   },

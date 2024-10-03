@@ -17,6 +17,11 @@ const Picture = styled.div<PictureProps>`
       ? {
           width: "80px",
         }
+      : props.variant === "mini"
+      ? {
+          width: "50px",
+          height: "50px",
+        }
       : {
           width: "100%",
         }}
@@ -25,9 +30,14 @@ const Picture = styled.div<PictureProps>`
     height: 70px;
 
     ${(props) =>
-      props.variant === "profile" && {
-        width: "70px",
-      }}
+      props.variant === "profile"
+        ? {
+            width: "70px",
+          }
+        : props.variant === "mini" && {
+            width: "50px",
+            height: "50px",
+          }}
   }
 `;
 

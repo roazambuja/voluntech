@@ -1,9 +1,11 @@
 import api from "./api";
+import { OrganizationInterface, UserInterface } from "./users";
 
 export interface AddressInterface {
   id: string;
   city: string;
   state: string;
+  user: UserInterface | OrganizationInterface;
 }
 
 export const getUserAddress = async (userId: string) => {
