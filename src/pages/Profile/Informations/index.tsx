@@ -8,6 +8,8 @@ import { SocialMedia } from "../Organization/SocialMedia";
 import { SocialMediaInterface } from "../../../services/socialMedia";
 import { PixInterface } from "../../../services/pix";
 import { Pix } from "../Organization/Pix";
+import { Button } from "../../../components/Button";
+import { useAuth } from "../../../contexts/AuthContext";
 
 interface InformationsProps {
   user: UserInterface | OrganizationInterface | null;
@@ -17,6 +19,8 @@ interface InformationsProps {
 }
 
 function Informations({ address, user, socialMedia, pix }: InformationsProps): JSX.Element {
+  const { user: loggedUser } = useAuth();
+
   return (
     <Paper>
       <ProfileHeader>
@@ -46,6 +50,14 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
         </LocationArea>
         <SocialMedia socialMedia={socialMedia} />
         <Pix pix={pix} />
+        {user?.role === "Organização" &&
+          user._id != loggedUser?._id &&
+          loggedUser?.role === "Voluntário" && (
+            <>
+              <Divider />
+              <Button>Acompanhar</Button>
+            </>
+          )}
       </DescriptionArea>
     </Paper>
   );
