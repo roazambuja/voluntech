@@ -10,8 +10,8 @@ import { PixInterface } from "../../../services/pix";
 import { Pix } from "../Organization/Pix";
 import { Button } from "../../../components/Button";
 import { useAuth } from "../../../contexts/AuthContext";
-import { followOrganization } from "../../../services/follow";
-import { useState } from "react";
+import { alreadyFollows, followOrganization } from "../../../services/follow";
+import { useEffect, useState } from "react";
 import { Loader } from "../../../components/Loader";
 import { theme } from "../../../styles/theme";
 import { Check } from "react-feather";
@@ -26,7 +26,7 @@ interface InformationsProps {
 function Informations({ address, user, socialMedia, pix }: InformationsProps): JSX.Element {
   const { user: loggedUser } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
-  const [follows, setFollows] = useState<boolean>(false);
+  const [follows, setFollows] = useState<boolean>(true);
 
   async function follow() {
     try {
@@ -43,6 +43,24 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
       setLoading(false);
     }
   }
+
+  async function getFollow() {
+    try {
+      if (user?._id) {
+        const { data } = await alreadyFollows(user?._id);
+        console.log(data);
+        setFollows(data.follows);
+      }
+    } catch (error: any) {
+      setFollows(false);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getFollow();
+  });
 
   return (
     <Paper>
