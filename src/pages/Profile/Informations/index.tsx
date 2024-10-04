@@ -51,7 +51,7 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
         <SocialMedia socialMedia={socialMedia} />
         <Pix pix={pix} />
         {user?.role === "Organização" &&
-          user._id != loggedUser?._id &&
+          user._id !== loggedUser?._id &&
           loggedUser?.role === "Voluntário" && (
             <>
               <Divider />
