@@ -14,3 +14,11 @@ export const followOrganization = async (payload: FollowInterface) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const alreadyFollows = async (organization: string) => {
+  try {
+    return api.get(`/follow/${organization}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
