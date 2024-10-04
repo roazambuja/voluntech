@@ -10,6 +10,11 @@ import { PixInterface } from "../../../services/pix";
 import { Pix } from "../Organization/Pix";
 import { Button } from "../../../components/Button";
 import { useAuth } from "../../../contexts/AuthContext";
+import { followOrganization } from "../../../services/follow";
+import { useState } from "react";
+import { Loader } from "../../../components/Loader";
+import { theme } from "../../../styles/theme";
+import { Check } from "react-feather";
 
 interface InformationsProps {
   user: UserInterface | OrganizationInterface | null;
@@ -20,6 +25,24 @@ interface InformationsProps {
 
 function Informations({ address, user, socialMedia, pix }: InformationsProps): JSX.Element {
   const { user: loggedUser } = useAuth();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [follows, setFollows] = useState<boolean>(false);
+
+  async function follow() {
+    try {
+      setLoading(true);
+      const payload = {
+        user: loggedUser as UserInterface,
+        organization: user as OrganizationInterface,
+      };
+      await followOrganization(payload);
+      setFollows(true);
+    } catch (error: any) {
+      alert("Ocorreu um erro ao acompanhar a organização! Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <Paper>
@@ -55,7 +78,15 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
           loggedUser?.role === "Voluntário" && (
             <>
               <Divider />
-              <Button>Acompanhar</Button>
+              <Button onClick={follow} disabled={follows}>
+                {loading ? (
+                  <Loader color={theme.colors.LIGHT} />
+                ) : follows ? (
+                  <Check />
+                ) : (
+                  "Acompanhar"
+                )}
+              </Button>
             </>
           )}
       </DescriptionArea>
