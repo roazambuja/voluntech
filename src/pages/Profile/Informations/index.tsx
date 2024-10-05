@@ -10,11 +10,10 @@ import { PixInterface } from "../../../services/pix";
 import { Pix } from "../Organization/Pix";
 import { Button } from "../../../components/Button";
 import { useAuth } from "../../../contexts/AuthContext";
-import { alreadyFollows, followOrganization } from "../../../services/follow";
+import { alreadyFollows, followOrganization, stopFollowing } from "../../../services/follow";
 import { useEffect, useState } from "react";
 import { Loader } from "../../../components/Loader";
 import { theme } from "../../../styles/theme";
-import { Check } from "react-feather";
 
 interface InformationsProps {
   user: UserInterface | OrganizationInterface | null;
@@ -48,11 +47,24 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
     try {
       if (user?._id) {
         const { data } = await alreadyFollows(user?._id);
-        console.log(data);
         setFollows(data.follows);
       }
     } catch (error: any) {
       setFollows(false);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function unfollow() {
+    setLoading(true);
+    try {
+      if (user?._id) {
+        await stopFollowing(user?._id);
+        setFollows(false);
+      }
+    } catch (error: any) {
+      alert("Ocorreu um erro ao parar de seguir a organização. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -96,11 +108,14 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
           loggedUser?.role === "Voluntário" && (
             <>
               <Divider />
-              <Button onClick={follow} disabled={follows}>
+              <Button
+                onClick={follows ? unfollow : follow}
+                variant={follows ? "secondary" : "primary"}
+              >
                 {loading ? (
-                  <Loader color={theme.colors.LIGHT} />
+                  <Loader color={follows ? theme.colors.SECONDARY : theme.colors.LIGHT} />
                 ) : follows ? (
-                  <Check />
+                  "Parar de acompanhar"
                 ) : (
                   "Acompanhar"
                 )}
