@@ -22,3 +22,11 @@ export const alreadyFollows = async (organization: string) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const stopFollowing = async (organization: string) => {
+  try {
+    return api.delete(`/follow/${organization}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
