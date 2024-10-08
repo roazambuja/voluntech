@@ -19,8 +19,8 @@ const Picture = styled.div<PictureProps>`
         }
       : props.variant === "mini"
       ? {
-          width: "50px",
-          height: "50px",
+          width: "40px",
+          height: "40px",
         }
       : {
           width: "100%",
@@ -35,16 +35,16 @@ const Picture = styled.div<PictureProps>`
             width: "70px",
           }
         : props.variant === "mini" && {
-            width: "50px",
-            height: "50px",
+            width: "40px",
+            height: "40px",
           }}
   }
 `;
 
-const UserIcon = styled(User)`
+const UserIcon = styled(User)<{ mini: boolean }>`
   color: ${(props) => props.theme.colors.WHITE};
-  width: 50px;
-  height: 50px;
+  width: ${(props) => (props.mini ? "30px" : "50px")};
+  height: ${(props) => (props.mini ? "30px" : "50px")};
 `;
 
 const ImageIcon = styled(Image)`
