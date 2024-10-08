@@ -23,7 +23,7 @@ function PaginationButtons({
       <span>
         {current} / {total}
       </span>
-      <ChangePageButton onClick={forwardFunction} disabled={current === total}>
+      <ChangePageButton onClick={forwardFunction} disabled={current === total || total === 0}>
         Próxima
         <ChevronRight />
       </ChangePageButton>
