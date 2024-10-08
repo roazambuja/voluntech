@@ -12,7 +12,7 @@ function Picture({ variant, ...props }: PictureProps): JSX.Element {
       ) : variant === "header" ? (
         <ImageIcon />
       ) : (
-        <UserIcon />
+        <UserIcon mini={variant === "mini"} />
       )}
     </StyledPicture>
   );

@@ -1,11 +1,14 @@
-import { useState } from "react";
-import { SearchInput, Search as SearchArea, ChangePage, ChangePageButton } from "./styles";
-import { ChevronLeft, ChevronRight, Search } from "react-feather";
+import { useEffect, useState } from "react";
+import { SearchInput, Search as SearchArea } from "./styles";
+import { Search } from "react-feather";
 import { searchAll, SearchInterface } from "../../services/search";
 import { Loader } from "../../components/Loader";
 import { Text } from "../../styles/global";
 import { Datalist } from "./datalist";
 import SearchResults from "./SearchResults";
+import { getFollowedUpdates, UpdatesInterface } from "../../services/updates";
+import ProjectCard from "./FeedCard";
+import { PaginationButtons } from "../../components/PaginationButtons";
 
 function Home(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
@@ -16,12 +19,15 @@ function Home(): JSX.Element {
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(10);
+
+  const [updates, setUpdates] = useState<UpdatesInterface[]>();
+  const [updatesPage, setUpdatesPage] = useState<number>(1);
+  const [updatesTotalPages, setUpdatesTotalPages] = useState<number>(1);
 
   async function handleSearch(page: number = 1) {
     try {
       setLoading(true);
-      let response = await searchAll(`${search}&page=${page}&limit=${itemsPerPage}`);
+      let response = await searchAll(`${search}&page=${page}&limit=10`);
       const { data, pagination } = response.data;
       setSearchResponse(data);
       setTotalPages(pagination.totalPages);
@@ -45,6 +51,31 @@ function Home(): JSX.Element {
     handleSearch();
   };
 
+  const handleUpdatesPageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= updatesTotalPages) {
+      setUpdatesPage(newPage);
+      getUpdates(newPage);
+    }
+  };
+
+  async function getUpdates(page: number = 1) {
+    try {
+      setLoading(true);
+      const response = await getFollowedUpdates(page, 20);
+      const { data, pagination } = response.data;
+      setUpdates(data);
+      setUpdatesTotalPages(pagination.totalPages);
+    } catch (error: any) {
+      setErrorMessage("Ocorreu um erro ao buscar as atualizações.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getUpdates();
+  }, []);
+
   return (
     <>
       <SearchArea onSubmit={handleSubmit}>
@@ -63,31 +94,33 @@ function Home(): JSX.Element {
         <Loader />
       ) : errorMessage ? (
         <Text>{errorMessage}</Text>
+      ) : searchResponse ? (
+        <>
+          <SearchResults data={searchResponse} />
+          <PaginationButtons
+            current={currentPage}
+            total={totalPages}
+            forwardFunction={() => handlePageChange(currentPage + 1)}
+            backFunction={() => handlePageChange(currentPage - 1)}
+          />
+        </>
       ) : (
-        searchResponse && (
+        updates &&
+        (updates.length === 0 ? (
+          <Text>Ainda não existem atualizações para serem exibidas!</Text>
+        ) : (
           <>
-            <SearchResults data={searchResponse} />
-            <ChangePage>
-              <ChangePageButton
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft />
-                Anterior
-              </ChangePageButton>
-              <span>
-                {currentPage} / {totalPages}
-              </span>
-              <ChangePageButton
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                Próxima
-                <ChevronRight />
-              </ChangePageButton>
-            </ChangePage>
+            {updates.map((item: UpdatesInterface, key) => (
+              <ProjectCard key={key} data={item} />
+            ))}
+            <PaginationButtons
+              current={updatesPage}
+              total={updatesTotalPages}
+              forwardFunction={() => handleUpdatesPageChange(updatesPage + 1)}
+              backFunction={() => handleUpdatesPageChange(updatesPage - 1)}
+            />
           </>
-        )
+        ))
       )}
     </>
   );

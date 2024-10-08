@@ -24,6 +24,9 @@ const Header = styled.div`
 
 const Title = styled(GlobalTitle)`
   font-size: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const Icon = styled.svg`
