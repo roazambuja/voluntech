@@ -15,14 +15,24 @@ const Container = styled.div`
   }
 `;
 
-const SocialMediaLogo = styled.img`
+const SocialMediaLogo = styled.a`
   width: 40px;
   height: 40px;
   border-radius: 25px;
+  background-color: ${(props) => props.theme.colors.PRIMARY_LIGHT};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
     width: 35px;
     height: 35px;
+  }
+
+  svg {
+    width: 25px;
+    height: 25px;
+    color: ${(props) => props.theme.colors.WHITE};
   }
 `;
 
