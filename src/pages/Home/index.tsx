@@ -7,7 +7,7 @@ import { Text } from "../../styles/global";
 import { Datalist } from "./datalist";
 import SearchResults from "./SearchResults";
 import { getFollowedUpdates, UpdatesInterface } from "../../services/updates";
-import ProjectCard from "./ProjectCard";
+import ProjectCard from "./FeedCard";
 import { PaginationButtons } from "../../components/PaginationButtons";
 
 function Home(): JSX.Element {
@@ -100,8 +100,8 @@ function Home(): JSX.Element {
           <PaginationButtons
             current={currentPage}
             total={totalPages}
-            forwardFunction={() => handlePageChange(updatesPage + 1)}
-            backFunction={() => handlePageChange(updatesPage - 1)}
+            forwardFunction={() => handlePageChange(currentPage + 1)}
+            backFunction={() => handlePageChange(currentPage - 1)}
           />
         </>
       ) : (
@@ -110,13 +110,9 @@ function Home(): JSX.Element {
           <Text>Ainda não existem atualizações para serem exibidas!</Text>
         ) : (
           <>
-            {updates.map((item: UpdatesInterface, key) =>
-              item.type === "project" ? (
-                <Text key={key}>{item.title}</Text>
-              ) : (
-                <Text key={key}>{item.category}</Text>
-              )
-            )}
+            {updates.map((item: UpdatesInterface, key) => (
+              <ProjectCard key={key} data={item} />
+            ))}
             <PaginationButtons
               current={updatesPage}
               total={updatesTotalPages}
