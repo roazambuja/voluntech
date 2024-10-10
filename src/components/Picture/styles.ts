@@ -11,6 +11,7 @@ const Picture = styled.div<PictureProps>`
   height: 80px;
   justify-content: center;
   overflow: auto;
+  flex-shrink: 0;
 
   ${(props) =>
     props.variant === "profile"
