@@ -18,7 +18,6 @@ function Header(): JSX.Element {
       const response = await getNotifications();
       const { data } = response;
       setNotifications(data.participations);
-      console.log(notifications);
     } catch (error: any) {
       console.log("Não foi possível buscar as notificações.");
     }
