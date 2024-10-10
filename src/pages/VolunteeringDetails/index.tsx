@@ -8,20 +8,26 @@ import { Screen } from "../MainLayout/styles";
 import { MoreHorizontal } from "react-feather";
 import { getVolunteering, VolunteeringInterface } from "../../services/volunteering";
 import { CustomPaper, InformationsArea, TitleArea } from "../ProjectDetails/styles";
-import { ContactButton, Header, Icon } from "./styles";
+import { Button, ButtonsArea, ContactButton, Header, Icon } from "./styles";
 import { VolunteeringProps } from "../../components/VolunteeringCard/volunteering";
 import { theme } from "../../styles/theme";
 import volunteeringList from "../../components/VolunteeringCard/volunteering";
 import { FaWhatsapp } from "react-icons/fa";
+import { alreadyParticipates, participate } from "../../services/participation";
+import { useAuth } from "../../contexts/AuthContext";
 
 function VolunteeringDetails(): JSX.Element {
   const { id } = useParams();
+  const { user } = useAuth();
 
   const [volunteering, setVolunteering] = useState<VolunteeringInterface>();
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
 
   const [category, setCategory] = useState<VolunteeringProps>();
+
+  const [participationLoader, setParticipationLoader] = useState<boolean>(false);
+  const [participates, setParticipates] = useState<boolean>(false);
 
   async function getVolunteeringData() {
     try {
@@ -33,10 +39,37 @@ function VolunteeringDetails(): JSX.Element {
         volunteeringList.find((item: VolunteeringProps) => item.category === volunteering.category)
       );
       setVolunteering(volunteering);
+      getParticipation();
     } catch (error: any) {
       setMessage("Não foi possível exibir os dados do projeto. Tente novamente.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function getParticipation() {
+    try {
+      let { data } = await alreadyParticipates(id!);
+      setParticipates(data.participates);
+    } catch (error: any) {
+      setMessage("Não foi possível exibir os dados do projeto. Tente novamente.");
+    }
+  }
+
+  async function handleParticipation() {
+    try {
+      setParticipationLoader(true);
+      if (id) {
+        const payload = { volunteering: id };
+        await participate(payload);
+        setParticipates(true);
+      }
+    } catch (error: any) {
+      alert(
+        "Não foi possível realizar a solicitação de participação no voluntariado. Tente novamente."
+      );
+    } finally {
+      setParticipationLoader(false);
     }
   }
 
@@ -73,13 +106,31 @@ function VolunteeringDetails(): JSX.Element {
               <Divider />
               <Text>{volunteering?.description}</Text>
               <Divider />
-              <ContactButton
-                target="_blank"
-                href={`https://wa.me/55${volunteering?.whatsapp}?text=Ol%C3%A1%2C%20estou%20entrando%20em%20contato%20atrav%C3%A9s%20da%20aplica%C3%A7%C3%A3o%20Voluntech%20e%20gostaria%20de%20saber%20mais%20sobre%20as%20oportunidades%20de%20voluntariado.`}
-              >
-                <FaWhatsapp />
-                Dúvidas
-              </ContactButton>
+              <ButtonsArea>
+                <ContactButton
+                  target="_blank"
+                  href={`https://wa.me/55${volunteering?.whatsapp}?text=Ol%C3%A1%2C%20estou%20entrando%20em%20contato%20atrav%C3%A9s%20da%20aplica%C3%A7%C3%A3o%20Voluntech%20e%20gostaria%20de%20saber%20mais%20sobre%20as%20oportunidades%20de%20voluntariado.`}
+                >
+                  <FaWhatsapp />
+                  Dúvidas
+                </ContactButton>
+                {user?.role === "Voluntário" && (
+                  <Button
+                    as="button"
+                    onClick={handleParticipation}
+                    participates={participates}
+                    disabled={participates}
+                  >
+                    {participationLoader ? (
+                      <Loader color={theme.colors.LIGHT} />
+                    ) : participates ? (
+                      "Solicitação realizada"
+                    ) : (
+                      "Quero participar"
+                    )}
+                  </Button>
+                )}
+              </ButtonsArea>
             </InformationsArea>
           </CustomPaper>
         </>

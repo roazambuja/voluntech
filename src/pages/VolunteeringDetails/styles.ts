@@ -15,6 +15,18 @@ const Icon = styled.svg`
   width: 30px;
 `;
 
+const ButtonsArea = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+`;
+
 const ContactButton = styled.a`
   display: flex;
   gap: 6px;
@@ -37,4 +49,15 @@ const ContactButton = styled.a`
   }
 `;
 
-export { Header, Icon, ContactButton };
+const Button = styled(ContactButton)<{ participates: boolean }>`
+  background-color: ${(props) =>
+    props.participates ? props.theme.colors.WHITE : props.theme.colors.PRIMARY};
+  border: ${(props) => props.participates && `1px solid ${props.theme.colors.SECONDARY}`};
+  color: ${(props) => props.participates && props.theme.colors.SECONDARY};
+
+  &:disabled {
+    cursor: auto;
+  }
+`;
+
+export { Header, Icon, ButtonsArea, ContactButton, Button };
