@@ -28,4 +28,14 @@ const MenuIcon = styled(Menu)`
   color: ${(props) => props.theme.colors.LIGHT};
 `;
 
-export { HeaderContainer, HeaderLogo, MenuIcon };
+const NotificationIcon = styled.svg`
+  width: 25px;
+  height: 25px;
+`;
+
+const ButtonsArea = styled.div`
+  display: flex;
+  gap: 32px;
+`;
+
+export { HeaderContainer, HeaderLogo, MenuIcon, ButtonsArea, NotificationIcon };

@@ -6,6 +6,7 @@ export interface ParticipationInterface {
   _id?: string;
   user?: UserInterface;
   volunteering: VolunteeringInterface | string;
+  status?: "pending" | "confirmed" | "rejected";
 }
 
 export const participate = async (payload: ParticipationInterface) => {
@@ -19,6 +20,25 @@ export const participate = async (payload: ParticipationInterface) => {
 export const alreadyParticipates = async (volunteering: string) => {
   try {
     return api.get(`/participation/${volunteering}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
+
+export const getNotifications = async () => {
+  try {
+    return api.get("/participation");
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
+
+export const answerParticipation = async (
+  id: string,
+  payload: { status: "pending" | "confirmed" | "rejected" }
+) => {
+  try {
+    return api.put(`/participation/${id}`, payload);
   } catch {
     throw new Error("Serviço não disponível");
   }

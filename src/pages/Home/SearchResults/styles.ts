@@ -37,6 +37,8 @@ const Icon = styled.svg`
 
 const Strong = styled.strong`
   color: ${(props) => props.theme.colors.GREY};
+  font-weight: 500;
+  text-decoration: none;
 `;
 
 export { ListItem, Header, Title, Icon, Strong };
