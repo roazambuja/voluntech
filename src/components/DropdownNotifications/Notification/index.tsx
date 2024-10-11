@@ -5,6 +5,7 @@ import { Picture } from "../../Picture";
 import { Buttons, Informations, NotificationItem } from "./styles";
 import { answerParticipation, ParticipationInterface } from "../../../services/participation";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface NotificationProps {
   notification: ParticipationInterface;
@@ -36,8 +37,16 @@ function Notification({ notification }: NotificationProps): JSX.Element {
           }
         />
         <Text>
-          <Strong>{notification.user?.name}</Strong> deseja participar do voluntariado{" "}
-          <Strong>
+          <Strong as={Link} to={`/perfil/${notification.user?._id}`}>
+            {notification.user?.name}
+          </Strong>{" "}
+          deseja participar do voluntariado{" "}
+          <Strong
+            as={Link}
+            to={`/voluntariado/${
+              typeof notification.volunteering !== "string" && notification.volunteering._id
+            }`}
+          >
             {typeof notification.volunteering !== "string" && notification.volunteering.category}
           </Strong>
           .
