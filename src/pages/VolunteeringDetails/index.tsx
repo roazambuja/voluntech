@@ -5,7 +5,7 @@ import { Loader } from "../../components/Loader";
 import { Message } from "../../components/Message";
 import { Divider } from "../../components/Divider";
 import { Screen } from "../MainLayout/styles";
-import { MoreHorizontal } from "react-feather";
+import { Check, MoreHorizontal, X } from "react-feather";
 import { getVolunteering, VolunteeringInterface } from "../../services/volunteering";
 import { CustomPaper, InformationsArea, TitleArea } from "../ProjectDetails/styles";
 import { Button, ButtonsArea, ContactButton, Header, Icon } from "./styles";
@@ -28,6 +28,7 @@ function VolunteeringDetails(): JSX.Element {
 
   const [participationLoader, setParticipationLoader] = useState<boolean>(false);
   const [participates, setParticipates] = useState<boolean>(false);
+  const [status, setStatus] = useState<"pending" | "confirmed" | "rejected">();
 
   async function getVolunteeringData() {
     try {
@@ -51,6 +52,7 @@ function VolunteeringDetails(): JSX.Element {
     try {
       let { data } = await alreadyParticipates(id!);
       setParticipates(data.participates);
+      setStatus(data.status);
     } catch (error: any) {
       setMessage("Não foi possível exibir os dados do projeto. Tente novamente.");
     }
@@ -124,7 +126,19 @@ function VolunteeringDetails(): JSX.Element {
                     {participationLoader ? (
                       <Loader color={theme.colors.LIGHT} />
                     ) : participates ? (
-                      "Solicitação realizada"
+                      status === "confirmed" ? (
+                        <>
+                          <Check />
+                          Solicitação aprovada
+                        </>
+                      ) : status === "rejected" ? (
+                        <>
+                          <X />
+                          Solicitação recusada
+                        </>
+                      ) : (
+                        "Solicitação realizada"
+                      )
                     ) : (
                       "Quero participar"
                     )}
