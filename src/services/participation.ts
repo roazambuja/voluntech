@@ -32,3 +32,14 @@ export const getNotifications = async () => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const answerParticipation = async (
+  id: string,
+  payload: { status: "pending" | "confirmed" | "rejected" }
+) => {
+  try {
+    return api.put(`/participation/${id}`, payload);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
