@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { UpdateHeader } from "../../../pages/Home/FeedCard/styles";
 
-const NotificationItem = styled(UpdateHeader)`
+const NotificationItem = styled(UpdateHeader)<{ disabled: boolean }>`
   justify-content: space-between;
   padding: 8px 16px;
+
+  display: ${(props) => props.disabled && "none"};
 `;
 
 const Informations = styled.div`
