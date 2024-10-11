@@ -22,7 +22,7 @@ const Dropdown = styled(DropdownMenu)`
   }
 `;
 
-const NotificationsList = styled.div`
+const NotificationsList = styled.div<{ empty: boolean }>`
   > div:last-child {
     border-bottom: none;
     border-radius: 0 0 16px 16px;
@@ -52,6 +52,8 @@ const NotificationsList = styled.div`
   max-height: 400px;
   overflow-y: auto;
   box-sizing: border-box;
+
+  padding: ${(props) => props.empty && "24px"};
 `;
 
 export { Dropdown, NotificationsList };
