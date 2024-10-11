@@ -40,7 +40,9 @@ function VolunteeringDetails(): JSX.Element {
         volunteeringList.find((item: VolunteeringProps) => item.category === volunteering.category)
       );
       setVolunteering(volunteering);
-      getParticipation();
+      if (user?.role === "Voluntário") {
+        getParticipation();
+      }
     } catch (error: any) {
       setMessage("Não foi possível exibir os dados do projeto. Tente novamente.");
     } finally {
@@ -77,7 +79,7 @@ function VolunteeringDetails(): JSX.Element {
 
   useEffect(() => {
     getVolunteeringData();
-  }, []);
+  }, [id]);
 
   return (
     <>
