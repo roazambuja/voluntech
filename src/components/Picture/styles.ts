@@ -25,6 +25,7 @@ const Picture = styled.div<PictureProps>`
         }
       : {
           width: "100%",
+          boxSizing: "border-box",
         }}
 
   @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
