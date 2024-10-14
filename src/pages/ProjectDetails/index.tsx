@@ -20,6 +20,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Plus } from "react-feather";
 import { VolunteeringCard } from "../../components/VolunteeringCard";
 import { getProjectVolunteering, VolunteeringInterface } from "../../services/volunteering";
+import { projectParticipation } from "../../services/participation";
 
 function ProjectDetails(): JSX.Element {
   const { id } = useParams();
@@ -30,6 +31,7 @@ function ProjectDetails(): JSX.Element {
   const [volunteering, setVolunteering] = useState<VolunteeringInterface[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
+  const [canPost, setCanPost] = useState<boolean>();
 
   async function getProject() {
     try {
@@ -38,10 +40,20 @@ function ProjectDetails(): JSX.Element {
       const { project } = response.data;
       setProject(project);
       getVolunteering(project._id);
+      getParticipation(project._id);
     } catch (error: any) {
       setMessage("Não foi possível exibir os dados do projeto. Tente novamente.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function getParticipation(id: string) {
+    try {
+      await projectParticipation(id);
+      setCanPost(true);
+    } catch (error: any) {
+      setCanPost(false);
     }
   }
 
@@ -104,6 +116,16 @@ function ProjectDetails(): JSX.Element {
                   </VolunteeringList>
                 </>
               )}
+              {(loggedUser?.role === "Organização" &&
+                loggedUser._id === project?.organization._id) ||
+                (loggedUser?.role === "Voluntário" && canPost && (
+                  <>
+                    <Divider />
+                    <Button onClick={() => navigate(`/publicacao/${project?._id}`)}>
+                      Fazer publicação
+                    </Button>
+                  </>
+                ))}
             </InformationsArea>
           </CustomPaper>
           <ProjectArea>

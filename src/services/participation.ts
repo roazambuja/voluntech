@@ -43,3 +43,11 @@ export const answerParticipation = async (
     throw new Error("Serviço não disponível");
   }
 };
+
+export const projectParticipation = async (id: string) => {
+  try {
+    return api.get(`/participation/project/${id}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
