@@ -12,7 +12,6 @@ const Picture = styled.div<PictureProps>`
   justify-content: center;
   overflow: auto;
   flex-shrink: 0;
-  box-sizing: border-box;
 
   ${(props) =>
     props.variant === "profile"
@@ -26,6 +25,7 @@ const Picture = styled.div<PictureProps>`
         }
       : {
           width: "100%",
+          boxSizing: "border-box",
         }}
 
   @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
