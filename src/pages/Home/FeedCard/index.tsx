@@ -2,7 +2,7 @@ import { Text } from "../../../styles/global";
 import { TextArea } from "../../Organizations/Configurations/styles";
 import { Title } from "../SearchResults/styles";
 import { Picture } from "../../../components/Picture";
-import { DescriptionArea, Paper, UpdateHeader, VolunteeringHeader } from "./styles";
+import { DescriptionArea, Paper, PostText, UpdateHeader, VolunteeringHeader } from "./styles";
 import { UpdatesInterface } from "../../../services/updates";
 import { Icon } from "../../VolunteeringDetails/styles";
 import { MoreHorizontal } from "react-feather";
@@ -66,7 +66,12 @@ function FeedCard({ data }: FeedCardProps): JSX.Element {
         </UpdateHeader>
         <DescriptionArea>
           <Title>{isProject ? data.title : isVolunteering && data.category}</Title>
-          <Text>{isProject || isVolunteering ? data.description : data.text}</Text>
+          {isProject || isVolunteering ? (
+            <Text>{data.description}</Text>
+          ) : (
+            <PostText> {data.text}</PostText>
+          )}
+
           {data.type === "post" && data.pictures && data.pictures.length > 0 && (
             <Carousel pictures={data.pictures} />
           )}
