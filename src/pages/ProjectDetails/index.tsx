@@ -21,6 +21,10 @@ import { Plus } from "react-feather";
 import { VolunteeringCard } from "../../components/VolunteeringCard";
 import { getProjectVolunteering, VolunteeringInterface } from "../../services/volunteering";
 import { projectParticipation } from "../../services/participation";
+import { getProjectUpdates, UpdatesInterface } from "../../services/updates";
+import FeedCard from "../../components/FeedCard";
+import { PaginationButtons } from "../../components/PaginationButtons";
+import { Text as ProfileText } from "../Profile/styles";
 
 function ProjectDetails(): JSX.Element {
   const { id } = useParams();
@@ -30,8 +34,13 @@ function ProjectDetails(): JSX.Element {
   const [project, setProject] = useState<ProjectInterface>();
   const [volunteering, setVolunteering] = useState<VolunteeringInterface[]>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
   const [message, setMessage] = useState<string>();
   const [canPost, setCanPost] = useState<boolean>();
+
+  const [updates, setUpdates] = useState<UpdatesInterface[]>();
+  const [updatesPage, setUpdatesPage] = useState<number>(1);
+  const [updatesTotalPages, setUpdatesTotalPages] = useState<number>(1);
 
   async function getProject() {
     try {
@@ -41,6 +50,7 @@ function ProjectDetails(): JSX.Element {
       setProject(project);
       getVolunteering(project._id);
       getParticipation(project._id);
+      getUpdates(project._id);
     } catch (error: any) {
       setMessage("Não foi possível exibir os dados do projeto. Tente novamente.");
     } finally {
@@ -69,6 +79,24 @@ function ProjectDetails(): JSX.Element {
       setLoading(false);
     }
   }
+
+  async function getUpdates(id: string, page: number = 1) {
+    try {
+      const response = await getProjectUpdates(id, page, 30);
+      const { data, pagination } = response.data;
+      setUpdates(data);
+      setUpdatesTotalPages(pagination.totalPages);
+    } catch (error: any) {
+      setErrorMessage("Não foi possívei buscar as atualizações.");
+    }
+  }
+
+  const handleUpdatesPageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= updatesTotalPages) {
+      setUpdatesPage(newPage);
+      getUpdates(id!, newPage);
+    }
+  };
 
   useEffect(() => {
     getProject();
@@ -142,7 +170,29 @@ function ProjectDetails(): JSX.Element {
                   </Button>
                 </>
               )}
+              {updates?.length! > 0 && (
+                <>
+                  <ProfileText>Atualizações do projeto</ProfileText>
+                  <Divider />
+                </>
+              )}
             </FeedHeader>
+            {errorMessage ? (
+              <Text>{errorMessage}</Text>
+            ) : (
+              updates?.length! > 0 &&
+              updates?.map((update, key) => {
+                return <FeedCard data={update} key={key} />;
+              })
+            )}
+            {updates?.length! > 0 && (
+              <PaginationButtons
+                current={updatesPage}
+                total={updatesTotalPages}
+                forwardFunction={() => handleUpdatesPageChange(updatesPage + 1)}
+                backFunction={() => handleUpdatesPageChange(updatesPage - 1)}
+              />
+            )}
           </ProjectArea>
         </>
       )}
