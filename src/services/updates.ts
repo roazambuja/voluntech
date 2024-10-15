@@ -23,3 +23,11 @@ export const getFollowedUpdates = async (page: number, limit: number) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getProjectUpdates = async (projectId: string, page: number, limit: number) => {
+  try {
+    return await api.get(`/updates/project/${projectId}?page=${page}&limit=${limit}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
