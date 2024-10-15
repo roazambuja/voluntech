@@ -1,6 +1,6 @@
 import { Text } from "../../../styles/global";
 import { TextArea } from "../../Organizations/Configurations/styles";
-import { Title } from "../SearchResults/styles";
+import { Strong, Title } from "../SearchResults/styles";
 import { Picture } from "../../../components/Picture";
 import { DescriptionArea, Paper, PostText, UpdateHeader, VolunteeringHeader } from "./styles";
 import { UpdatesInterface } from "../../../services/updates";
@@ -64,9 +64,13 @@ function FeedCard({ data }: FeedCardProps): JSX.Element {
           <TextArea>
             <Title>{isProject ? data.organization.name : data.project.organization.name}</Title>
             <Text>
-              {isProject || isVolunteering
-                ? "Cadastrou um novo " + (isProject ? "projeto" : "voluntariado")
-                : `Fez uma postagem no projeto ${data.project.title}`}
+              {isProject || isVolunteering ? (
+                "Cadastrou um novo " + (isProject ? "projeto" : "voluntariado")
+              ) : (
+                <>
+                  Fez uma postagem no projeto <Strong>{data.project.title}</Strong>
+                </>
+              )}
             </Text>
           </TextArea>
         </UpdateHeader>
