@@ -56,13 +56,23 @@ function FeedCard({ data }: FeedCardProps): JSX.Element {
                 ? data.organization?.profilePicture
                   ? `${process.env.REACT_APP_CLOUDINARY_URL}${data.organization.profilePicture.publicId}`
                   : undefined
-                : data.project.organization.profilePicture
-                ? `${process.env.REACT_APP_CLOUDINARY_URL}${data.project.organization.profilePicture.publicId}`
+                : isVolunteering
+                ? data.project.organization.profilePicture
+                  ? `${process.env.REACT_APP_CLOUDINARY_URL}${data.project.organization.profilePicture.publicId}`
+                  : undefined
+                : data.user.profilePicture
+                ? `${process.env.REACT_APP_CLOUDINARY_URL}${data.user.profilePicture.publicId}`
                 : undefined
             }
           />
           <TextArea>
-            <Title>{isProject ? data.organization.name : data.project.organization.name}</Title>
+            <Title>
+              {isProject
+                ? data.organization.name
+                : isVolunteering
+                ? data.project.organization.name
+                : data.user.name}
+            </Title>
             <Text>
               {isProject || isVolunteering ? (
                 "Cadastrou um novo " + (isProject ? "projeto" : "voluntariado")
