@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const CarouselContainer = styled.div`
+const CarouselContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,8 +11,10 @@ export const CarouselContainer = styled.div`
   }
 `;
 
-export const CarouselImage = styled.img`
+const CarouselImage = styled.img`
   width: 100%;
   height: 350px;
   object-fit: contain;
 `;
+
+export { CarouselContainer, CarouselImage };
