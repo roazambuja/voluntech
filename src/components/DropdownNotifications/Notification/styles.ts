@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { UpdateHeader } from "../../../pages/Home/FeedCard/styles";
+import { UpdateHeader } from "../../FeedCard/styles";
 
 const NotificationItem = styled(UpdateHeader)<{ disabled: boolean }>`
   justify-content: space-between;

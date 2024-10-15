@@ -1,17 +1,15 @@
-import { Text } from "../../../styles/global";
-import { TextArea } from "../../Organizations/Configurations/styles";
-import { Strong, Title } from "../SearchResults/styles";
-import { Picture } from "../../../components/Picture";
+import { Text } from "../../styles/global";
+import { Strong, Title } from "../../pages/Home/SearchResults/styles";
+import { Picture } from "../Picture";
 import { DescriptionArea, Paper, PostText, UpdateHeader, VolunteeringHeader } from "./styles";
-import { UpdatesInterface } from "../../../services/updates";
-import { Icon } from "../../VolunteeringDetails/styles";
+import { UpdatesInterface } from "../../services/updates";
+import { Icon } from "../../pages/VolunteeringDetails/styles";
 import { MoreHorizontal } from "react-feather";
-import { theme } from "../../../styles/theme";
-import volunteeringList, {
-  VolunteeringProps,
-} from "../../../components/VolunteeringCard/volunteering";
+import { theme } from "../../styles/theme";
 import { useEffect, useState } from "react";
-import Carousel from "../../../components/Carousel";
+import { Carousel } from "../Carousel";
+import { TextArea } from "../../pages/Organizations/Configurations/styles";
+import volunteeringList, { VolunteeringProps } from "../VolunteeringCard/volunteering";
 
 export interface FeedCardProps {
   data: UpdatesInterface;
@@ -56,13 +54,23 @@ function FeedCard({ data }: FeedCardProps): JSX.Element {
                 ? data.organization?.profilePicture
                   ? `${process.env.REACT_APP_CLOUDINARY_URL}${data.organization.profilePicture.publicId}`
                   : undefined
-                : data.project.organization.profilePicture
-                ? `${process.env.REACT_APP_CLOUDINARY_URL}${data.project.organization.profilePicture.publicId}`
+                : isVolunteering
+                ? data.project.organization.profilePicture
+                  ? `${process.env.REACT_APP_CLOUDINARY_URL}${data.project.organization.profilePicture.publicId}`
+                  : undefined
+                : data.user.profilePicture
+                ? `${process.env.REACT_APP_CLOUDINARY_URL}${data.user.profilePicture.publicId}`
                 : undefined
             }
           />
           <TextArea>
-            <Title>{isProject ? data.organization.name : data.project.organization.name}</Title>
+            <Title>
+              {isProject
+                ? data.organization.name
+                : isVolunteering
+                ? data.project.organization.name
+                : data.user.name}
+            </Title>
             <Text>
               {isProject || isVolunteering ? (
                 "Cadastrou um novo " + (isProject ? "projeto" : "voluntariado")
