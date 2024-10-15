@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { ListItem } from "../SearchResults/styles";
 import { CustomPaper } from "../../Organizations/Configurations/styles";
 import { Header } from "../../VolunteeringDetails/styles";
+import { Text } from "../../../styles/global";
 
 const Paper = styled(CustomPaper)`
   margin: 1rem;
@@ -31,4 +32,9 @@ const DescriptionArea = styled.div`
   box-sizing: border-box;
 `;
 
-export { Paper, VolunteeringHeader, UpdateHeader, DescriptionArea };
+const PostText = styled(Text)`
+  color: ${(props) => props.theme.colors.BLACK};
+  font-size: 16px;
+`;
+
+export { Paper, VolunteeringHeader, UpdateHeader, DescriptionArea, PostText };
