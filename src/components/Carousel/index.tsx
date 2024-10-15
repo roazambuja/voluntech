@@ -31,4 +31,4 @@ function Carousel({ pictures }: CarouselProps): JSX.Element {
   );
 }
 
-export default Carousel;
+export { Carousel };
