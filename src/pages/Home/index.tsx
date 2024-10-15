@@ -7,8 +7,8 @@ import { Text } from "../../styles/global";
 import { Datalist } from "./datalist";
 import SearchResults from "./SearchResults";
 import { getFollowedUpdates, UpdatesInterface } from "../../services/updates";
-import ProjectCard from "./FeedCard";
 import { PaginationButtons } from "../../components/PaginationButtons";
+import FeedCard from "../../components/FeedCard";
 
 function Home(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
@@ -111,7 +111,7 @@ function Home(): JSX.Element {
         ) : (
           <>
             {updates.map((item: UpdatesInterface, key) => (
-              <ProjectCard key={key} data={item} />
+              <FeedCard key={key} data={item} />
             ))}
             <PaginationButtons
               current={updatesPage}

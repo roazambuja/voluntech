@@ -1,17 +1,15 @@
-import { Text } from "../../../styles/global";
-import { TextArea } from "../../Organizations/Configurations/styles";
-import { Strong, Title } from "../SearchResults/styles";
-import { Picture } from "../../../components/Picture";
+import { Text } from "../../styles/global";
+import { Strong, Title } from "../../pages/Home/SearchResults/styles";
+import { Picture } from "../Picture";
 import { DescriptionArea, Paper, PostText, UpdateHeader, VolunteeringHeader } from "./styles";
-import { UpdatesInterface } from "../../../services/updates";
-import { Icon } from "../../VolunteeringDetails/styles";
+import { UpdatesInterface } from "../../services/updates";
+import { Icon } from "../../pages/VolunteeringDetails/styles";
 import { MoreHorizontal } from "react-feather";
-import { theme } from "../../../styles/theme";
-import volunteeringList, {
-  VolunteeringProps,
-} from "../../../components/VolunteeringCard/volunteering";
+import { theme } from "../../styles/theme";
 import { useEffect, useState } from "react";
-import Carousel from "../../../components/Carousel";
+import { Carousel } from "../Carousel";
+import { TextArea } from "../../pages/Organizations/Configurations/styles";
+import volunteeringList, { VolunteeringProps } from "../VolunteeringCard/volunteering";
 
 export interface FeedCardProps {
   data: UpdatesInterface;

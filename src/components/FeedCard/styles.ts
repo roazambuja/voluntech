@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { ListItem } from "../SearchResults/styles";
-import { CustomPaper } from "../../Organizations/Configurations/styles";
-import { Header } from "../../VolunteeringDetails/styles";
-import { Text } from "../../../styles/global";
+import { ListItem } from "../../pages/Home/SearchResults/styles";
+import { CustomPaper } from "../../pages/Organizations/Configurations/styles";
+import { Header } from "../../pages/VolunteeringDetails/styles";
+import { Text } from "../../styles/global";
 
 const Paper = styled(CustomPaper)`
   margin: 1rem;
