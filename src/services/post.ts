@@ -1,10 +1,12 @@
 import api from "./api";
 import { ProjectInterface } from "./project";
+import { OrganizationInterface, UserInterface } from "./users";
 
 export interface PostInterface {
   _id?: string;
   text: string;
   project: ProjectInterface;
+  user: UserInterface | OrganizationInterface;
   pictures?: {
     filePath: string;
     publicId: string;
