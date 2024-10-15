@@ -41,7 +41,13 @@ function FeedCard({ data }: FeedCardProps): JSX.Element {
         )}
         <UpdateHeader
           as="a"
-          href={isProject ? `/projeto/${data._id}` : `/voluntariado/${data._id}`}
+          href={
+            isProject
+              ? `/projeto/${data._id}`
+              : isVolunteering
+              ? `/voluntariado/${data._id}`
+              : `/projeto/${data.project._id}`
+          }
         >
           <Picture
             variant="mini"
