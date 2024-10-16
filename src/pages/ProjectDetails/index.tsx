@@ -14,7 +14,7 @@ import {
   VolunteeringList,
 } from "./styles";
 import { Screen } from "../MainLayout/styles";
-import { FeedHeader, ProjectArea } from "../Profile/styles";
+import { FeedHeader, HeaderLine, ProjectArea } from "../Profile/styles";
 import { Button } from "../../components/Button";
 import { useAuth } from "../../contexts/AuthContext";
 import { Plus } from "react-feather";
@@ -159,7 +159,7 @@ function ProjectDetails(): JSX.Element {
           <ProjectArea>
             <FeedHeader>
               {loggedUser?._id === project?.organization._id && (
-                <>
+                <HeaderLine>
                   <Divider />
                   <Button
                     variant="rounded"
@@ -168,13 +168,13 @@ function ProjectDetails(): JSX.Element {
                   >
                     Registrar trabalho voluntário
                   </Button>
-                </>
+                </HeaderLine>
               )}
               {updates?.length! > 0 && (
-                <>
+                <HeaderLine>
                   <ProfileText>Atualizações do projeto</ProfileText>
                   <Divider />
-                </>
+                </HeaderLine>
               )}
             </FeedHeader>
             {errorMessage ? (
