@@ -20,3 +20,11 @@ export const createPost = async (body: FormData) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getUserPosts = async (userId: string, page: number, limit: number) => {
+  try {
+    return api.get(`/post/user/${userId}?page=${page}&limit=${limit}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
