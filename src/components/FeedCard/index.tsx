@@ -37,16 +37,7 @@ function FeedCard({ data }: FeedCardProps): JSX.Element {
             <Icon as={category?.icon || MoreHorizontal} />
           </VolunteeringHeader>
         )}
-        <UpdateHeader
-          as="a"
-          href={
-            isProject
-              ? `/projeto/${data._id}`
-              : isVolunteering
-              ? `/voluntariado/${data._id}`
-              : `/projeto/${data.project._id}`
-          }
-        >
+        <UpdateHeader>
           <Picture
             variant="mini"
             src={
@@ -64,7 +55,16 @@ function FeedCard({ data }: FeedCardProps): JSX.Element {
             }
           />
           <TextArea>
-            <Title>
+            <Title
+              as="a"
+              href={
+                isProject
+                  ? `/perfil/${data.organization._id}`
+                  : isVolunteering
+                  ? `/perfil/${data.project.organization._id}`
+                  : `/perfil/${data.user._id}`
+              }
+            >
               {isProject
                 ? data.organization.name
                 : isVolunteering
@@ -76,14 +76,19 @@ function FeedCard({ data }: FeedCardProps): JSX.Element {
                 "Cadastrou um novo " + (isProject ? "projeto" : "voluntariado")
               ) : (
                 <>
-                  Fez uma postagem no projeto <Strong>{data.project.title}</Strong>
+                  Fez uma postagem no projeto{" "}
+                  <Strong as="a" href={`/projeto/${data.project._id}`}>
+                    {data.project.title}
+                  </Strong>
                 </>
               )}
             </Text>
           </TextArea>
         </UpdateHeader>
         <DescriptionArea>
-          <Title>{isProject ? data.title : isVolunteering && data.category}</Title>
+          <Title as="a" href={isProject ? `/projeto/${data._id}` : `/voluntariado/${data._id}`}>
+            {isProject ? data.title : isVolunteering && data.category}
+          </Title>
           {isProject || isVolunteering ? (
             <Text>{data.description}</Text>
           ) : (

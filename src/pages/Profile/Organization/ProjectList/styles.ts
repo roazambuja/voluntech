@@ -7,6 +7,7 @@ const ProjectList = styled.div`
   flex-direction: column;
   gap: 16px;
   margin-bottom: 32px;
+  width: 100%;
 `;
 
 export { ProjectList };

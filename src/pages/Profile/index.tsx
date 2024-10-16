@@ -1,4 +1,4 @@
-import { FeedHeader, ProjectArea, Text } from "./styles";
+import { FeedHeader, HeaderLine, ProjectArea, Text } from "./styles";
 import { useEffect, useState } from "react";
 import { AddressInterface, getUserAddress } from "../../services/address";
 import { Loader } from "../../components/Loader";
@@ -13,6 +13,10 @@ import { useAuth } from "../../contexts/AuthContext";
 import { getSocialMediaByUser, SocialMediaInterface } from "../../services/socialMedia";
 import { getPixByUser, PixInterface } from "../../services/pix";
 import { Plus } from "react-feather";
+import { UpdatesInterface } from "../../services/updates";
+import { getUserPosts } from "../../services/post";
+import FeedCard from "../../components/FeedCard";
+import { PaginationButtons } from "../../components/PaginationButtons";
 
 function Profile(): JSX.Element {
   const navigate = useNavigate();
@@ -25,6 +29,11 @@ function Profile(): JSX.Element {
   const [socialMedia, setSocialMedia] = useState<SocialMediaInterface>();
   const [pix, setPix] = useState<PixInterface>();
 
+  const [posts, setPosts] = useState<UpdatesInterface[]>();
+  const [postsPage, setPostsPage] = useState<number>(1);
+  const [postsTotalPages, setPostsTotalPages] = useState<number>(1);
+  const [errorMessage, setErrorMessage] = useState<string>();
+
   async function getUserInformations() {
     try {
       setLoading(true);
@@ -32,6 +41,12 @@ function Profile(): JSX.Element {
         let response = await getUser(id);
         const { data } = response.data;
         setUser(data);
+        if (data.role === "Voluntário") {
+          getPosts(id!);
+        } else {
+          getSocialMedia();
+          getPix();
+        }
       }
     } catch (error: any) {
       console.log(error);
@@ -85,11 +100,31 @@ function Profile(): JSX.Element {
     }
   }
 
+  async function getPosts(id: string, page: number = 1) {
+    try {
+      const response = await getUserPosts(id, page, 30);
+      const { data, pagination } = response.data;
+      const updatedPosts = data.map((post: any) => ({
+        ...post,
+        type: "post",
+      }));
+      setPosts(updatedPosts);
+      setPostsTotalPages(pagination.totalPages);
+    } catch (error: any) {
+      setErrorMessage("Não foi possívei buscar as postagens.");
+    }
+  }
+
+  const handleUpdatesPageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= postsTotalPages) {
+      setPostsPage(newPage);
+      getPosts(id!, newPage);
+    }
+  };
+
   useEffect(() => {
     getUserInformations();
     getAddress();
-    getSocialMedia();
-    getPix();
   }, [id]);
 
   return (
@@ -101,23 +136,48 @@ function Profile(): JSX.Element {
       ) : (
         <>
           <Informations user={user} address={address} socialMedia={socialMedia} pix={pix} />
-          {user?.role === "Organização" && (
-            <ProjectArea>
-              <FeedHeader>
-                <Text>{loggedUser?._id === user._id ? "Seus projetos" : "Projetos"}</Text>
-                <Divider />
-                {loggedUser?._id === user._id && (
-                  <Button
-                    variant="rounded"
-                    icon={Plus}
-                    onClick={() => navigate("/cadastrarProjeto")}
-                  >
-                    Criar projeto
-                  </Button>
-                )}
-              </FeedHeader>
-              <ProjectList id={user._id!} />
-            </ProjectArea>
+          <ProjectArea>
+            <FeedHeader>
+              {user?.role === "Organização" ? (
+                <HeaderLine>
+                  <Text>{loggedUser?._id === user._id ? "Seus projetos" : "Projetos"}</Text>
+                  <Divider />
+                  {loggedUser?._id === user._id && (
+                    <Button
+                      variant="rounded"
+                      icon={Plus}
+                      onClick={() => navigate("/cadastrarProjeto")}
+                    >
+                      Criar projeto
+                    </Button>
+                  )}
+                </HeaderLine>
+              ) : (
+                posts?.length! > 0 && (
+                  <HeaderLine>
+                    <Text>Postagens</Text>
+                    <Divider />
+                  </HeaderLine>
+                )
+              )}
+            </FeedHeader>
+            {user?.role === "Organização" && <ProjectList id={user._id!} />}
+          </ProjectArea>
+          {user?.role === "Voluntário" &&
+            (errorMessage ? (
+              <Text>{errorMessage}</Text>
+            ) : (
+              posts?.map((post, key) => {
+                return <FeedCard data={post} key={key} />;
+              })
+            ))}
+          {posts?.length! > 0 && user?.role === "Voluntário" && (
+            <PaginationButtons
+              current={postsPage}
+              total={postsTotalPages}
+              forwardFunction={() => handleUpdatesPageChange(postsPage + 1)}
+              backFunction={() => handleUpdatesPageChange(postsPage - 1)}
+            />
           )}
         </>
       )}

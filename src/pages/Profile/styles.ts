@@ -4,6 +4,7 @@ import { Text as GlobalText } from "../../styles/global";
 const ProjectArea = styled.section`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
   width: 480px;
 
@@ -22,6 +23,13 @@ const FeedHeader = styled.div`
   justify-content: space-between;
   gap: 8px;
   align-items: center;
+  flex-direction: column;
+`;
+
+const HeaderLine = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 16px;
 `;
 
 const Text = styled(GlobalText)`
@@ -29,4 +37,4 @@ const Text = styled(GlobalText)`
   white-space: nowrap;
 `;
 
-export { ProjectArea, FeedHeader, Text };
+export { ProjectArea, FeedHeader, HeaderLine, Text };
