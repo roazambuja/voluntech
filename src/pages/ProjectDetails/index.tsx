@@ -177,23 +177,23 @@ function ProjectDetails(): JSX.Element {
                 </HeaderLine>
               )}
             </FeedHeader>
-            {errorMessage ? (
-              <Text>{errorMessage}</Text>
-            ) : (
-              updates?.length! > 0 &&
-              updates?.map((update, key) => {
-                return <FeedCard data={update} key={key} />;
-              })
-            )}
-            {updates?.length! > 0 && (
-              <PaginationButtons
-                current={updatesPage}
-                total={updatesTotalPages}
-                forwardFunction={() => handleUpdatesPageChange(updatesPage + 1)}
-                backFunction={() => handleUpdatesPageChange(updatesPage - 1)}
-              />
-            )}
           </ProjectArea>
+          {errorMessage ? (
+            <Text>{errorMessage}</Text>
+          ) : (
+            updates?.length! > 0 &&
+            updates?.map((update, key) => {
+              return <FeedCard data={update} key={key} />;
+            })
+          )}
+          {updates?.length! > 0 && (
+            <PaginationButtons
+              current={updatesPage}
+              total={updatesTotalPages}
+              forwardFunction={() => handleUpdatesPageChange(updatesPage + 1)}
+              backFunction={() => handleUpdatesPageChange(updatesPage - 1)}
+            />
+          )}
         </>
       )}
     </>

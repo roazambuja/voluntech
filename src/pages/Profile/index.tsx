@@ -41,8 +41,13 @@ function Profile(): JSX.Element {
         let response = await getUser(id);
         const { data } = response.data;
         setUser(data);
+        if (data.role === "Voluntário") {
+          getPosts(id!);
+        } else {
+          getSocialMedia();
+          getPix();
+        }
       }
-      getPosts(id!);
     } catch (error: any) {
       console.log(error);
     } finally {
@@ -97,7 +102,7 @@ function Profile(): JSX.Element {
 
   async function getPosts(id: string, page: number = 1) {
     try {
-      const response = await getUserPosts(id, page, 4);
+      const response = await getUserPosts(id, page, 30);
       const { data, pagination } = response.data;
       const updatedPosts = data.map((post: any) => ({
         ...post,
@@ -120,8 +125,6 @@ function Profile(): JSX.Element {
   useEffect(() => {
     getUserInformations();
     getAddress();
-    getSocialMedia();
-    getPix();
   }, [id]);
 
   return (
@@ -134,41 +137,48 @@ function Profile(): JSX.Element {
         <>
           <Informations user={user} address={address} socialMedia={socialMedia} pix={pix} />
           <ProjectArea>
-            {user?.role === "Organização" ? (
-              <>
-                <FeedHeader>
+            <FeedHeader>
+              {user?.role === "Organização" ? (
+                <HeaderLine>
+                  <Text>{loggedUser?._id === user._id ? "Seus projetos" : "Projetos"}</Text>
+                  <Divider />
+                  {loggedUser?._id === user._id && (
+                    <Button
+                      variant="rounded"
+                      icon={Plus}
+                      onClick={() => navigate("/cadastrarProjeto")}
+                    >
+                      Criar projeto
+                    </Button>
+                  )}
+                </HeaderLine>
+              ) : (
+                posts?.length! > 0 && (
                   <HeaderLine>
-                    <Text>{loggedUser?._id === user._id ? "Seus projetos" : "Projetos"}</Text>
+                    <Text>Postagens</Text>
                     <Divider />
-                    {loggedUser?._id === user._id && (
-                      <Button
-                        variant="rounded"
-                        icon={Plus}
-                        onClick={() => navigate("/cadastrarProjeto")}
-                      >
-                        Criar projeto
-                      </Button>
-                    )}
                   </HeaderLine>
-                </FeedHeader>
-                <ProjectList id={user._id!} />
-              </>
-            ) : errorMessage ? (
+                )
+              )}
+            </FeedHeader>
+            {user?.role === "Organização" && <ProjectList id={user._id!} />}
+          </ProjectArea>
+          {user?.role === "Voluntário" &&
+            (errorMessage ? (
               <Text>{errorMessage}</Text>
             ) : (
-              posts?.map((post) => {
-                return <FeedCard data={post} />;
+              posts?.map((post, key) => {
+                return <FeedCard data={post} key={key} />;
               })
-            )}
-            {posts?.length! > 0 && (
-              <PaginationButtons
-                current={postsPage}
-                total={postsTotalPages}
-                forwardFunction={() => handleUpdatesPageChange(postsPage + 1)}
-                backFunction={() => handleUpdatesPageChange(postsPage - 1)}
-              />
-            )}
-          </ProjectArea>
+            ))}
+          {posts?.length! > 0 && user?.role === "Voluntário" && (
+            <PaginationButtons
+              current={postsPage}
+              total={postsTotalPages}
+              forwardFunction={() => handleUpdatesPageChange(postsPage + 1)}
+              backFunction={() => handleUpdatesPageChange(postsPage - 1)}
+            />
+          )}
         </>
       )}
     </>

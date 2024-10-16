@@ -45,7 +45,7 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
 
   async function getFollow() {
     try {
-      if (user?._id) {
+      if (user?._id && user._id != loggedUser?._id && user.role === "Organização") {
         const { data } = await alreadyFollows(user?._id);
         setFollows(data.follows);
       }
