@@ -4,6 +4,7 @@ import { Text as GlobalText } from "../../styles/global";
 const ProjectArea = styled.section`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
   width: 480px;
 
