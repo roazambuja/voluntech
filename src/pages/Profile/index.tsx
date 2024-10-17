@@ -13,7 +13,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { getSocialMediaByUser, SocialMediaInterface } from "../../services/socialMedia";
 import { getPixByUser, PixInterface } from "../../services/pix";
 import { Plus } from "react-feather";
-import { UpdatesInterface } from "../../services/updates";
+import { getOrganizationUpdates, UpdatesInterface } from "../../services/updates";
 import { getUserPosts } from "../../services/post";
 import FeedCard from "../../components/FeedCard";
 import { PaginationButtons } from "../../components/PaginationButtons";
@@ -34,6 +34,8 @@ function Profile(): JSX.Element {
   const [postsTotalPages, setPostsTotalPages] = useState<number>(1);
   const [errorMessage, setErrorMessage] = useState<string>();
 
+  const [selected, setSelected] = useState<"projects" | "all">("all");
+
   async function getUserInformations() {
     try {
       setLoading(true);
@@ -46,6 +48,7 @@ function Profile(): JSX.Element {
         } else {
           getSocialMedia();
           getPix();
+          getUpdates(id!);
         }
       }
     } catch (error: any) {
@@ -115,6 +118,17 @@ function Profile(): JSX.Element {
     }
   }
 
+  async function getUpdates(id: string, page: number = 1) {
+    try {
+      const response = await getOrganizationUpdates(id, page, 30);
+      const { data, pagination } = response.data;
+      setPosts(data);
+      setPostsTotalPages(pagination.totalPages);
+    } catch (error: any) {
+      setErrorMessage("Não foi possívei buscar as postagens.");
+    }
+  }
+
   const handleUpdatesPageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= postsTotalPages) {
       setPostsPage(newPage);
@@ -122,9 +136,18 @@ function Profile(): JSX.Element {
     }
   };
 
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= postsTotalPages) {
+      setPostsPage(newPage);
+      getUpdates(id!, newPage);
+    }
+  };
+
   useEffect(() => {
     getUserInformations();
     getAddress();
+    getSocialMedia();
+    getPix();
   }, [id]);
 
   return (
@@ -161,22 +184,42 @@ function Profile(): JSX.Element {
                 )
               )}
             </FeedHeader>
-            {user?.role === "Organização" && <ProjectList id={user._id!} />}
+            {user?.role === "Organização" && selected === "projects" && (
+              <ProjectList id={user._id!} />
+            )}
           </ProjectArea>
-          {user?.role === "Voluntário" &&
+          {user?.role === "Voluntário" ? (
+            errorMessage ? (
+              <Text>{errorMessage}</Text>
+            ) : (
+              posts?.map((post, key) => {
+                return <FeedCard data={post} key={key} />;
+              })
+            )
+          ) : (
+            selected === "all" &&
             (errorMessage ? (
               <Text>{errorMessage}</Text>
             ) : (
               posts?.map((post, key) => {
                 return <FeedCard data={post} key={key} />;
               })
-            ))}
+            ))
+          )}
           {posts?.length! > 0 && user?.role === "Voluntário" && (
             <PaginationButtons
               current={postsPage}
               total={postsTotalPages}
               forwardFunction={() => handleUpdatesPageChange(postsPage + 1)}
               backFunction={() => handleUpdatesPageChange(postsPage - 1)}
+            />
+          )}
+          {posts?.length! > 0 && user?.role === "Organização" && (
+            <PaginationButtons
+              current={postsPage}
+              total={postsTotalPages}
+              forwardFunction={() => handlePageChange(postsPage + 1)}
+              backFunction={() => handlePageChange(postsPage - 1)}
             />
           )}
         </>
