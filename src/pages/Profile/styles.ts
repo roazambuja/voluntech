@@ -30,6 +30,8 @@ const HeaderLine = styled.div`
   display: flex;
   width: 100%;
   gap: 16px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Text = styled(GlobalText)`

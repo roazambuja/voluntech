@@ -1,5 +1,5 @@
 import { FeedHeader, HeaderLine, ProjectArea, Text } from "./styles";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { AddressInterface, getUserAddress } from "../../services/address";
 import { Loader } from "../../components/Loader";
 import { Informations } from "./Informations";
@@ -17,6 +17,7 @@ import { getOrganizationUpdates, UpdatesInterface } from "../../services/updates
 import { getUserPosts } from "../../services/post";
 import FeedCard from "../../components/FeedCard";
 import { PaginationButtons } from "../../components/PaginationButtons";
+import { ToggleButton } from "../../components/ToggleButton";
 
 function Profile(): JSX.Element {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ function Profile(): JSX.Element {
   const [postsTotalPages, setPostsTotalPages] = useState<number>(1);
   const [errorMessage, setErrorMessage] = useState<string>();
 
-  const [selected, setSelected] = useState<"projects" | "all">("all");
+  const [selected, setSelected] = useState<string>("Atualizações");
 
   async function getUserInformations() {
     try {
@@ -162,19 +163,28 @@ function Profile(): JSX.Element {
           <ProjectArea>
             <FeedHeader>
               {user?.role === "Organização" ? (
-                <HeaderLine>
-                  <Text>{loggedUser?._id === user._id ? "Seus projetos" : "Projetos"}</Text>
-                  <Divider />
-                  {loggedUser?._id === user._id && (
-                    <Button
-                      variant="rounded"
-                      icon={Plus}
-                      onClick={() => navigate("/cadastrarProjeto")}
-                    >
-                      Criar projeto
-                    </Button>
-                  )}
-                </HeaderLine>
+                <>
+                  <HeaderLine>
+                    <Text>{loggedUser?._id === user._id ? "Seus projetos" : "Projetos"}</Text>
+                    <Divider />
+                    {loggedUser?._id === user._id && (
+                      <Button
+                        variant="rounded"
+                        icon={Plus}
+                        onClick={() => navigate("/cadastrarProjeto")}
+                      >
+                        Criar projeto
+                      </Button>
+                    )}
+                  </HeaderLine>
+                  <HeaderLine>
+                    <ToggleButton
+                      firstTitle="Atualizações"
+                      secondTitle="Projetos"
+                      setSelected={setSelected}
+                    />
+                  </HeaderLine>
+                </>
               ) : (
                 posts?.length! > 0 && (
                   <HeaderLine>
@@ -184,7 +194,7 @@ function Profile(): JSX.Element {
                 )
               )}
             </FeedHeader>
-            {user?.role === "Organização" && selected === "projects" && (
+            {user?.role === "Organização" && selected === "Projetos" && (
               <ProjectList id={user._id!} />
             )}
           </ProjectArea>
@@ -197,7 +207,7 @@ function Profile(): JSX.Element {
               })
             )
           ) : (
-            selected === "all" &&
+            selected === "Atualizações" &&
             (errorMessage ? (
               <Text>{errorMessage}</Text>
             ) : (
@@ -214,7 +224,7 @@ function Profile(): JSX.Element {
               backFunction={() => handleUpdatesPageChange(postsPage - 1)}
             />
           )}
-          {posts?.length! > 0 && user?.role === "Organização" && (
+          {posts?.length! > 0 && user?.role === "Organização" && selected === "Atualizações" && (
             <PaginationButtons
               current={postsPage}
               total={postsTotalPages}
