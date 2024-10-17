@@ -31,3 +31,15 @@ export const getProjectUpdates = async (projectId: string, page: number, limit: 
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getOrganizationUpdates = async (
+  organizationId: string,
+  page: number,
+  limit: number
+) => {
+  try {
+    return await api.get(`/updates/organization/${organizationId}?page=${page}&limit=${limit}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
