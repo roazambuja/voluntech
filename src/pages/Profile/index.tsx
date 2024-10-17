@@ -194,10 +194,10 @@ function Profile(): JSX.Element {
                 )
               )}
             </FeedHeader>
-            {user?.role === "Organização" && selected === "Projetos" && (
-              <ProjectList id={user._id!} />
-            )}
           </ProjectArea>
+          {user?.role === "Organização" && selected === "Projetos" && (
+            <ProjectList id={user._id!} />
+          )}
           {user?.role === "Voluntário" ? (
             errorMessage ? (
               <Text>{errorMessage}</Text>

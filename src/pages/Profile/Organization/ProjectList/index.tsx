@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { getUserProjects, ProjectInterface } from "../../../../services/project";
 import { Loader } from "../../../../components/Loader";
 import { ProjectList as StyledProjectList } from "./styles";
-import { Project } from "./Project";
 import { Text } from "../../../../styles/global";
+import { CustomPaper } from "../../../Organizations/Configurations/styles";
+import { Header, ListItem, Title } from "../../../Home/SearchResults/styles";
 
 interface ProjectListProps {
   id: string;
@@ -37,9 +38,18 @@ function ProjectList({ id }: ProjectListProps): JSX.Element {
         <Loader />
       ) : projects ? (
         projects.length > 0 ? (
-          projects?.map((project) => {
-            return <Project project={project} />;
-          })
+          <>
+            <CustomPaper>
+              <Header>Projetos</Header>
+              {projects?.map((project, key) => {
+                return (
+                  <ListItem as="a" key={key} href={`/projeto/${project._id}`} target="_blank">
+                    <Title>{project.title}</Title>
+                  </ListItem>
+                );
+              })}
+            </CustomPaper>
+          </>
         ) : (
           <Text>A organização não possui projetos cadastrados.</Text>
         )
