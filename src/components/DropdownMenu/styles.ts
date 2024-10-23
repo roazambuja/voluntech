@@ -45,5 +45,10 @@ const ItemList = styled.ul`
   :first-child {
     border-radius: 16px 16px 0 0;
   }
+
+  :only-child {
+    border-radius: 16px;
+    border-bottom: none;
+  }
 `;
 export { DropdownMenu, ItemList };
