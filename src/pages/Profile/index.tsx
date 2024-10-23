@@ -18,6 +18,7 @@ import { getUserPosts } from "../../services/post";
 import FeedCard from "../../components/FeedCard";
 import { PaginationButtons } from "../../components/PaginationButtons";
 import { ToggleButton } from "../../components/ToggleButton";
+import { DevelopmentGoals } from "./Organization/DevelopmentGoals";
 
 function Profile(): JSX.Element {
   const navigate = useNavigate();
@@ -164,6 +165,9 @@ function Profile(): JSX.Element {
             <FeedHeader>
               {user?.role === "Organização" ? (
                 <>
+                  {"developmentGoals" in user && (
+                    <DevelopmentGoals developmentGoals={user.developmentGoals} />
+                  )}
                   <HeaderLine>
                     <Text>{loggedUser?._id === user._id ? "Seus projetos" : "Projetos"}</Text>
                     <Divider />
