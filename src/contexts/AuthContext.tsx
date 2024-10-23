@@ -67,10 +67,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   function logout() {
     setUser(null);
-    if (user?.role !== "Visitante") {
-      localStorage.removeItem("token");
-      api.defaults.headers.Authorization = "";
-    }
+    localStorage.removeItem("token");
+    if (user?.role !== "Visitante") api.defaults.headers.Authorization = "";
   }
 
   return (
