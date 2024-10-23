@@ -9,10 +9,12 @@ import SearchResults from "./SearchResults";
 import { getFollowedUpdates, UpdatesInterface } from "../../services/updates";
 import { PaginationButtons } from "../../components/PaginationButtons";
 import FeedCard from "../../components/FeedCard";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Home(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>();
+  const [errorMessage, setErrorMessage] = useState<string | null>();
+  const { user } = useAuth();
 
   const [search, setSearch] = useState<string>("");
   const [searchResponse, setSearchResponse] = useState<SearchInterface>();
@@ -47,6 +49,7 @@ function Home(): JSX.Element {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setErrorMessage(null);
     setCurrentPage(1);
     handleSearch();
   };
@@ -59,16 +62,20 @@ function Home(): JSX.Element {
   };
 
   async function getUpdates(page: number = 1) {
-    try {
-      setLoading(true);
-      const response = await getFollowedUpdates(page, 20);
-      const { data, pagination } = response.data;
-      setUpdates(data);
-      setUpdatesTotalPages(pagination.totalPages);
-    } catch (error: any) {
-      setErrorMessage("Ocorreu um erro ao buscar as atualizações.");
-    } finally {
-      setLoading(false);
+    if (user?.role !== "Visitante") {
+      try {
+        setLoading(true);
+        const response = await getFollowedUpdates(page, 20);
+        const { data, pagination } = response.data;
+        setUpdates(data);
+        setUpdatesTotalPages(pagination.totalPages);
+      } catch (error: any) {
+        setErrorMessage("Ocorreu um erro ao buscar as atualizações.");
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setErrorMessage("Você precisa estar logado para visualizar a timeline!");
     }
   }
 

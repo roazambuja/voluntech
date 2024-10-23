@@ -158,18 +158,19 @@ function ProjectDetails(): JSX.Element {
           </CustomPaper>
           <ProjectArea>
             <FeedHeader>
-              {loggedUser?._id === project?.organization._id && (
-                <HeaderLine>
-                  <Divider />
-                  <Button
-                    variant="rounded"
-                    icon={Plus}
-                    onClick={() => navigate(`/cadastrarVoluntariado/${project?._id}`)}
-                  >
-                    Registrar trabalho voluntário
-                  </Button>
-                </HeaderLine>
-              )}
+              {loggedUser?.role !== "Visitante" &&
+                loggedUser?._id === project?.organization._id && (
+                  <HeaderLine>
+                    <Divider />
+                    <Button
+                      variant="rounded"
+                      icon={Plus}
+                      onClick={() => navigate(`/cadastrarVoluntariado/${project?._id}`)}
+                    >
+                      Registrar trabalho voluntário
+                    </Button>
+                  </HeaderLine>
+                )}
               {updates?.length! > 0 && (
                 <HeaderLine>
                   <ProfileText>Atualizações do projeto</ProfileText>

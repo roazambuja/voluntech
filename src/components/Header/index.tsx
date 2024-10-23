@@ -7,8 +7,10 @@ import { ReactComponent as Bell } from "../../assets/icons/bell.svg";
 import { ReactComponent as Notification } from "../../assets/icons/notification.svg";
 import DropdownNotifications from "../DropdownNotifications";
 import { getNotifications, ParticipationInterface } from "../../services/participation";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Header(): JSX.Element {
+  const { user } = useAuth();
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
   const [openNotifications, setOpenNotifications] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<ParticipationInterface[]>([]);
@@ -32,10 +34,12 @@ function Header(): JSX.Element {
         <HeaderLogo src={LogoSvg} alt="Logo da aplicação Voluntech" />
       </Link>
       <ButtonsArea>
-        <NotificationIcon
-          as={notifications.length > 0 ? Notification : Bell}
-          onClick={() => setOpenNotifications(!openNotifications)}
-        />
+        {user?.role != "Visitante" && (
+          <NotificationIcon
+            as={notifications.length > 0 ? Notification : Bell}
+            onClick={() => setOpenNotifications(!openNotifications)}
+          />
+        )}
         <MenuIcon onClick={() => setOpenDropdown(!openDropdown)} />
       </ButtonsArea>
       <DropdownMenu open={openDropdown} />

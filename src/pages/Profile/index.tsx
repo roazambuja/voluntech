@@ -1,5 +1,5 @@
 import { FeedHeader, HeaderLine, ProjectArea, Text } from "./styles";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AddressInterface, getUserAddress } from "../../services/address";
 import { Loader } from "../../components/Loader";
 import { Informations } from "./Informations";
@@ -169,9 +169,13 @@ function Profile(): JSX.Element {
                     <DevelopmentGoals developmentGoals={user.developmentGoals} />
                   )}
                   <HeaderLine>
-                    <Text>{loggedUser?._id === user._id ? "Seus projetos" : "Projetos"}</Text>
+                    <Text>
+                      {loggedUser?.role !== "Visitante" && loggedUser?._id === user._id
+                        ? "Seus projetos"
+                        : "Projetos"}
+                    </Text>
                     <Divider />
-                    {loggedUser?._id === user._id && (
+                    {loggedUser?.role !== "Visitante" && loggedUser?._id === user._id && (
                       <Button
                         variant="rounded"
                         icon={Plus}
