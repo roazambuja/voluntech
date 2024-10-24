@@ -35,7 +35,7 @@ export const getNotifications = async () => {
 
 export const answerParticipation = async (
   id: string,
-  payload: { status: "pending" | "confirmed" | "rejected" }
+  payload?: { status: "pending" | "confirmed" | "rejected" }
 ) => {
   try {
     return api.put(`/participation/${id}`, payload);
