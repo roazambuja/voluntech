@@ -61,6 +61,11 @@ function VolunteeringDetails(): JSX.Element {
   }
 
   async function handleParticipation() {
+    if (user?.role === "Visitante") {
+      alert("Você precisa estar logado para participar!");
+      return;
+    }
+
     try {
       setParticipationLoader(true);
       if (id) {
@@ -118,7 +123,7 @@ function VolunteeringDetails(): JSX.Element {
                   <FaWhatsapp />
                   Dúvidas
                 </ContactButton>
-                {user?.role === "Voluntário" && (
+                {user?.role != "Organização" && (
                   <Button
                     as="button"
                     onClick={handleParticipation}

@@ -127,6 +127,16 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
               </Button>
             </>
           )}
+        {loggedUser?.role === "Visitante" && user?.role === "Organização" && (
+          <>
+            <Divider />
+            <Button
+              onClick={() => alert("Você precisa estar logado para acompanhar uma organização!")}
+            >
+              Acompanhar
+            </Button>
+          </>
+        )}
       </DescriptionArea>
     </Paper>
   );
