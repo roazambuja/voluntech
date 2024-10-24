@@ -144,16 +144,16 @@ function ProjectDetails(): JSX.Element {
                   </VolunteeringList>
                 </>
               )}
-              {(loggedUser?.role === "Organização" &&
+              {((loggedUser?.role === "Organização" &&
                 loggedUser._id === project?.organization._id) ||
-                (loggedUser?.role === "Voluntário" && canPost && (
-                  <>
-                    <Divider />
-                    <Button onClick={() => navigate(`/publicacao/${project?._id}`)}>
-                      Fazer publicação
-                    </Button>
-                  </>
-                ))}
+                (loggedUser?.role === "Voluntário" && canPost)) && (
+                <>
+                  <Divider />
+                  <Button onClick={() => navigate(`/publicacao/${project?._id}`)}>
+                    Fazer publicação
+                  </Button>
+                </>
+              )}
             </InformationsArea>
           </CustomPaper>
           <ProjectArea>
