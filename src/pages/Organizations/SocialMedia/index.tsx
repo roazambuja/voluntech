@@ -86,7 +86,7 @@ function SocialMedia(): JSX.Element {
     <Paper>
       {loading ? (
         <Loader />
-      ) : user?.role === "Voluntário" || user?._id != owner ? (
+      ) : user?.role != "Organização" || user?._id != owner ? (
         <Message error={true} message="Você não possui permissão para acessar essa página." />
       ) : !message ? (
         <Form onSubmit={handleSubmit}>

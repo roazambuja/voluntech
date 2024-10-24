@@ -45,7 +45,12 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
 
   async function getFollow() {
     try {
-      if (user?._id && user._id != loggedUser?._id && user.role === "Organização") {
+      if (
+        user?._id &&
+        loggedUser?.role !== "Visitante" &&
+        user._id != loggedUser?._id &&
+        user.role === "Organização"
+      ) {
         const { data } = await alreadyFollows(user?._id);
         setFollows(data.follows);
       }
@@ -104,8 +109,8 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
         <SocialMedia socialMedia={socialMedia} />
         <Pix pix={pix} />
         {user?.role === "Organização" &&
-          user._id !== loggedUser?._id &&
-          loggedUser?.role === "Voluntário" && (
+          loggedUser?.role === "Voluntário" &&
+          user._id !== loggedUser?._id && (
             <>
               <Divider />
               <Button
@@ -122,6 +127,16 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
               </Button>
             </>
           )}
+        {loggedUser?.role === "Visitante" && user?.role === "Organização" && (
+          <>
+            <Divider />
+            <Button
+              onClick={() => alert("Você precisa estar logado para acompanhar uma organização!")}
+            >
+              Acompanhar
+            </Button>
+          </>
+        )}
       </DescriptionArea>
     </Paper>
   );

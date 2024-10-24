@@ -59,6 +59,11 @@ function Login(): JSX.Element {
     }
   }
 
+  async function loginAsVisitor() {
+    loginContext();
+    navigate("/home");
+  }
+
   useEffect(() => {
     sortImage();
   }, []);
@@ -94,7 +99,9 @@ function Login(): JSX.Element {
             Não possui uma conta? <Link to="/cadastro">Cadastre-se.</Link>
           </CustomText>
           <Divider text="ou" />
-          <Button variant="secondary">Entrar como visitante</Button>
+          <Button variant="secondary" onClick={loginAsVisitor}>
+            Entrar como visitante
+          </Button>
         </BottomArea>
       </FormContainer>
     </CustomPaper>

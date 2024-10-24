@@ -20,22 +20,29 @@ export enum UNDevelopmentGoals {
   "Parcerias e Meios de Implementação",
 }
 
-export interface UserInterface {
+export interface BaseUser {
   _id?: string;
   name: string;
   email: string;
   password: string;
-  role: "Voluntário" | "Organização";
   profilePicture?: {
     filePath: string;
     publicId: string;
   };
 }
+export interface UserInterface extends BaseUser {
+  role: "Voluntário";
+}
 
-export interface OrganizationInterface extends UserInterface {
+export interface OrganizationInterface extends BaseUser {
+  role: "Organização";
   cause: string;
   description?: string;
   developmentGoals?: UNDevelopmentGoals[];
+}
+
+export interface VisitorInterface {
+  role: "Visitante";
 }
 
 export const postUser = async (body: FormData) => {

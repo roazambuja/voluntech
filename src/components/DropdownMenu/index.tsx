@@ -1,4 +1,4 @@
-import { Home, Info, LogOut, Settings, User } from "react-feather";
+import { Home, Info, LogIn, LogOut, Settings, User } from "react-feather";
 import { DropdownItem } from "./DropdownItem";
 import { ItemList, DropdownMenu as StyledDropdownMenu } from "./styles";
 import { useAuth } from "../../contexts/AuthContext";
@@ -15,21 +15,27 @@ function DropdownMenu({ open }: DropdownMenuProps) {
   return (
     <StyledDropdownMenu as="nav" open={open}>
       <ItemList>
-        <DropdownItem Image={Home} text={"Página Inicial"} action={() => navigate("/home")} />
-        <DropdownItem
-          Image={User}
-          text={"Meu Perfil"}
-          action={() => navigate(`/perfil/${user?._id}`)}
-        />
-        {user?.role === "Organização" && (
-          <DropdownItem
-            Image={Settings}
-            text={"Configurações"}
-            action={() => navigate("/configuracoes")}
-          />
+        {user?.role === "Visitante" ? (
+          <DropdownItem Image={LogIn} text={"Entrar"} action={() => logout()} />
+        ) : (
+          <>
+            <DropdownItem Image={Home} text={"Página Inicial"} action={() => navigate("/home")} />
+            <DropdownItem
+              Image={User}
+              text={"Meu Perfil"}
+              action={() => navigate(`/perfil/${user?._id}`)}
+            />
+            {user?.role === "Organização" && (
+              <DropdownItem
+                Image={Settings}
+                text={"Configurações"}
+                action={() => navigate("/configuracoes")}
+              />
+            )}
+            <DropdownItem Image={Info} text={"Sobre nós"} action={() => navigate("/")} />
+            <DropdownItem Image={LogOut} text={"Sair"} action={logout} />
+          </>
         )}
-        <DropdownItem Image={Info} text={"Sobre nós"} action={() => navigate("/")} />
-        <DropdownItem Image={LogOut} text={"Sair"} action={logout} />
       </ItemList>
     </StyledDropdownMenu>
   );

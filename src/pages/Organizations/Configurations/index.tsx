@@ -24,38 +24,40 @@ function Configurations(): JSX.Element {
   const [socialMedia, setSocialMedia] = useState<SocialMediaInterface>();
 
   async function getPix() {
-    try {
-      let { data } = await getPixByUser(user?._id!);
-      if (data.pix) {
-        const pix: PixInterface = data.pix;
-        const pixTypeLabel = keyTypeLabels[pix.type];
-        setPixMessage(`${pixTypeLabel}: ${pix.key}`);
-        setPix(pix);
-      } else {
-        setPixMessage("Não cadastrado.");
+    if (user?.role === "Organização")
+      try {
+        let { data } = await getPixByUser(user?._id!);
+        if (data.pix) {
+          const pix: PixInterface = data.pix;
+          const pixTypeLabel = keyTypeLabels[pix.type];
+          setPixMessage(`${pixTypeLabel}: ${pix.key}`);
+          setPix(pix);
+        } else {
+          setPixMessage("Não cadastrado.");
+        }
+      } catch {
+        setPixMessage("Não foi possível buscar a chave PIX.");
+      } finally {
+        setLoading(false);
       }
-    } catch {
-      setPixMessage("Não foi possível buscar a chave PIX.");
-    } finally {
-      setLoading(false);
-    }
   }
 
   async function getSocialMedia() {
-    try {
-      let { data } = await getSocialMediaByUser(user?._id!);
-      if (data.socialMedia) {
-        const socialMedia: SocialMediaInterface = data.socialMedia;
-        setSocialMediaMessage(listSocialMedia(socialMedia));
-        setSocialMedia(socialMedia);
-      } else {
-        setSocialMediaMessage("Não cadastrado.");
+    if (user?.role === "Organização")
+      try {
+        let { data } = await getSocialMediaByUser(user?._id!);
+        if (data.socialMedia) {
+          const socialMedia: SocialMediaInterface = data.socialMedia;
+          setSocialMediaMessage(listSocialMedia(socialMedia));
+          setSocialMedia(socialMedia);
+        } else {
+          setSocialMediaMessage("Não cadastrado.");
+        }
+      } catch {
+        setSocialMediaMessage("Não foi possível buscar as redes sociais.");
+      } finally {
+        setLoading(false);
       }
-    } catch {
-      setSocialMediaMessage("Não foi possível buscar as redes sociais.");
-    } finally {
-      setLoading(false);
-    }
   }
 
   useEffect(() => {
@@ -63,7 +65,7 @@ function Configurations(): JSX.Element {
     getSocialMedia();
   }, []);
 
-  return user?.role === "Voluntário" ? (
+  return user?.role === "Voluntário" || user?.role === "Visitante" ? (
     <GlobalPaper>
       <Message error={true} message="Você não possui permissão para acessar essa página." />
     </GlobalPaper>

@@ -144,32 +144,33 @@ function ProjectDetails(): JSX.Element {
                   </VolunteeringList>
                 </>
               )}
-              {(loggedUser?.role === "Organização" &&
+              {((loggedUser?.role === "Organização" &&
                 loggedUser._id === project?.organization._id) ||
-                (loggedUser?.role === "Voluntário" && canPost && (
-                  <>
-                    <Divider />
-                    <Button onClick={() => navigate(`/publicacao/${project?._id}`)}>
-                      Fazer publicação
-                    </Button>
-                  </>
-                ))}
+                (loggedUser?.role === "Voluntário" && canPost)) && (
+                <>
+                  <Divider />
+                  <Button onClick={() => navigate(`/publicacao/${project?._id}`)}>
+                    Fazer publicação
+                  </Button>
+                </>
+              )}
             </InformationsArea>
           </CustomPaper>
           <ProjectArea>
             <FeedHeader>
-              {loggedUser?._id === project?.organization._id && (
-                <HeaderLine>
-                  <Divider />
-                  <Button
-                    variant="rounded"
-                    icon={Plus}
-                    onClick={() => navigate(`/cadastrarVoluntariado/${project?._id}`)}
-                  >
-                    Registrar trabalho voluntário
-                  </Button>
-                </HeaderLine>
-              )}
+              {loggedUser?.role !== "Visitante" &&
+                loggedUser?._id === project?.organization._id && (
+                  <HeaderLine>
+                    <Divider />
+                    <Button
+                      variant="rounded"
+                      icon={Plus}
+                      onClick={() => navigate(`/cadastrarVoluntariado/${project?._id}`)}
+                    >
+                      Registrar trabalho voluntário
+                    </Button>
+                  </HeaderLine>
+                )}
               {updates?.length! > 0 && (
                 <HeaderLine>
                   <ProfileText>Atualizações do projeto</ProfileText>
