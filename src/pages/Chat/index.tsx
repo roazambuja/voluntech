@@ -1,5 +1,4 @@
 import { useAuth } from "../../contexts/AuthContext";
-import { CustomPaper } from "../ProjectDetails/styles";
 import {
   ChatContainer,
   ChatHeader,
@@ -7,6 +6,7 @@ import {
   MessageArea,
   MessageInput,
   MessageInputContainer,
+  Paper,
   SendButton,
   Text,
   Title,
@@ -28,7 +28,7 @@ function Chat(): JSX.Element {
   ];
 
   return (
-    <CustomPaper>
+    <Paper>
       {isVolunteer ? (
         <ErrorMessage error={true} message="Você não possui permissão para acessar essa página." />
       ) : (
@@ -50,7 +50,7 @@ function Chat(): JSX.Element {
           </MessageInputContainer>
         </ChatContainer>
       )}
-    </CustomPaper>
+    </Paper>
   );
 }
 

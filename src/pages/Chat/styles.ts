@@ -1,5 +1,10 @@
 import styled from "styled-components";
 import { Title as GlobalTitle, Text as GlobalText } from "../../styles/global";
+import { CustomPaper } from "../ProjectDetails/styles";
+
+const Paper = styled(CustomPaper)`
+  height: 500px;
+`;
 
 const ChatContainer = styled.div`
   display: flex;
@@ -26,6 +31,21 @@ const Text = styled(GlobalText)`
 `;
 
 const MessageArea = styled.div`
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 24px;
+    background: ${(props) => props.theme.colors.PRIMARY_LIGHT};
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 24px;
+    background-color: ${(props) => props.theme.colors.LIGHT};
+  }
+
+  justify-content: end;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -51,7 +71,7 @@ const Message = styled.div<{ sent: boolean }>`
   align-self: ${({ sent }) => (sent ? "flex-end" : "flex-start")};
 `;
 
-const MessageInputContainer = styled.div`
+const MessageInputContainer = styled.form`
   display: flex;
   gap: 8px;
   padding: 10px;
@@ -81,6 +101,7 @@ const SendButton = styled.button`
 `;
 
 export {
+  Paper,
   ChatContainer,
   ChatHeader,
   Title,
