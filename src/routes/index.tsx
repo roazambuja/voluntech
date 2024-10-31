@@ -45,6 +45,7 @@ function AppRoutes(): JSX.Element {
           <Route path="/cadastrarRedesSociais/:id" element={<PrivateRoute Item={SocialMedia} />} />
           <Route path="/home" element={<PrivateRoute Item={Home} />} />
           <Route path="/publicacao/:id" element={<PrivateRoute Item={Post} />} />
+          <Route path="/chat/:id" element={<PrivateRoute Item={Chat} />} />
           <Route path="/chat" element={<PrivateRoute Item={Chat} />} />
         </Route>
       </Routes>
