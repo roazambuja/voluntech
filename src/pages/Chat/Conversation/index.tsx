@@ -11,6 +11,9 @@ import {
 } from "./styles";
 import { useEffect, useState } from "react";
 import { getUser, OrganizationInterface, UserInterface } from "../../../services/users";
+import { getMessages, MessageInterface, sendMessage } from "../../../services/message";
+import { Loader } from "../../../components/Loader";
+import { Text as GlobalText } from "../../../styles/global";
 
 export interface ConversationProps {
   loggedUser: UserInterface | OrganizationInterface;
@@ -20,48 +23,59 @@ export interface ConversationProps {
 function Conversation({ loggedUser, to }: ConversationProps): JSX.Element {
   const [targetUser, setTargetUser] = useState<UserInterface | OrganizationInterface>();
   const [message, setMessage] = useState<string>("");
-
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Olá!", from: "randomId" },
-    {
-      id: 2,
-      text: "Preciso de ajuda com uma tarefa muito longa do meu trabalho.",
-      from: loggedUser._id,
-    },
-    { id: 3, text: "Claro! Me diga mais detalhes.", from: "randomId" },
-  ]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [messages, setMessages] = useState<MessageInterface[]>([]);
 
   async function getUserData(id: string) {
     try {
-      // setLoading(true);
+      setLoading(true);
       const response = await getUser(id);
       const { data } = response.data;
       setTargetUser(data);
+      getUserMessages(id);
     } catch (error: any) {
-      // setErrorMessage("Ocorreu um erro ao buscar as atualizações.");
+      setErrorMessage("Ocorreu um erro ao buscar as informações do chat.");
     } finally {
-      // setLoading(false);
+      setLoading(false);
+    }
+  }
+
+  async function getUserMessages(id: string) {
+    try {
+      const response = await getMessages(id);
+      const { data } = response.data;
+      setMessages(data);
+    } catch (error: any) {
+      setErrorMessage("Ocorreu um erro ao buscar as mensagens.");
     }
   }
 
   useEffect(() => {
     if (to) {
       getUserData(to);
+    } else {
+      setErrorMessage("Selecione uma conversa para continuar.");
     }
-  });
+  }, []);
 
-  function sendMessage(event: React.FormEvent<HTMLFormElement>) {
+  async function send(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (message.trim()) {
-      const newMessage = {
-        id: Date.now(),
-        text: message,
-        from: loggedUser._id,
-      };
-      setMessages([...messages, newMessage]);
-      setMessage("");
+    if (targetUser) {
+      const payload = { from: loggedUser, to: targetUser, content: message };
+      try {
+        if (message.trim()) {
+          let response = await sendMessage(payload);
+          setMessages([...messages, response.data.data]);
+        }
+      } catch (error) {
+        console.log("errrro");
+      } finally {
+        setMessage("");
+      }
     }
   }
+
   return (
     <ChatContainer>
       <ChatHeader>
@@ -69,16 +83,24 @@ function Conversation({ loggedUser, to }: ConversationProps): JSX.Element {
         <Text>{targetUser?.role}</Text>
       </ChatHeader>
       <MessageArea>
-        {messages
-          .slice()
-          .reverse()
-          .map((msg) => (
-            <Message key={msg.id} sent={msg.from === loggedUser._id}>
-              {msg.text}
-            </Message>
-          ))}
+        {loading ? (
+          <Loader />
+        ) : errorMessage ? (
+          <GlobalText>{errorMessage}</GlobalText>
+        ) : (
+          messages
+            .slice()
+            .reverse()
+            .map((msg) => (
+              <>
+                <Message key={msg._id} sent={msg.from._id === loggedUser._id}>
+                  {msg.content}
+                </Message>
+              </>
+            ))
+        )}
       </MessageArea>
-      <MessageInputContainer onSubmit={sendMessage}>
+      <MessageInputContainer onSubmit={send}>
         <MessageInput
           placeholder="Escreva uma mensagem"
           value={message}
