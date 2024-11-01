@@ -31,3 +31,19 @@ export const getConversations = async () => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getUnreadMessages = async () => {
+  try {
+    return api.get("/message/user/unread");
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
+
+export const markMessagesAsRead = async (userId: string) => {
+  try {
+    return api.put(`/message/user/${userId}`);
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
