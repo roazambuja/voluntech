@@ -4,9 +4,10 @@ import { Title as GlobalTitle, Text as GlobalText } from "../../../styles/global
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 80%;
   height: 100%;
   max-height: 100%;
+  border-left: 1px solid ${(props) => props.theme.colors.LIGHT_GREY};
 `;
 
 const ChatHeader = styled.div`

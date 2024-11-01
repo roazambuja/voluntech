@@ -9,11 +9,12 @@ import {
   Title,
   Text,
 } from "./styles";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getUser, OrganizationInterface, UserInterface } from "../../../services/users";
 import { getMessages, MessageInterface, sendMessage } from "../../../services/message";
 import { Loader } from "../../../components/Loader";
 import { Text as GlobalText } from "../../../styles/global";
+import { io, Socket } from "socket.io-client";
 
 export interface ConversationProps {
   loggedUser: UserInterface | OrganizationInterface;
@@ -26,6 +27,42 @@ function Conversation({ loggedUser, to }: ConversationProps): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [messages, setMessages] = useState<MessageInterface[]>([]);
+
+  const socket = useRef<Socket | null>(null);
+
+  useEffect(() => {
+    if (to) {
+      setErrorMessage(undefined);
+      getUserData(to);
+    } else {
+      setErrorMessage("Selecione uma conversa para continuar.");
+    }
+
+    socket.current = io(process.env.REACT_APP_API_URL);
+
+    return () => {
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
+  }, [to]);
+
+  useEffect(() => {
+    if (targetUser) {
+      const roomName = [loggedUser._id, targetUser._id].sort().join("-");
+      if (socket.current) {
+        socket.current.emit("joinRoom", roomName);
+
+        socket.current.on("newMessage", (newMessage) => {
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
+        });
+
+        return () => {
+          socket.current && socket.current.off("newMessage");
+        };
+      }
+    }
+  }, [targetUser]);
 
   async function getUserData(id: string) {
     try {
@@ -51,26 +88,15 @@ function Conversation({ loggedUser, to }: ConversationProps): JSX.Element {
     }
   }
 
-  useEffect(() => {
-    if (to) {
-      getUserData(to);
-    } else {
-      setErrorMessage("Selecione uma conversa para continuar.");
-    }
-  }, []);
-
   async function send(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (targetUser) {
+    if (targetUser && socket.current) {
       const payload = { from: loggedUser, to: targetUser, content: message };
-      try {
-        if (message.trim()) {
-          let response = await sendMessage(payload);
-          setMessages([...messages, response.data.data]);
-        }
-      } catch (error) {
-        console.log("errrro");
-      } finally {
+      if (message.trim()) {
+        const roomName = [loggedUser._id, targetUser._id].sort().join("-");
+        console.log(roomName);
+        socket.current.emit("sendMessage", payload, roomName);
+        await sendMessage(payload);
         setMessage("");
       }
     }
@@ -92,11 +118,9 @@ function Conversation({ loggedUser, to }: ConversationProps): JSX.Element {
             .slice()
             .reverse()
             .map((msg) => (
-              <>
-                <Message key={msg._id} sent={msg.from._id === loggedUser._id}>
-                  {msg.content}
-                </Message>
-              </>
+              <Message key={msg._id} sent={msg.from._id === loggedUser._id}>
+                {msg.content}
+              </Message>
             ))
         )}
       </MessageArea>
