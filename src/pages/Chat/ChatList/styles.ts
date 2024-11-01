@@ -1,11 +1,16 @@
 import styled from "styled-components";
 
-const ListContainer = styled.div`
+const ListContainer = styled.div<{ hide: boolean }>`
   width: 35%;
   height: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
+    display: ${(props) => (props.hide ? "none" : "flex")};
+    width: 100%;
+  }
 `;
 
 const List = styled.div`

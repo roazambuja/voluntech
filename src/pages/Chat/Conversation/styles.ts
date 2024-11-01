@@ -1,13 +1,19 @@
 import styled from "styled-components";
 import { Title as GlobalTitle, Text as GlobalText } from "../../../styles/global";
+import { ArrowLeft } from "react-feather";
 
-const ChatContainer = styled.div`
+const ChatContainer = styled.div<{ hide: boolean }>`
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 75%;
   height: 100%;
   max-height: 100%;
   border-left: 1px solid ${(props) => props.theme.colors.LIGHT_GREY};
+
+  @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
+    display: ${(props) => (props.hide ? "none" : "flex")};
+    width: 100%;
+  }
 `;
 
 const ChatHeader = styled.div`
@@ -15,7 +21,19 @@ const ChatHeader = styled.div`
   color: ${(props) => props.theme.colors.WHITE};
   padding: 12px;
   display: flex;
-  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+`;
+
+const StyledIcon = styled(ArrowLeft)`
+  display: none;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
+    display: block;
+    width: 30px;
+    height: 30px;
+    color: ${(props) => props.theme.colors.WHITE};
+  }
 `;
 
 const Title = styled(GlobalTitle)`
@@ -98,6 +116,7 @@ const SendButton = styled.button`
 export {
   ChatContainer,
   ChatHeader,
+  StyledIcon,
   Title,
   Text,
   MessageArea,

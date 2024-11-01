@@ -12,6 +12,7 @@ function Chat(): JSX.Element {
   const isVolunteer = user?.role === "Visitante";
   const { id } = useParams();
   const [selectedChat, setSelectedChat] = useState<string>("");
+  const [hideConversation, setHideConversation] = useState<boolean>(false);
 
   useEffect(() => {
     if (id) setSelectedChat(id);
@@ -25,8 +26,17 @@ function Chat(): JSX.Element {
     <Paper>
       {user && (
         <>
-          <ChatList setSelectedChat={setSelectedChat} />
-          <Conversation loggedUser={user} to={selectedChat} />
+          <ChatList
+            setSelectedChat={setSelectedChat}
+            hide={hideConversation}
+            setHide={setHideConversation}
+          />
+          <Conversation
+            loggedUser={user}
+            to={selectedChat}
+            hide={hideConversation}
+            setHide={setHideConversation}
+          />
         </>
       )}
     </Paper>

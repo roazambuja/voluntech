@@ -11,9 +11,11 @@ import { Loader } from "../../../components/Loader";
 
 export interface ChatListProps {
   setSelectedChat: React.Dispatch<React.SetStateAction<string>>;
+  hide: boolean;
+  setHide: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ChatList({ setSelectedChat }: ChatListProps): JSX.Element {
+function ChatList({ setSelectedChat, hide, setHide }: ChatListProps): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<(UserInterface | OrganizationInterface)[]>([]);
 
@@ -35,10 +37,12 @@ function ChatList({ setSelectedChat }: ChatListProps): JSX.Element {
   }
 
   return (
-    <ListContainer>
+    <ListContainer hide={!hide}>
       <ChatHeader>
-        <Title>Conversas</Title>
-        <Text>Conversas iniciadas</Text>
+        <TextArea>
+          <Title>Conversas</Title>
+          <Text>Conversas iniciadas</Text>
+        </TextArea>
       </ChatHeader>
       <List>
         {loading ? (
@@ -46,7 +50,12 @@ function ChatList({ setSelectedChat }: ChatListProps): JSX.Element {
         ) : (
           messages.map((user) => {
             return (
-              <ListItem onClick={() => user._id && setSelectedChat(user._id)}>
+              <ListItem
+                onClick={() => {
+                  user._id && setSelectedChat(user._id);
+                  setHide(false);
+                }}
+              >
                 <Picture
                   variant="mini"
                   src={

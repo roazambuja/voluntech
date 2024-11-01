@@ -8,6 +8,7 @@ import {
   SendButton,
   Title,
   Text,
+  StyledIcon,
 } from "./styles";
 import { useEffect, useRef, useState } from "react";
 import { getUser, OrganizationInterface, UserInterface } from "../../../services/users";
@@ -15,13 +16,16 @@ import { getMessages, MessageInterface, sendMessage } from "../../../services/me
 import { Loader } from "../../../components/Loader";
 import { Text as GlobalText } from "../../../styles/global";
 import { io, Socket } from "socket.io-client";
+import { TextArea } from "../../Organizations/Configurations/styles";
 
 export interface ConversationProps {
   loggedUser: UserInterface | OrganizationInterface;
   to: string | undefined;
+  hide: boolean;
+  setHide: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Conversation({ loggedUser, to }: ConversationProps): JSX.Element {
+function Conversation({ loggedUser, to, hide, setHide }: ConversationProps): JSX.Element {
   const [targetUser, setTargetUser] = useState<UserInterface | OrganizationInterface>();
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,9 +36,11 @@ function Conversation({ loggedUser, to }: ConversationProps): JSX.Element {
 
   useEffect(() => {
     if (to) {
+      setHide(false);
       setErrorMessage(undefined);
       getUserData(to);
     } else {
+      setHide(true);
       setErrorMessage("Selecione uma conversa para continuar.");
     }
 
@@ -103,10 +109,13 @@ function Conversation({ loggedUser, to }: ConversationProps): JSX.Element {
   }
 
   return (
-    <ChatContainer>
+    <ChatContainer hide={hide}>
       <ChatHeader>
-        <Title>{targetUser?.name}</Title>
-        <Text>{targetUser?.role}</Text>
+        <StyledIcon onClick={() => setHide(true)} />
+        <TextArea>
+          <Title>{targetUser?.name}</Title>
+          <Text>{targetUser?.role}</Text>
+        </TextArea>
       </ChatHeader>
       <MessageArea>
         {loading ? (
