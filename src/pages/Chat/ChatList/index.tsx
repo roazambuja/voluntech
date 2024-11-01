@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { OrganizationInterface, UserInterface } from "../../../services/users";
 import { getConversations } from "../../../services/message";
 import { Text as GlobalText } from "../../../styles/global";
-import { ListContainer } from "./styles";
+import { List, ListContainer } from "./styles";
 import { ChatHeader, Text, Title } from "../Conversation/styles";
 import { TextArea } from "../../Organizations/Configurations/styles";
 import { ListItem } from "../../Home/SearchResults/styles";
@@ -40,28 +40,30 @@ function ChatList({ setSelectedChat }: ChatListProps): JSX.Element {
         <Title>Conversas</Title>
         <Text>Conversas iniciadas</Text>
       </ChatHeader>
-      {loading ? (
-        <Loader />
-      ) : (
-        messages.map((user) => {
-          return (
-            <ListItem onClick={() => user._id && setSelectedChat(user._id)}>
-              <Picture
-                variant="mini"
-                src={
-                  user?.profilePicture
-                    ? `${process.env.REACT_APP_CLOUDINARY_URL}${user.profilePicture.publicId}`
-                    : undefined
-                }
-              />
-              <TextArea>
-                <GlobalText>{user.name}</GlobalText>
-                <GlobalText>{user.role}</GlobalText>
-              </TextArea>
-            </ListItem>
-          );
-        })
-      )}
+      <List>
+        {loading ? (
+          <Loader />
+        ) : (
+          messages.map((user) => {
+            return (
+              <ListItem onClick={() => user._id && setSelectedChat(user._id)}>
+                <Picture
+                  variant="mini"
+                  src={
+                    user?.profilePicture
+                      ? `${process.env.REACT_APP_CLOUDINARY_URL}${user.profilePicture.publicId}`
+                      : undefined
+                  }
+                />
+                <TextArea>
+                  <GlobalText>{user.name}</GlobalText>
+                  <GlobalText>{user.role}</GlobalText>
+                </TextArea>
+              </ListItem>
+            );
+          })
+        )}
+      </List>
     </ListContainer>
   );
 }
