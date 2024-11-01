@@ -23,3 +23,11 @@ export const getMessages = async (id: string) => {
     throw new Error("Serviço não disponível");
   }
 };
+
+export const getConversations = async () => {
+  try {
+    return api.get("/message/user");
+  } catch {
+    throw new Error("Serviço não disponível");
+  }
+};
