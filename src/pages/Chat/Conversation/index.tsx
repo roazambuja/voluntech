@@ -12,7 +12,12 @@ import {
 } from "./styles";
 import { useEffect, useRef, useState } from "react";
 import { getUser, OrganizationInterface, UserInterface } from "../../../services/users";
-import { getMessages, MessageInterface, sendMessage } from "../../../services/message";
+import {
+  getMessages,
+  markMessagesAsRead,
+  MessageInterface,
+  sendMessage,
+} from "../../../services/message";
 import { Loader } from "../../../components/Loader";
 import { Text as GlobalText } from "../../../styles/global";
 import { io, Socket } from "socket.io-client";
@@ -89,6 +94,7 @@ function Conversation({ loggedUser, to, hide, setHide }: ConversationProps): JSX
       const response = await getMessages(id);
       const { data } = response.data;
       setMessages(data);
+      await markMessagesAsRead(id);
     } catch (error: any) {
       setErrorMessage("Ocorreu um erro ao buscar as mensagens.");
     }
@@ -100,7 +106,6 @@ function Conversation({ loggedUser, to, hide, setHide }: ConversationProps): JSX
       const payload = { from: loggedUser, to: targetUser, content: message };
       if (message.trim()) {
         const roomName = [loggedUser._id, targetUser._id].sort().join("-");
-        console.log(roomName);
         socket.current.emit("sendMessage", payload, roomName);
         await sendMessage(payload);
         setMessage("");

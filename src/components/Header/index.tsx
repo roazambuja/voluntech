@@ -10,6 +10,7 @@ import { getNotifications, ParticipationInterface } from "../../services/partici
 import { useAuth } from "../../contexts/AuthContext";
 import { ReactComponent as PendingMessage } from "../../assets/icons/pending-message.svg";
 import { ReactComponent as Message } from "../../assets/icons/message.svg";
+import { getUnreadMessages } from "../../services/message";
 
 function Header(): JSX.Element {
   const { user } = useAuth();
@@ -18,6 +19,7 @@ function Header(): JSX.Element {
   const [openDropdown, setOpenDropdown] = useState<boolean>(false);
   const [openNotifications, setOpenNotifications] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<ParticipationInterface[]>([]);
+  const [hasUnreadMessages, setUnreadMessages] = useState<boolean>();
 
   async function getPendingNotifications() {
     try {
@@ -28,8 +30,20 @@ function Header(): JSX.Element {
       console.log("Não foi possível buscar as notificações.");
     }
   }
+
+  async function getUnread() {
+    try {
+      const response = await getUnreadMessages();
+      const { data } = response;
+      setUnreadMessages(data.hasUnreadMessages);
+    } catch (error: any) {
+      console.log("Não foi possível buscar as mensagens não lidas.");
+    }
+  }
+
   useEffect(() => {
     getPendingNotifications();
+    getUnread();
   }, []);
 
   return (
@@ -40,7 +54,10 @@ function Header(): JSX.Element {
       <ButtonsArea>
         {user?.role != "Visitante" && (
           <>
-            <Icon as={Message} onClick={() => navigate("/chat")} />
+            <Icon
+              as={hasUnreadMessages ? PendingMessage : Message}
+              onClick={() => navigate("/chat")}
+            />
             <Icon
               as={notifications.length > 0 ? Notification : Bell}
               onClick={() => setOpenNotifications(!openNotifications)}
