@@ -1,5 +1,6 @@
 import { MapPin } from "react-feather";
 import styled from "styled-components";
+import { ButtonArea } from "../../SignUp/styles";
 
 const ProfileHeader = styled.div`
   display: flex;
@@ -43,4 +44,11 @@ const PinIcon = styled(MapPin)`
   height: 18px;
 `;
 
-export { ProfileHeader, HeaderText, DescriptionArea, LocationArea, PinIcon };
+const ButtonsArea = styled(ButtonArea)`
+  @media (max-width: ${(props) => props.theme.breakpoints.TABLET}) {
+    gap: 8px;
+    flex-direction: column;
+  }
+`;
+
+export { ProfileHeader, HeaderText, DescriptionArea, LocationArea, PinIcon, ButtonsArea };

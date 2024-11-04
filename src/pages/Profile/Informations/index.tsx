@@ -1,5 +1,12 @@
 import { Paper, Text, Title } from "../../../styles/global";
-import { DescriptionArea, HeaderText, LocationArea, PinIcon, ProfileHeader } from "./styles";
+import {
+  ButtonsArea,
+  DescriptionArea,
+  HeaderText,
+  LocationArea,
+  PinIcon,
+  ProfileHeader,
+} from "./styles";
 import { Divider } from "../../../components/Divider";
 import { OrganizationInterface, UserInterface } from "../../../services/users";
 import { Picture } from "../../../components/Picture";
@@ -14,6 +21,8 @@ import { alreadyFollows, followOrganization, stopFollowing } from "../../../serv
 import { useEffect, useState } from "react";
 import { Loader } from "../../../components/Loader";
 import { theme } from "../../../styles/theme";
+import { ButtonArea } from "../../SignUp/styles";
+import { useNavigate } from "react-router-dom";
 
 interface InformationsProps {
   user: UserInterface | OrganizationInterface | null;
@@ -24,6 +33,7 @@ interface InformationsProps {
 
 function Informations({ address, user, socialMedia, pix }: InformationsProps): JSX.Element {
   const { user: loggedUser } = useAuth();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const [follows, setFollows] = useState<boolean>(true);
 
@@ -108,11 +118,10 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
         </LocationArea>
         <SocialMedia socialMedia={socialMedia} />
         <Pix pix={pix} />
-        {user?.role === "Organização" &&
-          loggedUser?.role === "Voluntário" &&
-          user._id !== loggedUser?._id && (
-            <>
-              <Divider />
+        <ButtonsArea>
+          {user?.role === "Organização" &&
+            loggedUser?.role === "Voluntário" &&
+            user._id !== loggedUser?._id && (
               <Button
                 onClick={follows ? unfollow : follow}
                 variant={follows ? "secondary" : "primary"}
@@ -125,18 +134,20 @@ function Informations({ address, user, socialMedia, pix }: InformationsProps): J
                   "Acompanhar"
                 )}
               </Button>
-            </>
-          )}
-        {loggedUser?.role === "Visitante" && user?.role === "Organização" && (
-          <>
-            <Divider />
+            )}
+          {loggedUser?.role === "Visitante" && user?.role === "Organização" && (
             <Button
               onClick={() => alert("Você precisa estar logado para acompanhar uma organização!")}
             >
               Acompanhar
             </Button>
-          </>
-        )}
+          )}
+          {loggedUser?.role !== "Visitante" && loggedUser?._id != user?._id && (
+            <>
+              <Button onClick={() => navigate(`/chat/${user?._id}`)}>Enviar mensagem</Button>
+            </>
+          )}
+        </ButtonsArea>
       </DescriptionArea>
     </Paper>
   );
