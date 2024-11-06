@@ -15,6 +15,7 @@ import CreateVolunteering from "../pages/Organizations/CreateVolunteering";
 import Home from "../pages/Home";
 import VolunteeringDetails from "../pages/VolunteeringDetails";
 import Post from "../pages/Post";
+import Chat from "../pages/Chat";
 export interface CustomRouteProps {
   Item: React.ComponentType;
 }
@@ -44,6 +45,8 @@ function AppRoutes(): JSX.Element {
           <Route path="/cadastrarRedesSociais/:id" element={<PrivateRoute Item={SocialMedia} />} />
           <Route path="/home" element={<PrivateRoute Item={Home} />} />
           <Route path="/publicacao/:id" element={<PrivateRoute Item={Post} />} />
+          <Route path="/chat/:id" element={<PrivateRoute Item={Chat} />} />
+          <Route path="/chat" element={<PrivateRoute Item={Chat} />} />
         </Route>
       </Routes>
     </BrowserRouter>
