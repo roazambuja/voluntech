@@ -8,21 +8,33 @@ O projeto consiste no front-end de uma aplicação Web responsiva que tem como o
 
 A aplicação Voluntech é um projeto desenvolvido como Trabalho de Conclusão de Curso, requisito para obtenção do título de Tecnólogo em Sistemas para Internet no IFSul Campus Charqueadas.
 
-## :gear:	Como executar
+## :gear: Como executar
+
 ### 1. Clonar o repositório
+
 ```
 git clone https://github.com/roazambuja/voluntech.git
 ```
-### 2. Instalar as dependências
-Rodar o comando `npm install` no diretório do projeto.
-### 3. Iniciar a aplicação
-Rodar o comando `npm start`. 
 
-## :hammer_and_wrench:	Tecnologias utilizadas
+### 2. Instalar as dependências
+
+Rodar o comando `npm install` no diretório do projeto.
+
+### 3. Configurar as variáveis de ambiente
+
+Crie na raiz do projeto um arquivo chamado `.env.local`, copie a variável do arquivo `.env.sample` e configure a URL da API.
+
+### 4. Iniciar a aplicação
+
+Rodar o comando `npm start`.
+
+## :hammer_and_wrench: Tecnologias utilizadas
+
 - [React](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Styled Components](https://styled-components.com/)
 
-## :open_file_folder:	Links úteis
+## :open_file_folder: Links úteis
+
 - [Repositório Back-end](https://github.com/roazambuja/voluntech-api)
 - [Protótipo - Figma](https://www.figma.com/design/bG23qGKsaBwFWxIeYNAZ9u/Voluntech?node-id=0-1)

@@ -8,9 +8,16 @@ declare module "styled-components" {
       PRIMARY_DARK: string;
       SECONDARY: string;
       LIGHT: string;
+      LIGHT_GREY: string;
       GREY: string;
       BLACK: string;
       WHITE: string;
+      ERROR: string;
+    };
+    breakpoints: {
+      MOBILE: string;
+      TABLET: string;
+      DESKTOP: string;
     };
   }
 }
