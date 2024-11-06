@@ -44,7 +44,7 @@ function Header(): JSX.Element {
   useEffect(() => {
     getPendingNotifications();
     getUnread();
-  }, []);
+  }, [openNotifications, openDropdown]);
 
   return (
     <HeaderContainer>
