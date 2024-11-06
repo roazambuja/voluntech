@@ -12,7 +12,7 @@ export interface ViacepProps {
 
 export async function getCep(cep: string) {
   try {
-    let { data } = await axios.get<ViacepProps>(`http://viacep.com.br/ws/${cep}/json`);
+    let { data } = await axios.get<ViacepProps>(`https://viacep.com.br/ws/${cep}/json`);
     return data;
   } catch {
     throw new Error();
