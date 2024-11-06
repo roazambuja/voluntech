@@ -170,9 +170,13 @@ function Profile(): JSX.Element {
                   )}
                   <HeaderLine>
                     <Text>
-                      {loggedUser?.role !== "Visitante" && loggedUser?._id === user._id
-                        ? "Seus projetos"
-                        : "Projetos"}
+                      {loggedUser?.role !== "Visitante" &&
+                        loggedUser?._id === user._id &&
+                        "Seus projetos"}
+                      {loggedUser?.role !== "Visitante" &&
+                        loggedUser?._id !== user._id &&
+                        posts?.length! > 0 &&
+                        "Projetos"}
                     </Text>
                     <Divider />
                     {loggedUser?.role !== "Visitante" && loggedUser?._id === user._id && (
@@ -186,11 +190,13 @@ function Profile(): JSX.Element {
                     )}
                   </HeaderLine>
                   <HeaderLine>
-                    <ToggleButton
-                      firstTitle="Atualizações"
-                      secondTitle="Projetos"
-                      setSelected={setSelected}
-                    />
+                    {posts?.length! > 0 && (
+                      <ToggleButton
+                        firstTitle="Atualizações"
+                        secondTitle="Projetos"
+                        setSelected={setSelected}
+                      />
+                    )}
                   </HeaderLine>
                 </>
               ) : (
