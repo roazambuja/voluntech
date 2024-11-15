@@ -92,10 +92,10 @@ function Home(): JSX.Element {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           list="categories"
-          placeholder="Buscar"
+          placeholder="Buscar por cidade, voluntariado, organização ou causa"
         />
       </SearchArea>
-      <Datalist />
+      {/* <Datalist /> */}
 
       {loading ? (
         <Loader />
@@ -114,7 +114,10 @@ function Home(): JSX.Element {
       ) : (
         updates &&
         (updates.length === 0 ? (
-          <Text>Ainda não existem atualizações para serem exibidas!</Text>
+          <Text>
+            Ainda não existem atualizações para serem exibidas! Busque por novas organizações para
+            acompanhar.
+          </Text>
         ) : (
           <>
             {updates.map((item: UpdatesInterface, key) => (
