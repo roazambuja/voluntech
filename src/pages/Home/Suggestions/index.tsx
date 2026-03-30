@@ -9,12 +9,14 @@ function Suggestions(): JSX.Element {
   const [user, setUser] = useState<OrganizationInterface>();
 
   async function getUserInformations() {
-    try {
-      let response = await getUser(process.env.REACT_APP_USER!);
-      const { data } = response.data;
-      setUser(data);
-    } catch (error: any) {
-      console.log(error);
+    if (process.env.REACT_APP_USER) {
+      try {
+        let response = await getUser(process.env.REACT_APP_USER!);
+        const { data } = response.data;
+        setUser(data);
+      } catch (error: any) {
+        console.log(error);
+      }
     }
   }
 
@@ -24,23 +26,25 @@ function Suggestions(): JSX.Element {
 
   return (
     <>
-      <CustomPaper>
-        <Header>Sugestões</Header>
-        <ListItem key={1} as="a" href={`/perfil/${user?._id}`} target="_blank">
-          <Picture
-            variant="mini"
-            src={
-              user?.profilePicture
-                ? `${process.env.REACT_APP_CLOUDINARY_URL}${user.profilePicture.publicId}`
-                : undefined
-            }
-          />
-          <TextArea>
-            <Title>{user?.name}</Title>
-            <Text>{user && "cause" in user && user.cause}</Text>
-          </TextArea>
-        </ListItem>
-      </CustomPaper>
+      {process.env.REACT_APP_USER && (
+        <CustomPaper>
+          <Header>Sugestões</Header>
+          <ListItem key={1} as="a" href={`/perfil/${user?._id}`} target="_blank">
+            <Picture
+              variant="mini"
+              src={
+                user?.profilePicture
+                  ? `${process.env.REACT_APP_CLOUDINARY_URL}${user.profilePicture.publicId}`
+                  : undefined
+              }
+            />
+            <TextArea>
+              <Title>{user?.name}</Title>
+              <Text>{user && "cause" in user && user.cause}</Text>
+            </TextArea>
+          </ListItem>
+        </CustomPaper>
+      )}
     </>
   );
 }
