@@ -10,6 +10,7 @@ import { getFollowedUpdates, UpdatesInterface } from "../../services/updates";
 import { PaginationButtons } from "../../components/PaginationButtons";
 import FeedCard from "../../components/FeedCard";
 import { useAuth } from "../../contexts/AuthContext";
+import Suggestions from "./Suggestions";
 
 function Home(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
@@ -100,7 +101,10 @@ function Home(): JSX.Element {
       {loading ? (
         <Loader />
       ) : errorMessage ? (
-        <Text>{errorMessage}</Text>
+        <>
+          <Text>{errorMessage}</Text>
+          <Suggestions />
+        </>
       ) : searchResponse ? (
         <>
           <SearchResults data={searchResponse} />
@@ -114,10 +118,13 @@ function Home(): JSX.Element {
       ) : (
         updates &&
         (updates.length === 0 ? (
-          <Text>
-            Ainda não existem atualizações para serem exibidas! Busque por novas organizações para
-            acompanhar.
-          </Text>
+          <>
+            <Text>
+              Ainda não existem atualizações para serem exibidas! Busque por novas organizações para
+              acompanhar.
+            </Text>
+            <Suggestions />
+          </>
         ) : (
           <>
             {updates.map((item: UpdatesInterface, key) => (

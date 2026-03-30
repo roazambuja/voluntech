@@ -20,7 +20,7 @@ function SearchResults({ data }: SearchResultsProps): JSX.Element {
           <Header>Projetos</Header>
           {data?.projects.map((project, key) => {
             return (
-              <ListItem as="a" key={key} href={`/projeto/${project._id}`} target="_blank">
+              <ListItem as="a" key={key} href={`/projeto/${project._id}`}>
                 <TextArea>
                   <Title>{project.title}</Title>
                   <Text>
@@ -40,7 +40,7 @@ function SearchResults({ data }: SearchResultsProps): JSX.Element {
               (item) => item.category === volunteering.category
             );
             return (
-              <ListItem key={key} as="a" href={`/voluntariado/${volunteering._id}`} target="_blank">
+              <ListItem key={key} as="a" href={`/voluntariado/${volunteering._id}`}>
                 <Icon as={category?.icon || MoreHorizontal} color={category?.color} />
                 <TextArea>
                   <Title>{volunteering.category}</Title>
@@ -58,7 +58,7 @@ function SearchResults({ data }: SearchResultsProps): JSX.Element {
           <Header>Usuários</Header>
           {data?.users.map((user, key) => {
             return (
-              <ListItem key={key} as="a" href={`/perfil/${user._id}`} target="_blank">
+              <ListItem key={key} as="a" href={`/perfil/${user._id}`}>
                 <Picture
                   variant="mini"
                   src={

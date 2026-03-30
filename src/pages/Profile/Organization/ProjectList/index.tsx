@@ -43,7 +43,7 @@ function ProjectList({ id }: ProjectListProps): JSX.Element {
               <Header>Projetos</Header>
               {projects?.map((project, key) => {
                 return (
-                  <ListItem as="a" key={key} href={`/projeto/${project._id}`} target="_blank">
+                  <ListItem as="a" key={key} href={`/projeto/${project._id}`}>
                     <Title>{project.title}</Title>
                   </ListItem>
                 );
